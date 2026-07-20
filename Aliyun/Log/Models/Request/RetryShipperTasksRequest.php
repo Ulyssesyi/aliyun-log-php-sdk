@@ -7,20 +7,11 @@
 namespace Aliyun\Log\Models\Request;
 
 class RetryShipperTasksRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $shipperName;
+    private ?string $shipperName;
 
-    /**
-     * @var string|null
-     */
-    private $logStore;
+    private ?string $logStore;
 
-    /**
-     * @var mixed|null
-     */
-    private $taskLists;
+    private mixed $taskLists = null;
 
     /**
      * CreateShipperRequest Constructor

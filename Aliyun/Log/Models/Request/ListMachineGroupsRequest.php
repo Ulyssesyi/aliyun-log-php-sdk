@@ -13,20 +13,11 @@
 namespace Aliyun\Log\Models\Request;
 
 class ListMachineGroupsRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $groupName;
+    private ?string $groupName;
 
-    /**
-     * @var int|null
-     */
-    private $offset;
+    private ?int $offset;
 
-    /**
-     * @var int|null
-     */
-    private $size;
+    private ?int $size;
 
     /**
      * ListMachineGroupsRequest Constructor

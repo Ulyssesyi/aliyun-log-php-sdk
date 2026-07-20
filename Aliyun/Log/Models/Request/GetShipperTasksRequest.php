@@ -7,40 +7,22 @@
 namespace Aliyun\Log\Models\Request;
 
 class GetShipperTasksRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $shipperName;
+    private ?string $shipperName;
+
+    private ?string $logStore;
+
+    private ?int $startTime;
+
+    private ?int $endTime;
 
     /**
-     * @var string|null
+     * support one of ['', 'fail', 'success', 'running'] , if the status_type = '' , return all kinds of status type
      */
-    private $logStore;
+    private ?string $statusType;
 
-    /**
-     * @var int|null
-     */
-    private $startTime;
+    private ?int $offset;
 
-    /**
-     * @var int|null
-     */
-    private $endTime;
-
-    /**
-     * @var string|null support one of ['', 'fail', 'success', 'running'] , if the status_type = '' , return all kinds of status type
-     */
-    private $statusType;
-
-    /**
-     * @var int|null
-     */
-    private $offset;
-
-    /**
-     * @var int|null
-     */
-    private $size;
+    private ?int $size;
 
     /**
      * CreateShipperRequest Constructor

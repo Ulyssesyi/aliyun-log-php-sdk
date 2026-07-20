@@ -13,22 +13,16 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class GetACLResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var \Aliyun\Log\Models\ACL|null ACL object
-     */
-    private $acl;
+    private ?\Aliyun\Log\Models\ACL $acl = null;
 
     /**
      * GetACLResponse constructor
      *
-     * @param array<string, mixed>|null $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed>|null $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
-    public function __construct($resp, array $header) {
+    public function __construct(mixed $resp, array $header) {
         parent::__construct($header);
-        $this->acl = null;
         if ($resp !== null) {
             $this->acl = new \Aliyun\Log\Models\ACL();
             $this->acl->setFromArray($resp);
@@ -37,10 +31,8 @@ class GetACLResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get ACL from the response
-     *
-     * @return \Aliyun\Log\Models\ACL|null ACL object
      */
-    public function getAcl() {
+    public function getAcl(): ?\Aliyun\Log\Models\ACL {
         return $this->acl;
     }
 }

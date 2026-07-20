@@ -13,10 +13,7 @@
 namespace Aliyun\Log\Models\Request;
 
 class GetMachineGroupRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $groupName;
+    private ?string $groupName;
 
     /**
      * GetMachineGroupRequest Constructor

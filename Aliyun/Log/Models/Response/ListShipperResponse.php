@@ -8,28 +8,18 @@ namespace Aliyun\Log\Models\Response;
  */
 
 class ListShipperResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int count
-     */
-    private $count;
+    private int $count;
 
-    /**
-     * @var int total
-     */
-    private $total;
+    private int $total;
 
-    /**
-     * @var string[] shipper names
-     */
-    private $shippers;
+    /** @var string[] */
+    private array $shippers;
 
     /**
      * ListShipperResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -40,28 +30,24 @@ class ListShipperResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get count
-     *
-     * @return int count
      */
-    public function getCount() {
+    public function getCount(): int {
         return $this->count;
     }
 
     /**
      * Get total
-     *
-     * @return int total
      */
-    public function getTotal() {
+    public function getTotal(): int {
         return $this->total;
     }
 
     /**
      * Get shipper names
      *
-     * @return string[] shipper names
+     * @return string[]
      */
-    public function getShippers() {
+    public function getShippers(): array {
         return $this->shippers;
     }
 }

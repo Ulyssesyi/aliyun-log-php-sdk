@@ -13,28 +13,18 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class GetHistogramsResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var string histogram query status(Complete or InComplete)
-     */
-    private $progress;
+    private string $progress;
 
-    /**
-     * @var int logs' count that current query hits
-     */
-    private $count;
+    private int $count;
 
-    /**
-     * @var \Aliyun\Log\Models\Histogram[] histograms on the requested time range: [from, to)
-     */
-    private $histograms;
+    /** @var \Aliyun\Log\Models\Histogram[] */
+    private array $histograms;
 
     /**
      * GetHistogramsResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -48,28 +38,24 @@ class GetHistogramsResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Check if the histogram is completed
-     *
-     * @return bool true if this histogram is completed
      */
-    public function isCompleted() {
+    public function isCompleted(): bool {
         return $this->progress == 'Complete';
     }
 
     /**
      * Get total logs' count that current query hits
-     *
-     * @return int total logs' count that current query hits
      */
-    public function getTotalCount() {
+    public function getTotalCount(): int {
         return $this->count;
     }
 
     /**
      * Get histograms on the requested time range: [from, to)
      *
-     * @return \Aliyun\Log\Models\Histogram[] histograms on the requested time range
+     * @return \Aliyun\Log\Models\Histogram[]
      */
-    public function getHistograms() {
+    public function getHistograms(): array {
         return $this->histograms;
     }
 }

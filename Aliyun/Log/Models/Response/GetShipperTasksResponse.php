@@ -8,33 +8,20 @@ namespace Aliyun\Log\Models\Response;
  */
 
 class GetShipperTasksResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int count
-     */
-    private $count;
+    private int $count;
 
-    /**
-     * @var int total
-     */
-    private $total;
+    private int $total;
 
-    /**
-     * @var string statistics
-     */
-    private $statistics;
+    private string $statistics;
 
-    /**
-     * @var array<int, mixed> tasks
-     */
-    private $tasks;
+    /** @var array<int, mixed> */
+    private array $tasks;
 
     /**
      * GetShipperTasksResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -46,37 +33,31 @@ class GetShipperTasksResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get count
-     *
-     * @return int count
      */
-    public function getCount() {
+    public function getCount(): int {
         return $this->count;
     }
 
     /**
      * Get total
-     *
-     * @return int total
      */
-    public function getTotal() {
+    public function getTotal(): int {
         return $this->total;
     }
 
     /**
      * Get statistics
-     *
-     * @return string statistics
      */
-    public function getStatistics() {
+    public function getStatistics(): string {
         return $this->statistics;
     }
 
     /**
      * Get tasks
      *
-     * @return array<int, mixed> tasks
+     * @return array<int, mixed>
      */
-    public function getTasks() {
+    public function getTasks(): array {
         return $this->tasks;
     }
 }

@@ -13,25 +13,13 @@
 namespace Aliyun\Log\Models\Request;
 
 class CreateShipperRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $shipperName;
+    private ?string $shipperName;
 
-    /**
-     * @var string|null
-     */
-    private $targetType;
+    private ?string $targetType;
 
-    /**
-     * @var mixed|null
-     */
-    private $targetConfigration;
+    private mixed $targetConfigration = null;
 
-    /**
-     * @var string|null
-     */
-    private $logStore;
+    private ?string $logStore;
 
     /**
      * CreateShipperRequest Constructor

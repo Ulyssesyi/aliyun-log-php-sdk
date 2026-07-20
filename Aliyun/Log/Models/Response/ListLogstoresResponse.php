@@ -13,23 +13,16 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListLogstoresResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int the number of total logstores from the response
-     */
-    private $count;
+    private int $count;
 
-    /**
-     * @var string[] all logstore
-     */
-    private $logstores;
+    /** @var string[] */
+    private array $logstores;
 
     /**
      * ListLogstoresResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -39,19 +32,17 @@ class ListLogstoresResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get total count of logstores from the response
-     *
-     * @return int the number of total logstores from the response
      */
-    public function getCount() {
+    public function getCount(): int {
         return $this->count;
     }
 
     /**
      * Get all the logstores from the response
      *
-     * @return string[] all logstore
+     * @return string[]
      */
-    public function getLogstores() {
+    public function getLogstores(): array {
         return $this->logstores;
     }
 }

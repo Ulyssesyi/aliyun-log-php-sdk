@@ -13,48 +13,26 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class LogStoreSqlResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int log number
-     */
-    private $count;
+    private int $count;
 
-    /**
-     * @var string logs query status(Complete or InComplete)
-     */
-    private $progress;
+    private string $progress;
 
-    /**
-     * @var QueriedLog[] all log data
-     */
-    private $logs;
+    /** @var QueriedLog[] */
+    private array $logs;
 
-    /**
-     * @var int rows processed in this request
-     */
-    private $processedRows;
+    private int $processedRows;
 
-    /**
-     * @var int execution latency in milliseconds
-     */
-    private $elapsedMilli;
+    private int $elapsedMilli;
 
-    /**
-     * @var int used cpu sec for this request
-     */
-    private $cpuSec;
+    private int $cpuSec;
 
-    /**
-     * @var int used cpu core number for this request
-     */
-    private $cpuCores;
+    private int $cpuCores;
 
     /**
      * LogStoreSqlResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -77,64 +55,52 @@ class LogStoreSqlResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get log number from the response
-     *
-     * @return int log number
      */
-    public function getCount() {
+    public function getCount(): int {
         return $this->count;
     }
 
     /**
      * Check if the query is completed
-     *
-     * @return bool true if this query is completed
      */
-    public function isCompleted() {
+    public function isCompleted(): bool {
         return $this->progress == 'Complete';
     }
 
     /**
      * Get all logs from the response
      *
-     * @return QueriedLog[] all log data
+     * @return QueriedLog[]
      */
-    public function getLogs() {
+    public function getLogs(): array {
         return $this->logs;
     }
 
     /**
      * Get processedRows
-     *
-     * @return int processed rows
      */
-    public function getProcessedRows() {
+    public function getProcessedRows(): int {
         return $this->processedRows;
     }
 
     /**
      * Get elapsedMilli
-     *
-     * @return int elapsed milliseconds
      */
-    public function getElapsedMilli() {
+    public function getElapsedMilli(): int {
         return $this->elapsedMilli;
     }
 
     /**
      * Get cpuSec
-     *
-     * @return int cpu seconds
      */
-    public function getCpuSec() {
+    public function getCpuSec(): int {
         return $this->cpuSec;
     }
 
     /**
      * Get cpuCores
-     *
-     * @return int cpu cores
      */
-    public function getCpuCores() {
+    public function getCpuCores(): int {
         return $this->cpuCores;
     }
 }

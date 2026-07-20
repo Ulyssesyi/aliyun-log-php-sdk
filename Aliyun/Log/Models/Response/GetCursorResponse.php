@@ -13,18 +13,13 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class GetCursorResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var string cursor
-     */
-    private $cursor;
+    private string $cursor;
 
     /**
      * GetCursorResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -33,10 +28,8 @@ class GetCursorResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get cursor from the response
-     *
-     * @return string cursor
      */
-    public function getCursor() {
+    public function getCursor(): string {
         return $this->cursor;
     }
 }

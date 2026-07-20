@@ -13,39 +13,28 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListSqlInstanceResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var SqlInstance[] SQL instances
-     */
-    private $sqlInstances;
+    /** @var SqlInstance[] */
+    private array $sqlInstances = [];
 
     /**
      * ListSqlInstanceResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $arr = $resp;
-        if ($arr != null) {
-            foreach ($arr as $data) {
-                $name = $data['name'];
-                $cu = $data['cu'];
-                $createTime = $data['createTime'];
-                $updateTime = $data['updateTime'];
-                $this->sqlInstances[] = new SqlInstance($name, $cu, $createTime, $updateTime);
-            }
+        foreach ($resp as $data) {
+            $this->sqlInstances[] = new SqlInstance($data['name'], (int) $data['cu'], (int) $data['createTime'], (int) $data['updateTime']);
         }
     }
 
     /**
      * Get SQL instances
      *
-     * @return SqlInstance[]|null SQL instances
+     * @return SqlInstance[]
      */
-    public function getSqlInstances() {
+    public function getSqlInstances(): array {
         return $this->sqlInstances;
     }
 }

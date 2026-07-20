@@ -8,52 +8,35 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class QueriedLog {
-    /**
-     * @var int log timestamp
-     */
-    private $time;
+    private int $time;
 
-    /**
-     * @var string log source
-     */
-    private $source;
+    private string $source;
 
-    /**
-     * @var array<string, string> log contents, content many key/value pair
-     */
-    private $contents;
+    /** @var array<string, string> */
+    private array $contents;
 
     /**
      * QueriedLog constructor
      *
-     * @param int    $time
-     *            log time stamp
-     * @param string $source
-     *            log source
      * @param array<string, string> $contents
-     *            log contents, content many key/value pair
      */
-    public function __construct($time, $source, $contents) {
+    public function __construct(int $time, string $source, array $contents) {
         $this->time = $time;
         $this->source = $source;
-        $this->contents = $contents; // deep copy
+        $this->contents = $contents;
     }
 
     /**
      * Get log source
-     *
-     * @return string log source
      */
-    public function getSource() {
+    public function getSource(): string {
         return $this->source;
     }
 
     /**
      * Get log time
-     *
-     * @return int log time
      */
-    public function getTime() {
+    public function getTime(): int {
         return $this->time;
     }
 
@@ -62,7 +45,7 @@ class QueriedLog {
      *
      * @return array<string, string> log contents
      */
-    public function getContents() {
+    public function getContents(): array {
         return $this->contents;
     }
 }

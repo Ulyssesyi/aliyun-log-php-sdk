@@ -13,23 +13,16 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListConfigsResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int total number of configs
-     */
-    private $total;
+    private int $total;
 
-    /**
-     * @var string[] config names
-     */
-    private $configs;
+    /** @var string[] */
+    private array $configs;
 
     /**
      * ListConfigsResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -39,28 +32,24 @@ class ListConfigsResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get the number of configs returned
-     *
-     * @return int number of configs
      */
-    public function getSize() {
+    public function getSize(): int {
         return count($this->configs);
     }
 
     /**
      * Get total count of configs
-     *
-     * @return int total count
      */
-    public function getTotal() {
+    public function getTotal(): int {
         return $this->total;
     }
 
     /**
      * Get configs from the response
      *
-     * @return string[] config names
+     * @return string[]
      */
-    public function getConfigs() {
+    public function getConfigs(): array {
         return $this->configs;
     }
 }

@@ -9,37 +9,18 @@ namespace Aliyun\Log\Models\Response;
  */
 
 class SqlInstance {
-    /**
-     * @var string name
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var int cu
-     */
-    private $cu;
+    private int $cu;
 
-    /**
-     * @var int createTime
-     */
-    private $createTime;
+    private int $createTime;
 
-    /**
-     * @var int updateTime
-     */
-    private $updateTime;
+    private int $updateTime;
+
     /**
      * SqlInstance constructor
-     * @param string $name
-     *                the name
-     * @param int    $cu
-     *                  cu
-     * @param int    $createTime
-     *                  create time
-     * @param int    $updateTime
-     *                  update time
      */
-    public function __construct($name, $cu, $createTime, $updateTime) {
+    public function __construct(string $name, int $cu, int $createTime, int $updateTime) {
         $this->name = $name;
         $this->cu = $cu;
         $this->createTime = $createTime;
@@ -48,37 +29,29 @@ class SqlInstance {
 
     /**
      * Get name
-     *
-     * @return string name
      */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
     /**
      * Get cu
-     *
-     * @return int cu
      */
-    public function getCu() {
+    public function getCu(): int {
         return $this->cu;
     }
 
     /**
      * Get createTime
-     *
-     * @return int createTime
      */
-    public function getCreateTime() {
+    public function getCreateTime(): int {
         return $this->createTime;
     }
 
     /**
      * Get updateTime
-     *
-     * @return int updateTime
      */
-    public function getUpdateTime() {
+    public function getUpdateTime(): int {
         return $this->updateTime;
     }
 }

@@ -8,28 +8,17 @@ namespace Aliyun\Log\Models\Response;
  */
 
 class GetShipperConfigResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var string shipper name
-     */
-    private $shipperName;
+    private string $shipperName;
 
-    /**
-     * @var string target type
-     */
-    private $targetType;
+    private string $targetType;
 
-    /**
-     * @var string target configuration
-     */
-    private $targetConfigration;
+    private string $targetConfigration;
 
     /**
      * GetShipperConfigResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -40,28 +29,22 @@ class GetShipperConfigResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get shipper name
-     *
-     * @return string shipper name
      */
-    public function getShipperName() {
+    public function getShipperName(): string {
         return $this->shipperName;
     }
 
     /**
      * Get target type
-     *
-     * @return string target type
      */
-    public function getTargetType() {
+    public function getTargetType(): string {
         return $this->targetType;
     }
 
     /**
      * Get target configuration
-     *
-     * @return string target configuration
      */
-    public function getTargetConfigration() {
+    public function getTargetConfigration(): string {
         return $this->targetConfigration;
     }
 }

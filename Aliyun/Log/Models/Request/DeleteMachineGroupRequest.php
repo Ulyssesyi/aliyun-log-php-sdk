@@ -13,10 +13,7 @@
 namespace Aliyun\Log\Models\Request;
 
 class DeleteMachineGroupRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $groupName;
+    private ?string $groupName;
 
     /**
      * DeleteMachineGroupRequest Constructor

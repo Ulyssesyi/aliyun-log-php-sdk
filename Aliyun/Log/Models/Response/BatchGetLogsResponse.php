@@ -18,15 +18,10 @@ require_once realpath(dirname(__FILE__) . '/../../protocolbuffers.inc.php');
  * @author log service dev
  */
 class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var array<int, mixed> compressed Loggroup array
-     */
-    private $logPackageList;
+    /** @var array<int, mixed> compressed Loggroup array */
+    private array $logPackageList;
 
-    /**
-     * @var string|null next cursor
-     */
-    private $nextCursor;
+    private ?string $nextCursor;
 
     /**
      * BatchGetLogsResponse constructor

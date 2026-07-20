@@ -13,18 +13,13 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class GetMachineGroupResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var \Aliyun\Log\Models\MachineGroup MachineGroup object
-     */
-    private $machineGroup;
+    private \Aliyun\Log\Models\MachineGroup $machineGroup;
 
     /**
      * GetMachineGroupResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -34,10 +29,8 @@ class GetMachineGroupResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get MachineGroup from the response
-     *
-     * @return \Aliyun\Log\Models\MachineGroup MachineGroup object
      */
-    public function getMachineGroup() {
+    public function getMachineGroup(): \Aliyun\Log\Models\MachineGroup {
         return $this->machineGroup;
     }
 }

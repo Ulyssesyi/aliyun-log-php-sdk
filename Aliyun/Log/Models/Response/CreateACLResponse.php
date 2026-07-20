@@ -13,18 +13,13 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class CreateACLResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var string ACL ID
-     */
-    private $aclId;
+    private string $aclId;
 
     /**
      * CreateACLResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -33,10 +28,8 @@ class CreateACLResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get ACL ID from the response
-     *
-     * @return string ACL ID
      */
-    public function getAclId() {
+    public function getAclId(): string {
         return $this->aclId;
     }
 }

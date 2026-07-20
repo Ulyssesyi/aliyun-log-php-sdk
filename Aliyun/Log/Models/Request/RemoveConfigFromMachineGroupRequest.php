@@ -13,15 +13,9 @@
 namespace Aliyun\Log\Models\Request;
 
 class RemoveConfigFromMachineGroupRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $groupName;
+    private ?string $groupName;
 
-    /**
-     * @var string|null
-     */
-    private $configName;
+    private ?string $configName;
 
     /**
      * RemoveConfigFromMachineGroupRequest Constructor

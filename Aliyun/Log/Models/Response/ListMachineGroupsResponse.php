@@ -13,28 +13,18 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListMachineGroupsResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int offset
-     */
-    private $offset;
+    private int $offset;
 
-    /**
-     * @var int size
-     */
-    private $size;
+    private int $size;
 
-    /**
-     * @var string[] machine group names
-     */
-    private $machineGroups;
+    /** @var string[] */
+    private array $machineGroups;
 
     /**
      * ListMachineGroupsResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -45,28 +35,24 @@ class ListMachineGroupsResponse extends \Aliyun\Log\Models\Response {
 
     /**
      * Get offset
-     *
-     * @return int offset
      */
-    public function getOffset() {
+    public function getOffset(): int {
         return $this->offset;
     }
 
     /**
      * Get size
-     *
-     * @return int size
      */
-    public function getSize() {
+    public function getSize(): int {
         return $this->size;
     }
 
     /**
      * Get machine groups
      *
-     * @return string[] machine group names
+     * @return string[]
      */
-    public function getMachineGroups() {
+    public function getMachineGroups(): array {
         return $this->machineGroups;
     }
 }

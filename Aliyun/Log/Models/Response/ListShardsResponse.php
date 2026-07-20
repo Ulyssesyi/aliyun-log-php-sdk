@@ -13,23 +13,17 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListShardsResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * @var int[] shard IDs
-     */
-    private $shardIds;
+    /** @var int[] */
+    private array $shardIds;
 
-    /**
-     * @var Shard[] shard objects
-     */
-    private $shards;
+    /** @var Shard[] */
+    private array $shards;
 
     /**
      * ListShardsResponse constructor
      *
-     * @param array<string, mixed> $resp
-     *            HTTP response body
-     * @param array<string, string> $header
-     *            HTTP response header
+     * @param array<string, mixed> $resp HTTP response body
+     * @param array<string, string> $header HTTP response header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
@@ -44,18 +38,18 @@ class ListShardsResponse extends \Aliyun\Log\Models\Response {
     /**
      * Get shard IDs
      *
-     * @return int[] shard IDs
+     * @return int[]
      */
-    public function getShardIds() {
+    public function getShardIds(): array {
         return $this->shardIds;
     }
 
     /**
      * Get shard objects
      *
-     * @return Shard[] shard objects
+     * @return Shard[]
      */
-    public function getShards() {
+    public function getShards(): array {
         return $this->shards;
     }
 }
