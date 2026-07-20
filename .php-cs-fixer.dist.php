@@ -75,8 +75,8 @@ $rules = [
     // Strings
     'single_quote' => true,
 
-    // Strict (only for new code, not existing)
-    'declare_strict_types' => false,
+    // Strict
+    'declare_strict_types' => true,
 
     // PHP 8.0+
     'operator_linebreak' => [

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 echo 'Hello, World!';
 require_once __DIR__ . '/../vendor/autoload.php';
 
