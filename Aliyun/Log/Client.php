@@ -584,7 +584,6 @@ class Client {
         $params =  [];
         $resource = '/logstores';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $headers['x-log-bodyrawsize'] = 0;
         $headers['Content-Type'] = 'application/json';
         $body = [
             'logstoreName' => $request -> getLogstore(),
@@ -911,8 +910,8 @@ class Client {
     /**
      * create sql instance api
      * Unsuccessful opertaion will cause an Exception.
-     * @param  $project is project name
-     * @param  $cu is max cores used concurrently in a project
+     * @param string $project is project name
+     * @param int $cu is max cores used concurrently in a project
      * @throws Exception
      * @return CreateSqlInstanceResponse
      */
@@ -935,8 +934,8 @@ class Client {
     /**
      * update sql instance api
      * Unsuccessful opertaion will cause an Exception.
-     * @param  $project is project name
-     * @param  $cu is max cores used concurrently in a project
+     * @param string $project is project name
+     * @param int $cu is max cores used concurrently in a project
      * @throws Exception
      * @return UpdateSqlInstanceResponse
      */
@@ -958,7 +957,7 @@ class Client {
     /**
      * get sql instance api
      * Unsuccessful opertaion will cause an Exception.
-     * @param  $project is project name
+     * @param string $project is project name
      * @throws Exception
      * @return ListSqlInstanceResponse
      */
