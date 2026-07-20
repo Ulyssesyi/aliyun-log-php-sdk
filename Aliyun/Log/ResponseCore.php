@@ -9,7 +9,7 @@ class ResponseCore {
     /**
      * Stores the HTTP header information.
      *
-     * @var array<string, string>
+     * @var array<string, mixed>
      */
     public array $header;
 
@@ -30,9 +30,9 @@ class ResponseCore {
     /**
      * Constructs a new instance of this class.
      *
-     * @param array<string, string> $header (Required) Associative array of HTTP headers (typically returned by <RequestCore::get_response_header()>).
-     * @param string  $body   (Required) XML-formatted response from AWS.
-     * @param int|null $status (Optional) HTTP response status code from the request.
+     * @param array<string, mixed> $header (Required) Associative array of HTTP headers (typically returned by <RequestCore::get_response_header()>).
+     * @param string               $body   (Required) XML-formatted response from AWS.
+     * @param int|null             $status (Optional) HTTP response status code from the request.
      */
     public function __construct(array $header, string $body, ?int $status = null) {
         $this->header = $header;

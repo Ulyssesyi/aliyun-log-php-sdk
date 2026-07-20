@@ -101,14 +101,14 @@ class RequestCore {
     /**
      * The default class to use for HTTP Requests (defaults to <RequestCore>).
      *
-     * @var class-string
+     * @var class-string<self>
      */
     public string $request_class = 'Aliyun\\Log\\RequestCore';
 
     /**
      * The default class to use for HTTP Responses (defaults to <ResponseCore>).
      *
-     * @var class-string
+     * @var class-string<ResponseCore>
      */
     public string $response_class = 'Aliyun\\Log\\ResponseCore';
 
@@ -226,12 +226,12 @@ class RequestCore {
         $this->request_body = '';
 
         // Set a new Request class if one was set.
-        if (isset($helpers['request']) && !empty($helpers['request'])) {
+        if (isset($helpers['request']) && is_a($helpers['request'], self::class, true)) {
             $this->request_class = $helpers['request'];
         }
 
-        // Set a new Request class if one was set.
-        if (isset($helpers['response']) && !empty($helpers['response'])) {
+        // Set a new Response class if one was set.
+        if (isset($helpers['response']) && is_a($helpers['response'], ResponseCore::class, true)) {
             $this->response_class = $helpers['response'];
         }
 
@@ -417,6 +417,9 @@ class RequestCore {
     public function set_read_file(string $location): static {
         $this->read_file = $location;
         $read_file_handle = fopen($location, 'r');
+        if ($read_file_handle === false) {
+            throw new RequestCoreException('Unable to open file for reading: ' . $location);
+        }
 
         return $this->set_read_stream($read_file_handle);
     }
@@ -444,6 +447,9 @@ class RequestCore {
     public function set_write_file(string $location): static {
         $this->write_file = $location;
         $write_file_handle = fopen($location, 'w');
+        if ($write_file_handle === false) {
+            throw new RequestCoreException('Unable to open file for writing: ' . $location);
+        }
 
         return $this->set_write_stream($write_file_handle);
     }
@@ -559,8 +565,8 @@ class RequestCore {
             }
         }
 
-        $read = fread($this->read_stream, min($this->read_stream_size - $this->read_stream_read, $length)); // Remaining upload data or cURL's requested chunk size
-        $this->read_stream_read += strlen($read);
+        $read = fread($this->read_stream, max(1, min($this->read_stream_size - $this->read_stream_read, $length))); // Remaining upload data or cURL's requested chunk size
+        $this->read_stream_read += ($read === false ? 0 : strlen($read));
 
         $out = $read === false ? '' : $read;
 
@@ -610,13 +616,18 @@ class RequestCore {
      * @return CurlHandle The handle for the cURL request.
      */
     public function prep_request(): CurlHandle {
+        $request_url = $this->request_url;
+        if ($request_url === null || $request_url === '') {
+            throw new RequestCoreException('Request URL cannot be empty.');
+        }
+
         $curl_handle = curl_init();
         if ($curl_handle === false) {
             throw new RequestCoreException('Unable to initialize cURL.');
         }
 
         // Set default options.
-        curl_setopt($curl_handle, CURLOPT_URL, $this->request_url);
+        curl_setopt($curl_handle, CURLOPT_URL, $request_url);
         curl_setopt($curl_handle, CURLOPT_FILETIME, true);
         curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
         curl_setopt($curl_handle, CURLOPT_MAXREDIRS, 5);
@@ -625,8 +636,8 @@ class RequestCore {
         curl_setopt($curl_handle, CURLOPT_TIMEOUT, 50);
         curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 50);
         curl_setopt($curl_handle, CURLOPT_NOSIGNAL, true);
-        curl_setopt($curl_handle, CURLOPT_REFERER, $this->request_url);
-        curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent);
+        curl_setopt($curl_handle, CURLOPT_REFERER, $request_url);
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent ?: 'RequestCore/1.4.3');
         curl_setopt($curl_handle, CURLOPT_READFUNCTION, [$this, 'streaming_read_callback']);
 
         // Verification of the SSL cert
@@ -641,7 +652,7 @@ class RequestCore {
         // chmod the file as 0755
         if ($this->cacert_location === true) {
             curl_setopt($curl_handle, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-        } elseif (is_string($this->cacert_location)) {
+        } elseif (is_string($this->cacert_location) && $this->cacert_location !== '') {
             curl_setopt($curl_handle, CURLOPT_CAINFO, $this->cacert_location);
         }
 
@@ -717,7 +728,7 @@ class RequestCore {
                 break;
 
             default: // Assumed GET
-                curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, $this->method);
+                curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, $this->method ?: 'GET');
                 if (isset($this->write_stream)) {
                     curl_setopt($curl_handle, CURLOPT_WRITEFUNCTION, [$this, 'streaming_write_callback']);
                     curl_setopt($curl_handle, CURLOPT_HEADER, false);
@@ -780,7 +791,7 @@ class RequestCore {
             $this->response_headers['_info']['method'] = $this->method;
 
             if ($curl_handle && $this->response) {
-                return new $this->response_class($this->response_headers, $this->response_body, $this->response_code, $curl_handle);
+                return new $this->response_class($this->response_headers, $this->response_body, $this->response_code);
             }
         }
 
@@ -894,11 +905,11 @@ class RequestCore {
                 throw new RequestCoreException(self::get_curl_error_message($curl_handle));
             }
 
-            $this->response = $raw;
+            $this->response = (string) $raw;
             $parsed_response = $this->process_response($curl_handle, $this->response);
 
             if ($parse) {
-                return $parsed_response;
+                return $parsed_response !== false ? $parsed_response : $this->response;
             }
 
             return $this->response;
@@ -1002,7 +1013,10 @@ class RequestCore {
                 foreach ($to_process as $done) {
                     $response = $http->process_response($done['handle'], curl_multi_getcontent($done['handle']));
                     $key = array_search($done['handle'], $handle_list, true);
-                    $handles_post[$key] = $response;
+                    if ($key === false) {
+                        continue;
+                    }
+                    $handles_post[(int) $key] = $response;
 
                     if (count($handles) > 0) {
                         $handle = array_shift($handles);
