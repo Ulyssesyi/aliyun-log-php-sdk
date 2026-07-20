@@ -18,7 +18,7 @@ class GetShipperTasksResponse extends Response {
     private array $tasks;
 
     /**
-     * @param array<mixed> $resp
+     * @param array $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {

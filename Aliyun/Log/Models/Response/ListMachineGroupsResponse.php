@@ -35,7 +35,7 @@ class ListMachineGroupsResponse extends Response {
         $this->size = is_numeric($size) ? (int) $size : 0;
 
         $machineGroups = $resp['machinegroups'];
-        $this->machineGroups = is_array($machineGroups) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $machineGroups) : [];
+        $this->machineGroups = is_array($machineGroups) ? array_map(fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $machineGroups) : [];
     }
 
     public function getOffset(): int {

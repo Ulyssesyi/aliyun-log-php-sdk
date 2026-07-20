@@ -14,6 +14,7 @@ use Aliyun\Log\Models\Request\MergeShardsRequest;
 use Aliyun\Log\Models\Request\ProjectSqlRequest;
 use Aliyun\Log\Models\Request\PutLogsRequest;
 use Aliyun\Log\Models\Request\SplitShardRequest;
+use Aliyun\Log\SDKException;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
@@ -43,7 +44,7 @@ function putLogs(Client $client, $project, $logstore): void {
     try {
         $response = $client->putLogs($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -55,7 +56,7 @@ function listLogstores(Client $client, $project): void {
         $request = new ListLogstoresRequest($project);
         $response = $client->listLogstores($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -68,7 +69,7 @@ function listTopics(Client $client, $project, $logstore): void {
     try {
         $response = $client->listTopics($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -91,7 +92,7 @@ function getLogs(Client $client, $project, $logstore): void {
             print "\n";
         }
 
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -119,7 +120,7 @@ function getLogsWithPowerSql(Client $client, $project, $logstore): void {
         print 'cpuSec:'.$response->getCpuSec()."\n";
         print 'cpuCores:'.$response->getCpuCores()."\n";
 
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -145,7 +146,7 @@ function getProjectLogsWithPowerSql(Client $client, $project): void {
         print 'cpuCores:'.$response->getCpuCores()."\n";
         print 'requestId:'.$response->getRequestId()."\n";
 
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -171,7 +172,7 @@ function executeProjectSqlWithPowerSql(Client $client, $project): void {
         print 'cpuCores:'.$response->getCpuCores()."\n";
         print 'requestId:'.$response->getRequestId()."\n";
 
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -194,7 +195,7 @@ function getHistograms(Client $client, $project, $logstore): void {
     try {
         $response = $client->getHistograms($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -205,7 +206,7 @@ function listShard(Client $client, $project, $logstore): void {
     try {
         $response = $client->listShards($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -288,7 +289,7 @@ function mergeShard(Client $client, $project, $logstore, $shardId): void {
     try {
         $response = $client->mergeShards($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -299,7 +300,7 @@ function splitShard(Client $client, $project, $logstore, $shardId, $midHash): vo
     try {
         $response = $client->splitShard($request);
         logVarDump($response);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);

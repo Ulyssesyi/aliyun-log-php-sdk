@@ -49,7 +49,7 @@ class SimpleLogger {
 
     /** add logItem to cached array, post when cache reaches limitation */
     private function logItem(int $cur_time, LogItem $logItem): void {
-        array_push($this->logItems, $logItem);
+        $this->logItems[] = $logItem;
         if ($cur_time - $this->previousLogTime >= $this->maxWaitTime || count($this->logItems) >= $this->maxCacheLog
             || $this->cacheBytes >= $this->maxCacheBytes) {
             $this->logBatch($this->logItems, $this->topic);
@@ -176,7 +176,7 @@ class SimpleLogger {
                 $error_exception = $ex;
             }
         }
-        error_log('SimpleLogger: ' . (string) $error_exception);
+        error_log('SimpleLogger: ' . $error_exception);
     }
 
     /** manually flush all cached log to log server */

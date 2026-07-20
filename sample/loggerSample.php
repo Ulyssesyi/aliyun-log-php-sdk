@@ -18,6 +18,7 @@ use Aliyun\Log\Models\Request\ListShipperRequest;
 use Aliyun\Log\Models\Request\PutLogsRequest;
 use Aliyun\Log\Models\Request\RetryShipperTasksRequest;
 use Aliyun\Log\Models\Request\UpdateShipperRequest;
+use Aliyun\Log\SDKException;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
@@ -256,7 +257,7 @@ function putLogs(Client $client, $project, $logstore): void {
     try {
         $response = $client->putLogs($request);
         print($response->getRequestId());
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -285,7 +286,7 @@ function getLogs(Client $client, $project, $logstore): void {
             print "\n";
         }
 
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);

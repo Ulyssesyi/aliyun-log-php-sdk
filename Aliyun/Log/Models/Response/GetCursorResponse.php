@@ -18,7 +18,7 @@ class GetCursorResponse extends Response {
     private string $cursor;
 
     /**
-     * @param array<mixed> $resp
+     * @param array $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {

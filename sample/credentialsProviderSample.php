@@ -4,6 +4,7 @@ use Aliyun\Log\Models\LogItem;
 use Aliyun\Log\Models\Request\GetLogsRequest;
 use Aliyun\Log\Models\Request\PutLogsRequest;
 use Aliyun\Log\Models\StaticCredentialsProvider;
+use Aliyun\Log\SDKException;
 
 echo 'Hello, World!';
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -41,7 +42,7 @@ function putLogs(Client $client, $project, $logstore): void {
 
     try {
         $response = $client->putLogs($request);
-    } catch (Aliyun\Log\Exception $ex) {
+    } catch (SDKException $ex) {
         var_dump($ex);
     } catch (Exception $ex) {
         var_dump($ex);

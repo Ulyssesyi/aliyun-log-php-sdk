@@ -41,15 +41,15 @@ class GetConfigResponse extends Response {
         $inputDetail = new InputDetail();
         if (is_array($rawInputDetail)) {
             $inputDetail->filePattern = is_string($rawInputDetail['filePattern'] ?? null) ? $rawInputDetail['filePattern'] : null;
-            $inputDetail->key = is_array($rawInputDetail['key'] ?? null) ? array_map(fn(mixed $v): string => is_string($v) ? $v : '', $rawInputDetail['key']) : null;
+            $inputDetail->key = is_array($rawInputDetail['key'] ?? null) ? array_map(fn (mixed $v): string => is_string($v) ? $v : '', $rawInputDetail['key']) : null;
             $inputDetail->localStorage = is_bool($rawInputDetail['localStorage'] ?? null) ? $rawInputDetail['localStorage'] : null;
             $inputDetail->logBeginRegex = is_string($rawInputDetail['logBeginRegex'] ?? null) ? $rawInputDetail['logBeginRegex'] : null;
             $inputDetail->logPath = is_string($rawInputDetail['logPath'] ?? null) ? $rawInputDetail['logPath'] : null;
             $inputDetail->logType = is_string($rawInputDetail['logType'] ?? null) ? $rawInputDetail['logType'] : null;
             $inputDetail->regex = is_string($rawInputDetail['regex'] ?? null) ? $rawInputDetail['regex'] : null;
             $inputDetail->timeFormat = is_string($rawInputDetail['timeFormat'] ?? null) ? $rawInputDetail['timeFormat'] : null;
-            $inputDetail->filterRegex = is_array($rawInputDetail['filterRegex'] ?? null) ? array_map(fn(mixed $v): string => is_string($v) ? $v : '', $rawInputDetail['filterRegex']) : null;
-            $inputDetail->filterKey = is_array($rawInputDetail['filterKey'] ?? null) ? array_map(fn(mixed $v): string => is_string($v) ? $v : '', $rawInputDetail['filterKey']) : null;
+            $inputDetail->filterRegex = is_array($rawInputDetail['filterRegex'] ?? null) ? array_map(fn (mixed $v): string => is_string($v) ? $v : '', $rawInputDetail['filterRegex']) : null;
+            $inputDetail->filterKey = is_array($rawInputDetail['filterKey'] ?? null) ? array_map(fn (mixed $v): string => is_string($v) ? $v : '', $rawInputDetail['filterKey']) : null;
             $inputDetail->topicFormat = is_string($rawInputDetail['topicFormat'] ?? null) ? $rawInputDetail['topicFormat'] : null;
         }
         $this->config->setInputDetail($inputDetail);

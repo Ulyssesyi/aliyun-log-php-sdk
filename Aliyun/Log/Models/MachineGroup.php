@@ -133,12 +133,7 @@ class MachineGroup {
                 if (!is_array($value)) {
                     continue;
                 }
-                $cleanValue = [];
-                foreach ($value as $k => $v) {
-                    if (is_string($k)) {
-                        $cleanValue[$k] = $v;
-                    }
-                }
+                $cleanValue = array_filter($value, fn ($k) => is_string($k), ARRAY_FILTER_USE_KEY);
                 $machine = new Machine();
                 $machine->setFromArray($cleanValue);
                 $machineList[] = $machine;

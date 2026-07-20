@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log;
 
+use Exception;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,7 +14,7 @@ namespace Aliyun\Log;
  *
  * @author log service dev
  */
-class Exception extends \Exception {
+class SDKException extends Exception {
     private string $requestId;
 
     public function __construct(string $code, string $message, string $requestId = '') {

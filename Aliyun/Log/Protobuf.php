@@ -90,8 +90,9 @@ class Protobuf {
      * Tries to read a varint from $fp.
      *
      * @param resource $fp
-     *
+     * @param int|null $limit
      * @return int|false the Varint from the stream, or false if the stream has reached eof.
+     * @throws SDKException
      */
     public static function read_varint(mixed $fp, int|null &$limit = null): int|false {
         $value = '';
@@ -135,8 +136,9 @@ class Protobuf {
      * returns the number of bytes written
      *
      * @param resource $fp
-     *
+     * @param int $i
      * @return int The number of bytes written
+     * @throws SDKException
      */
     public static function write_varint(mixed $fp, int $i): int {
         $len = 0;
@@ -162,6 +164,8 @@ class Protobuf {
      * Seek past a varint
      *
      * @param resource $fp
+     * @return int
+     * @throws SDKException
      */
     public static function skip_varint(mixed $fp): int {
         $len = 0;
@@ -179,6 +183,9 @@ class Protobuf {
      * Seek past the current field
      *
      * @param resource $fp
+     * @param int $wire_type
+     * @return int
+     * @throws SDKException
      */
     public static function skip_field(mixed $fp, int $wire_type): int {
         switch ($wire_type) {
@@ -217,6 +224,10 @@ class Protobuf {
      * Read a unknown field from the stream and return its raw bytes
      *
      * @param resource $fp
+     * @param int $wire_type
+     * @param int|null $limit
+     * @return int|string|false
+     * @throws SDKException
      */
     public static function read_field(mixed $fp, int $wire_type, int|null &$limit = null): int|string|false {
         switch ($wire_type) {
@@ -284,7 +295,7 @@ class Protobuf {
             } elseif (is_bool($value)) {
                 $ret .= ($value ? 'true' : 'false') . "\n";
             } elseif (is_int($value) || is_float($value)) {
-                $ret .= (string) $value . "\n";
+                $ret .= $value . "\n";
             } else {
                 $ret .= "\n";
             }

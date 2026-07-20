@@ -413,6 +413,7 @@ class RequestCore {
      * @param string $location (Required) The readable location to read from.
      *
      * @return $this
+     * @throws RequestCoreException
      */
     public function set_read_file(string $location): static {
         $this->read_file = $location;
@@ -443,6 +444,7 @@ class RequestCore {
      * @param string $location (Required) The writeable location to write to.
      *
      * @return $this
+     * @throws RequestCoreException
      */
     public function set_write_file(string $location): static {
         $this->write_file = $location;
@@ -502,7 +504,7 @@ class RequestCore {
      *  <li><code>$length</code> - <code>integer</code> - Required - The length in kilobytes of the data chunk that was transferred.</li>
      * </ul>
      *
-     * @param callable $callback (Required) The callback function is called by <php:call_user_func()>, so you can pass the following values: <ul>
+     * @param callable|null $callback (Required) The callback function is called by <php:call_user_func()>, so you can pass the following values: <ul>
      *  <li>The name of a global function to execute, passed as a string.</li>
      *  <li>A method to execute, passed as <code>array('ClassName', 'MethodName')</code>.</li>
      *  <li>An anonymous function (PHP 8.0+).</li></ul>
@@ -526,7 +528,7 @@ class RequestCore {
      *  <li><code>$length</code> - <code>integer</code> - Required - The length in kilobytes of the data chunk that was transferred.</li>
      * </ul>
      *
-     * @param callable $callback (Required) The callback function is called by <php:call_user_func()>, so you can pass the following values: <ul>
+     * @param callable|null $callback (Required) The callback function is called by <php:call_user_func()>, so you can pass the following values: <ul>
      *  <li>The name of a global function to execute, passed as a string.</li>
      *  <li>A method to execute, passed as <code>array('ClassName', 'MethodName')</code>.</li>
      *  <li>An anonymous function (PHP 8.0+).</li></ul>
@@ -546,10 +548,11 @@ class RequestCore {
      * A callback function that is invoked by cURL for streaming up.
      *
      * @param CurlHandle $curl_handle (Required) The cURL handle for the request.
-     * @param resource    $file_handle (Required) The open file handle resource.
-     * @param int         $length      (Required) The maximum number of bytes to read.
+     * @param resource $file_handle (Required) The open file handle resource.
+     * @param int $length (Required) The maximum number of bytes to read.
      *
      * @return string Binary data from a stream.
+     * @throws RequestCoreException
      */
     public function streaming_read_callback(CurlHandle $curl_handle, mixed $file_handle, int $length): string {
         // Once we've sent as much as we're supposed to send...
@@ -586,9 +589,10 @@ class RequestCore {
      * A callback function that is invoked by cURL for streaming down.
      *
      * @param CurlHandle $curl_handle (Required) The cURL handle for the request.
-     * @param string      $data        (Required) The data to write.
+     * @param string $data (Required) The data to write.
      *
      * @return int The number of bytes written.
+     * @throws RequestCoreException
      */
     public function streaming_write_callback(CurlHandle $curl_handle, string $data): int {
         if ($this->write_stream === null) {
@@ -622,6 +626,7 @@ class RequestCore {
      * function.
      *
      * @return CurlHandle The handle for the cURL request.
+     * @throws RequestCoreException
      */
     public function prep_request(): CurlHandle {
         $request_url = $this->request_url;
@@ -896,7 +901,7 @@ class RequestCore {
             $error_message = 'Unknown cURL multi error';
         }
 
-        return 'cURL multi error: ' . $error_message . ' (' . (int) $error_code . ')';
+        return 'cURL multi error: ' . $error_message . ' (' . $error_code . ')';
     }
 
     /**
@@ -905,6 +910,7 @@ class RequestCore {
      * @param bool $parse (Optional) Whether to parse the response with ResponseCore or not.
      *
      * @return string|ResponseCore The resulting unparsed data from the request.
+     * @throws RequestCoreException
      */
     public function send_request(bool $parse = false): string|ResponseCore {
         set_time_limit(0);
@@ -933,12 +939,13 @@ class RequestCore {
     /**
      * Sends the request using <php:curl_multi_exec()>, enabling parallel requests. Uses the "rolling" method.
      *
-     * @param CurlHandle[]                                                  $handles (Required) An indexed array of cURL handles to process simultaneously.
-     * @param array{callback?: callable, limit?: int}|null                   $opt     (Optional) An associative array of parameters that can have the following keys: <ul>
+     * @param CurlHandle[] $handles (Required) An indexed array of cURL handles to process simultaneously.
+     * @param array{callback?: callable, limit?: int}|null $opt (Optional) An associative array of parameters that can have the following keys: <ul>
      *                                                                                 <li><code>callback</code> - <code>string|array|callable</code> - Optional - The string name of a function to pass the response data to. If this is a method, pass an array where the <code>[0]</code> index is the class and the <code>[1]</code> index is the method name.</li>
      *                                                                                 <li><code>limit</code> - <code>integer</code> - Optional - The number of simultaneous requests to make. This can be useful for scaling around slow server responses. Defaults to trusting cURLs judgement as to how many to use.</li></ul>
      *
      * @return array<int, ResponseCore|false> Post-processed cURL responses.
+     * @throws RequestCoreException
      */
     public function send_multi_request(array $handles, ?array $opt = null): array {
         set_time_limit(0);
@@ -1050,7 +1057,7 @@ class RequestCore {
                 }
 
                 if ($active && count($to_process) === 0) {
-                    $selected = curl_multi_select($multi_handle, 1.0);
+                    $selected = curl_multi_select($multi_handle);
                     if ($selected === -1) {
                         // Older libcurl versions can return -1 even though transfers are still active.
                         usleep(1000);

@@ -19,7 +19,7 @@ class GetMachineResponse extends Response {
     private Machine $machine;
 
     /**
-     * @param array<mixed> $resp
+     * @param array $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {

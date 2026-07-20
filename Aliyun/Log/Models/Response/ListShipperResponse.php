@@ -27,7 +27,7 @@ class ListShipperResponse extends Response {
         $total = $resp['total'] ?? 0;
         $this->total = is_numeric($total) ? (int) $total : 0;
         $shippers = $resp['shipper'] ?? [];
-        $this->shippers = is_array($shippers) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $shippers) : [];
+        $this->shippers = is_array($shippers) ? array_map(fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $shippers) : [];
     }
 
     public function getCount(): int {

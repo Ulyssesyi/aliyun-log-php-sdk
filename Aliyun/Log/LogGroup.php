@@ -6,9 +6,12 @@ use Exception;
 
 // message LogGroup
 class LogGroup {
-    /** @var array<string, array<mixed>>|null */
+    /** @var array<string, array>|null */
     private ?array $_unknown = null;
 
+    /**
+     * @throws SDKException
+     */
     public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
@@ -29,6 +32,8 @@ class LogGroup {
 
     /**
      * @param resource $fp
+     * @param int|null $limit
+     * @throws SDKException
      */
     public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
@@ -111,6 +116,7 @@ class LogGroup {
 
     /**
      * @param resource $fp
+     * @throws SDKException
      */
     public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
@@ -188,6 +194,10 @@ class LogGroup {
         }
         return count($this->logs_);
     }
+
+    /**
+     * @throws SDKException
+     */
     public function getLogs(int $index): Log {
         if ($this->logs_ === null) {
             throw new Exception('Logs array is null');

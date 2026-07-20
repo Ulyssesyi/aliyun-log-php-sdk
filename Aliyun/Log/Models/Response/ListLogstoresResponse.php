@@ -31,7 +31,7 @@ class ListLogstoresResponse extends Response {
         $this->count = is_numeric($total) ? (int) $total : 0;
 
         $logstores = $resp['logstores'];
-        $this->logstores = is_array($logstores) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $logstores) : [];
+        $this->logstores = is_array($logstores) ? array_map(fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $logstores) : [];
     }
 
     public function getCount(): int {

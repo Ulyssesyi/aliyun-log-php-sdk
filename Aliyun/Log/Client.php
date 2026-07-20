@@ -101,6 +101,7 @@ use Aliyun\Log\Models\Response\UpdateMachineGroupResponse;
 use Aliyun\Log\Models\Response\UpdateShipperResponse;
 use Aliyun\Log\Models\Response\UpdateSqlInstanceResponse;
 use Aliyun\Log\Models\StaticCredentialsProvider;
+use Exception;
 use InvalidArgumentException;
 
 class Client {
@@ -152,7 +153,8 @@ class Client {
      *            aliyun accessKey
      * @param string $token
      *            aliyun token
-     * @param CredentialsProvider $credentialsProvider
+     * @param CredentialsProvider|null $credentialsProvider
+     * @throws SDKException
      */
     public function __construct(
         string $endpoint,
@@ -166,7 +168,7 @@ class Client {
             $this->credentialsProvider = $credentialsProvider;
         } else {
             if (empty($accessKeyId) || empty($accessKey)) {
-                throw new Exception('InvalidAccessKey', 'accessKeyId or accessKeySecret is empty', '');
+                throw new SDKException('InvalidAccessKey', 'accessKeyId or accessKeySecret is empty', '');
             }
             $this->credentialsProvider = new StaticCredentialsProvider(
                 $accessKeyId,
@@ -211,11 +213,14 @@ class Client {
      * Decodes a JSON string to a JSON Object.
      * Unsuccessful decode will cause an Exception.
      *
-     * @return array<mixed>
-     * @throws Exception
+     * @return array
+     * @throws SDKException
      */
     /**
+     * @param string|null $resBody
+     * @param string $requestId
      * @return array<string, mixed>
+     * @throws SDKException
      */
     protected function parseToJson(?string $resBody, string $requestId): array {
         if ($resBody === null || $resBody === '') {
@@ -224,14 +229,18 @@ class Client {
 
         $result = json_decode($resBody, true);
         if (!is_array($result)) {
-            throw new Exception('BadResponse', "Bad format,not json: $resBody", $requestId);
+            throw new SDKException('BadResponse', "Bad format,not json: $resBody", $requestId);
         }
-        return array_filter($result, fn(mixed $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
+        return array_filter($result, fn (mixed $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
     }
 
     /**
+     * @param string $method
+     * @param string $url
+     * @param string $body
      * @param array<string, mixed> $headers
      * @return array{0: int, 1: array<string, mixed>, 2: string}
+     * @throws RequestCoreException
      */
     protected function getHttpResponse(string $method, string $url, string $body, array $headers): array {
         $request = new RequestCore($url);
@@ -247,7 +256,7 @@ class Client {
         }
         $request->send_request();
         $response =  [];
-        $response[] = (int) $request->get_response_code();
+        $response[] = $request->get_response_code();
         $respHeader = $request->get_response_header();
         $response[] = is_array($respHeader) ? $respHeader : [];
         $respBody = $request->get_response_body();
@@ -258,14 +267,14 @@ class Client {
     /**
      * @param array<string, mixed> $headers
      * @return array{0: ?string, 1: array<string, mixed>}
-     * @throws Exception
+     * @throws SDKException
      */
     private function sendRequest(string $method, string $url, ?string $body, array $headers): array {
         try {
             [$responseCode, $header, $resBody] =
                     $this->getHttpResponse($method, $url, $body ?? '', $headers);
-        } catch (\Exception $ex) {
-            throw new Exception($ex->getMessage(), $ex->__toString());
+        } catch (Exception $ex) {
+            throw new SDKException($ex->getMessage(), $ex->__toString());
         }
 
         $rawRequestId = $header['x-log-requestid'] ?? '';
@@ -279,7 +288,7 @@ class Client {
         if (isset($exJson['error_code']) && isset($exJson['error_message'])) {
             $errorCode = is_string($exJson['error_code']) ? $exJson['error_code'] : '';
             $errorMessage = is_string($exJson['error_message']) ? $exJson['error_message'] : '';
-            throw new Exception(
+            throw new SDKException(
                 $errorCode,
                 $errorMessage,
                 $requestId,
@@ -291,7 +300,7 @@ class Client {
         } else {
             $exJsonStr = '';
         }
-        throw new Exception(
+        throw new SDKException(
             'RequestError',
             "Request is failed. Http code is $responseCode.$exJsonStr",
             $requestId,
@@ -302,14 +311,14 @@ class Client {
      * @param array<string, mixed> $params
      * @param array<string, mixed> $headers
      * @return array{0: ?string, 1: array<string, mixed>}
-     * @throws Exception
+     * @throws SDKException
      */
     private function send(string $method, ?string $project, ?string $body, string $resource, array $params, array $headers): array {
         $credentials = null;
         try {
             $credentials = $this->credentialsProvider->getCredentials();
-        } catch (\Exception $ex) {
-            throw new Exception(
+        } catch (Exception $ex) {
+            throw new SDKException(
                 'InvalidCredentials',
                 'Fail to get credentials:' . $ex->getMessage(),
                 '',
@@ -318,7 +327,7 @@ class Client {
 
         if ($body) {
             $headers['Content-Length'] = strlen($body);
-            if (isset($headers['x-log-bodyrawsize']) == false) {
+            if (!isset($headers['x-log-bodyrawsize'])) {
                 $headers['x-log-bodyrawsize'] = 0;
             }
             $headers['Content-MD5'] = Util::calMD5($body);
@@ -339,7 +348,7 @@ class Client {
             $headers['Host'] = "$project.$this->logHost";
         }
         $headers['Date'] = $this->GetGMT();
-        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), $credentials->getSecurityToken(), array_map(static fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $params), array_map(static fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
+        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), $credentials->getSecurityToken(), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $params), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
         $headers['Authorization'] = 'LOG '.$credentials->getAccessKeyId().":$signature";
 
         $url = $this->buildUrl($project, $resource, $params);
@@ -353,7 +362,7 @@ class Client {
         $url = $resource;
         $schema = $this->useHttps ? 'https://' : 'http://';
         if ($params) {
-            $url .= '?' . Util::urlEncode(array_map(static fn(mixed $v): string => is_string($v) ? $v : '', $params));
+            $url .= '?' . Util::urlEncode(array_map(static fn (mixed $v): string => is_string($v) ? $v : '', $params));
         }
         if ($this->isRowIp) {
             return "$schema$this->endpoint$url";
@@ -367,9 +376,14 @@ class Client {
     /**
      * Execute API call and parse JSON response.
      *
+     * @param string $method
+     * @param string|null $project
+     * @param string|null $body
+     * @param string $resource
      * @param array<string, mixed> $params
      * @param array<string, mixed> $headers
      * @return array{0: array<string, mixed>, 1: array<string, mixed>}
+     * @throws SDKException
      */
     private function executeApi(string $method, ?string $project, ?string $body, string $resource, array $params, array $headers): array {
         [$resp, $header] = $this->send($method, $project, $body, $resource, $params, $headers);
@@ -381,11 +395,12 @@ class Client {
 
     /**
      * Encode a value as JSON, throwing an exception on failure.
+     * @throws SDKException
      */
     private function jsonEncode(mixed $value): string {
         $encoded = json_encode($value);
         if ($encoded === false) {
-            throw new Exception('EncodingError', 'Failed to encode request body as JSON');
+            throw new SDKException('EncodingError', 'Failed to encode request body as JSON');
         }
         return $encoded;
     }
@@ -395,16 +410,16 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param PutLogsRequest $request the PutLogs request parameters class
-     * @throws Exception
      * @return PutLogsResponse
+     * @throws SDKException
      */
     public function putLogs(PutLogsRequest $request): PutLogsResponse {
         $logitems = $request->getLogitems();
         if ($logitems === null) {
-            throw new Exception('InvalidLogSize', 'logItems is null.');
+            throw new SDKException('InvalidLogSize', 'logItems is null.');
         }
         if (count($logitems) > 4096) {
-            throw new Exception('InvalidLogSize', "logItems' length exceeds maximum limitation: 4096 lines.");
+            throw new SDKException('InvalidLogSize', "logItems' length exceeds maximum limitation: 4096 lines.");
         }
 
         $logGroup = new LogGroup();
@@ -430,12 +445,16 @@ class Client {
             $logGroup->addLogs($log);
         }
 
-        $body = Util::toBytes($logGroup);
+        try {
+            $body = Util::toBytes($logGroup);
+        } catch (Exception) {
+            throw new SDKException('EncodingError', 'Failed to encode log group');
+        }
         unset($logGroup);
 
         $bodySize = strlen($body);
         if ($bodySize > 3 * 1024 * 1024) { // 3 MB
-            throw new Exception('InvalidLogSize', "logItems' size exceeds maximum limitation: 3 MB.");
+            throw new SDKException('InvalidLogSize', "logItems' size exceeds maximum limitation: 3 MB.");
         }
         $params =  [];
         $headers =  [];
@@ -444,7 +463,7 @@ class Client {
         $headers['Content-Type'] = 'application/x-protobuf';
         $compressed = gzcompress($body, 6);
         if ($compressed === false) {
-            throw new Exception('EncodingError', 'Failed to compress log body');
+            throw new SDKException('EncodingError', 'Failed to compress log body');
         }
         $body = $compressed;
 
@@ -466,6 +485,8 @@ class Client {
      * create shipper service
      * @param CreateShipperRequest $request
      * return CreateShipperResponse
+     * @return CreateShipperResponse
+     * @throws SDKException
      */
     public function createShipper(CreateShipperRequest $request): CreateShipperResponse {
         $headers = [];
@@ -489,6 +510,8 @@ class Client {
      * create shipper service
      * @param UpdateShipperRequest $request
      * return UpdateShipperResponse
+     * @return UpdateShipperResponse
+     * @throws SDKException
      */
     public function updateShipper(UpdateShipperRequest $request): UpdateShipperResponse {
         $headers = [];
@@ -512,6 +535,9 @@ class Client {
      * get shipper tasks list, max 48 hours duration supported
      * @param GetShipperTasksRequest $request
      * return GetShipperTasksResponse
+     * @throws SDKException
+     * @throws SDKException
+     * @throws SDKException
      */
     public function getShipperTasks(GetShipperTasksRequest $request): GetShipperTasksResponse {
         $headers = [];
@@ -535,6 +561,8 @@ class Client {
      * retry shipper tasks list by task ids
      * @param RetryShipperTasksRequest $request
      * return RetryShipperTasksResponse
+     * @return RetryShipperTasksResponse
+     * @throws SDKException
      */
     public function retryShipperTasks(RetryShipperTasksRequest $request): RetryShipperTasksResponse {
         $headers = [];
@@ -554,6 +582,9 @@ class Client {
      * delete shipper service
      * @param DeleteShipperRequest $request
      * return DeleteShipperResponse
+     * @throws SDKException
+     * @throws SDKException
+     * @throws SDKException
      */
     public function deleteShipper(DeleteShipperRequest $request): DeleteShipperResponse {
         $headers = [];
@@ -571,6 +602,9 @@ class Client {
      * get shipper config service
      * @param GetShipperConfigRequest $request
      * return GetShipperConfigResponse
+     * @throws SDKException
+     * @throws SDKException
+     * @throws SDKException
      */
     public function getShipperConfig(GetShipperConfigRequest $request): GetShipperConfigResponse {
         $headers = [];
@@ -588,6 +622,9 @@ class Client {
      * list shipper service
      * @param ListShipperRequest $request
      * return ListShipperResponse
+     * @throws SDKException
+     * @throws SDKException
+     * @throws SDKException
      */
     public function listShipper(ListShipperRequest $request): ListShipperResponse {
         $headers = [];
@@ -606,7 +643,7 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param CreateLogstoreRequest $request the CreateLogStore request parameters class.
-     * @throws Exception
+     * @throws SDKException
      * return CreateLogstoreResponse
      */
     public function createLogstore(CreateLogstoreRequest $request): CreateLogstoreResponse {
@@ -630,7 +667,7 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param UpdateLogstoreRequest $request the UpdateLogStore request parameters class.
-     * @throws Exception
+     * @throws SDKException
      * return UpdateLogstoreResponse
      */
     public function updateLogstore(UpdateLogstoreRequest $request): UpdateLogstoreResponse {
@@ -649,13 +686,14 @@ class Client {
         [, $header] = $this->executeApi('PUT', $project, $body_str, $resource, $params, $headers);
         return new UpdateLogstoreResponse($header);
     }
+
     /**
      * List all logstores of requested project.
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param ListLogstoresRequest $request the ListLogstores request parameters class.
-     * @throws Exception
      * @return ListLogstoresResponse
+     * @throws SDKException
      */
     public function listLogstores(ListLogstoresRequest $request): ListLogstoresResponse {
         $headers =  [];
@@ -671,8 +709,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param DeleteLogstoreRequest $request the DeleteLogstores request parameters class.
-     * @throws Exception
      * @return DeleteLogstoreResponse
+     * @throws SDKException
      */
     public function deleteLogstore(DeleteLogstoreRequest $request): DeleteLogstoreResponse {
         $headers =  [];
@@ -689,8 +727,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param ListTopicsRequest $request the ListTopics request parameters class.
-     * @throws Exception
      * @return ListTopicsResponse
+     * @throws SDKException
      */
     public function listTopics(ListTopicsRequest $request): ListTopicsResponse {
         $headers =  [];
@@ -714,8 +752,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetHistogramsRequest $request the GetHistograms request parameters class.
-     * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, mixed>}
+     * @return array{0: array, 1: array<string, mixed>}
+     * @throws SDKException
      */
     public function getHistogramsJson(GetHistogramsRequest $request): array {
         $headers =  [];
@@ -744,8 +782,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetHistogramsRequest $request the GetHistograms request parameters class.
-     * @throws Exception
      * @return GetHistogramsResponse
+     *@throws SDKException
      */
     public function getHistograms(GetHistogramsRequest $request): GetHistogramsResponse {
         $ret = $this->getHistogramsJson($request);
@@ -759,8 +797,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetLogsRequest $request the GetLogs request parameters class.
-     * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, mixed>}
+     * @return array{0: array, 1: array<string, mixed>}
+     * @throws SDKException
      */
     public function getLogsJson(GetLogsRequest $request): array {
         $headers =  [];
@@ -801,8 +839,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetLogsRequest $request the GetLogs request parameters class.
-     * @throws Exception
      * @return GetLogsResponse
+     *@throws SDKException
      */
     public function getLogs(GetLogsRequest $request): GetLogsResponse {
         $ret = $this->getLogsJson($request);
@@ -816,8 +854,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetProjectLogsRequest $request the GetLogs request parameters class.
-     * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, mixed>}
+     * @return array{0: array, 1: array<string, mixed>}
+     * @throws SDKException
      */
     public function getProjectLogsJson(GetProjectLogsRequest $request): array {
         $headers =  [];
@@ -837,8 +875,8 @@ class Client {
     * Unsuccessful opertaion will cause an Exception.
     *
     * @param GetProjectLogsRequest $request the GetLogs request parameters class.
-    * @throws Exception
     * @return GetLogsResponse
+    *@throws SDKException
     */
     public function getProjectLogs(GetProjectLogsRequest $request): GetLogsResponse {
         $ret = $this->getProjectLogsJson($request);
@@ -846,12 +884,13 @@ class Client {
         $header = $ret[1];
         return new GetLogsResponse($resp, $header);
     }
+
     /**
      * execute sql on logstore
      * Unsuccessful opertaion will cause an Exception.
      * @param LogStoreSqlRequest $request the executeLogStoreSql request parameters class
-     * @throws Exception
      * @return LogStoreSqlResponse
+     * @throws SDKException
      */
     public function executeLogStoreSql(LogStoreSqlRequest $request): LogStoreSqlResponse {
         $headers =  [];
@@ -875,13 +914,14 @@ class Client {
         [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new LogStoreSqlResponse($resp, $header);
     }
+
     /**
      * exeucte project sql.
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param ProjectSqlRequest $request the GetLogs request parameters class.
-     * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, mixed>}
+     * @return array{0: array, 1: array<string, mixed>}
+     * @throws SDKException
      */
     public function executeProjectSqlJson(ProjectSqlRequest $request): array {
         $headers =  [];
@@ -901,8 +941,8 @@ class Client {
     * Unsuccessful opertaion will cause an Exception.
     *
     * @param ProjectSqlRequest $request the GetLogs request parameters class.
-    * @throws Exception
     * @return ProjectSqlResponse
+    *@throws SDKException
     */
     public function executeProjectSql(ProjectSqlRequest $request): ProjectSqlResponse {
         $ret = $this->executeProjectSqlJson($request);
@@ -915,8 +955,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      * @param string $project is project name
      * @param int $cu is max cores used concurrently in a project
-     * @throws Exception
      * @return CreateSqlInstanceResponse
+     *@throws SDKException
      */
     public function createSqlInstance(string $project, int $cu): CreateSqlInstanceResponse {
         $headers = [];
@@ -937,8 +977,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      * @param string $project is project name
      * @param int $cu is max cores used concurrently in a project
-     * @throws Exception
      * @return UpdateSqlInstanceResponse
+     *@throws SDKException
      */
     public function updateSqlInstance(string $project, int $cu): UpdateSqlInstanceResponse {
         $headers = [];
@@ -953,12 +993,13 @@ class Client {
         [, $header] = $this->executeApi('PUT', $project, $body_str, $resource, $params, $headers);
         return new UpdateSqlInstanceResponse($header);
     }
+
     /**
      * get sql instance api
      * Unsuccessful opertaion will cause an Exception.
      * @param string $project is project name
-     * @throws Exception
      * @return ListSqlInstanceResponse
+     * @throws SDKException
      */
     public function listSqlInstance(string $project): ListSqlInstanceResponse {
         $headers = [];
@@ -976,8 +1017,9 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param BatchGetLogsRequest $request the BatchGetLogs request parameters class.
-     * @throws Exception
      * @return BatchGetLogsResponse
+     * @throws Exception
+     * @throws SDKException
      */
     public function batchGetLogs(BatchGetLogsRequest $request): BatchGetLogsResponse {
         $params = [];
@@ -1015,8 +1057,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param ListShardsRequest $request the ListShards request parameters class.
-     * @throws Exception
      * @return ListShardsResponse
+     * @throws SDKException
      */
     public function listShards(ListShardsRequest $request): ListShardsResponse {
         $params = [];
@@ -1034,8 +1076,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param SplitShardRequest $request the SplitShard request parameters class.
-     * @throws Exception
      * @return ListShardsResponse
+     * @throws SDKException
      */
     public function splitShard(SplitShardRequest $request): ListShardsResponse {
         $params = [];
@@ -1051,13 +1093,14 @@ class Client {
         [$resp, $header] = $this->executeApi('POST', $project, null, $resource, $params, $headers);
         return new ListShardsResponse($resp, $header);
     }
+
     /**
      * merge two shards into one shard with Project and logstore and shardId and conditions.
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param MergeShardsRequest $request the MergeShards request parameters class.
-     * @throws Exception
      * @return ListShardsResponse
+     * @throws SDKException
      */
     public function MergeShards(MergeShardsRequest $request): ListShardsResponse {
         $params = [];
@@ -1076,8 +1119,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param DeleteShardRequest $request the DeleteShard request parameters class.
-     * @throws Exception
      * @return DeleteShardResponse
+     *@throws SDKException
      */
     public function DeleteShard(DeleteShardRequest $request): DeleteShardResponse {
         $params = [];
@@ -1097,8 +1140,8 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetCursorRequest $request the GetCursor request parameters class.
-     * @throws Exception
      * @return GetCursorResponse
+     *@throws SDKException
      */
     public function getCursor(GetCursorRequest $request): GetCursorResponse {
         $params = [];
@@ -1109,18 +1152,18 @@ class Client {
         $mode = $request->getMode() !== null ? $request->getMode() : '';
         $fromTime = $request->getFromTime() !== null ? $request->getFromTime() : -1;
 
-        if ((empty($mode) xor $fromTime == -1) == false) {
+        if (!(empty($mode) xor $fromTime == -1)) {
             if (!empty($mode)) {
-                throw new Exception('RequestError', 'Request is failed. Mode and fromTime can not be not empty simultaneously');
+                throw new SDKException('RequestError', 'Request is failed. Mode and fromTime can not be not empty simultaneously');
             } else {
-                throw new Exception('RequestError', 'Request is failed. Mode and fromTime can not be empty simultaneously');
+                throw new SDKException('RequestError', 'Request is failed. Mode and fromTime can not be empty simultaneously');
             }
         }
         if (!empty($mode) && strcmp($mode, 'begin') !== 0 && strcmp($mode, 'end') !== 0) {
-            throw new Exception('RequestError', "Request is failed. Mode value invalid:$mode");
+            throw new SDKException('RequestError', "Request is failed. Mode value invalid:$mode");
         }
         if ($fromTime !== -1 && $fromTime < 0) {
-            throw new Exception('RequestError', "Request is failed. FromTime value invalid:$fromTime");
+            throw new SDKException('RequestError', "Request is failed. FromTime value invalid:$fromTime");
         }
         $params['type'] = 'cursor';
         if ($fromTime !== -1) {
@@ -1133,6 +1176,9 @@ class Client {
         return new GetCursorResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function createConfig(CreateConfigRequest $request): CreateConfigResponse {
         $params = [];
         $headers = [];
@@ -1147,6 +1193,9 @@ class Client {
         return new CreateConfigResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function updateConfig(UpdateConfigRequest $request): UpdateConfigResponse {
         $params = [];
         $headers = [];
@@ -1163,6 +1212,9 @@ class Client {
         return new UpdateConfigResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function getConfig(GetConfigRequest $request): GetConfigResponse {
         $params = [];
         $headers = [];
@@ -1174,6 +1226,9 @@ class Client {
         return new GetConfigResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function deleteConfig(DeleteConfigRequest $request): DeleteConfigResponse {
         $params = [];
         $headers = [];
@@ -1183,6 +1238,9 @@ class Client {
         return new DeleteConfigResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function listConfigs(ListConfigsRequest $request): ListConfigsResponse {
         $params = [];
         $headers = [];
@@ -1202,6 +1260,9 @@ class Client {
         return new ListConfigsResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function createMachineGroup(CreateMachineGroupRequest $request): CreateMachineGroupResponse {
         $params = [];
         $headers = [];
@@ -1216,6 +1277,9 @@ class Client {
         return new CreateMachineGroupResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function updateMachineGroup(UpdateMachineGroupRequest $request): UpdateMachineGroupResponse {
         $params = [];
         $headers = [];
@@ -1231,6 +1295,9 @@ class Client {
         return new UpdateMachineGroupResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function getMachineGroup(GetMachineGroupRequest $request): GetMachineGroupResponse {
         $params = [];
         $headers = [];
@@ -1242,6 +1309,9 @@ class Client {
         return new GetMachineGroupResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function deleteMachineGroup(DeleteMachineGroupRequest $request): DeleteMachineGroupResponse {
         $params = [];
         $headers = [];
@@ -1252,6 +1322,9 @@ class Client {
         return new DeleteMachineGroupResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function listMachineGroups(ListMachineGroupsRequest $request): ListMachineGroupsResponse {
         $params = [];
         $headers = [];
@@ -1271,6 +1344,9 @@ class Client {
         return new ListMachineGroupsResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function applyConfigToMachineGroup(ApplyConfigToMachineGroupRequest $request): ApplyConfigToMachineGroupResponse {
         $params = [];
         $headers = [];
@@ -1282,6 +1358,9 @@ class Client {
         return new ApplyConfigToMachineGroupResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function removeConfigFromMachineGroup(RemoveConfigFromMachineGroupRequest $request): RemoveConfigFromMachineGroupResponse {
         $params = [];
         $headers = [];
@@ -1293,6 +1372,9 @@ class Client {
         return new RemoveConfigFromMachineGroupResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function getMachine(GetMachineRequest $request): GetMachineResponse {
         $params = [];
         $headers = [];
@@ -1304,6 +1386,9 @@ class Client {
         return new GetMachineResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function createACL(CreateACLRequest $request): CreateACLResponse {
         $params = [];
         $headers = [];
@@ -1318,6 +1403,9 @@ class Client {
         return new CreateACLResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function updateACL(UpdateACLRequest $request): UpdateACLResponse {
         $params = [];
         $headers = [];
@@ -1334,6 +1422,9 @@ class Client {
         return new UpdateACLResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function getACL(GetACLRequest $request): GetACLResponse {
         $params = [];
         $headers = [];
@@ -1345,6 +1436,9 @@ class Client {
         return new GetACLResponse($resp, $header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function deleteACL(DeleteACLRequest $request): DeleteACLResponse {
         $params = [];
         $headers = [];
@@ -1354,6 +1448,9 @@ class Client {
         return new DeleteACLResponse($header);
     }
 
+    /**
+     * @throws SDKException
+     */
     public function listACLs(ListACLsRequest $request): ListACLsResponse {
         $params = [];
         $headers = [];

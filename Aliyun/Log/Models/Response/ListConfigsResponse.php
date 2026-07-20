@@ -29,7 +29,7 @@ class ListConfigsResponse extends Response {
         $totalVal = $resp['total'];
         $this->total = is_numeric($totalVal) ? (int) $totalVal : 0;
         $configsVal = $resp['configs'];
-        $this->configs = is_array($configsVal) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $configsVal) : [];
+        $this->configs = is_array($configsVal) ? array_map(fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $configsVal) : [];
     }
 
     public function getSize(): int {

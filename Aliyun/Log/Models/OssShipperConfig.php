@@ -72,6 +72,9 @@ class OssShipperConfig {
         return $this->bufferSize;
     }
 
+    /**
+     * @throws Exception
+     */
     public function setBufferSize(int $bufferSize): void {
         if ($bufferSize > 256 || $bufferSize < 5) {
             throw new Exception('buffSize is not valide, must between 5 and 256');
@@ -97,7 +100,7 @@ class OssShipperConfig {
 
     /** @return array<string, mixed> */
     public function to_json_object(): array {
-        $json =  [
+        return [
             'ossBucket' => $this->ossBucket,
             'ossPrefix' => $this->ossPrefix,
             'bufferInterval' => $this->bufferInterval,
@@ -108,6 +111,5 @@ class OssShipperConfig {
             'timeZone' => $this->timeZone,
             'storage' => $this->storage?->to_json_object(),
         ];
-        return $json;
     }
 }

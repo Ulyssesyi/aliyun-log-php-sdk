@@ -18,6 +18,9 @@ final class LoggerFactory {
     /** @var array<string, SimpleLogger> */
     private static array $loggerMap = [];
 
+    /**
+     * @throws SDKException
+     */
     public static function getLogger(Client $client, string $project, string $logstore, ?string $topic = null): SimpleLogger {
         if ($project == '') {
             throw new Exception('project name is blank!');

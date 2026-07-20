@@ -52,6 +52,7 @@ class Util {
 
     /**
      * Change $logGroup to bytes.
+     * @throws SDKException
      */
     public static function toBytes(LogGroup $logGroup): string {
         $mem = fopen('php://memory', 'rwb');

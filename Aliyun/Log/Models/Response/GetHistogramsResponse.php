@@ -23,7 +23,7 @@ class GetHistogramsResponse extends Response {
     private array $histograms;
 
     /**
-     * @param array<mixed> $resp
+     * @param array $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
@@ -44,7 +44,7 @@ class GetHistogramsResponse extends Response {
                 is_numeric($data['from'] ?? null) ? (int) $data['from'] : 0,
                 is_numeric($data['to'] ?? null) ? (int) $data['to'] : 0,
                 is_numeric($data['count'] ?? null) ? (int) $data['count'] : 0,
-                is_string($data['progress'] ?? null) ? $data['progress'] : ''
+                is_string($data['progress'] ?? null) ? $data['progress'] : '',
             );
         }
     }

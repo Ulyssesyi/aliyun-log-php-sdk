@@ -19,6 +19,9 @@ class ProtobufMessage {
     public function read(mixed $fp, int &$limit = PHP_INT_MAX): void {
     }
 
+    /**
+     * @throws SDKException
+     */
     public function __construct(mixed $in = null, int &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {

@@ -27,7 +27,7 @@ class GetLogsResponse extends Response {
     private int $cpuCores;
 
     /**
-     * @param array<mixed> $resp
+     * @param array $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
@@ -42,13 +42,13 @@ class GetLogsResponse extends Response {
         $processedRowsVal = $header['x-log-processed-rows'];
         $this->processedRows = is_numeric($processedRowsVal) ? (int) $processedRowsVal : 0;
 
-        $elapsedMilliVal = isset($header['x-log-elapsed-millisecond']) ? $header['x-log-elapsed-millisecond'] : null;
+        $elapsedMilliVal = $header['x-log-elapsed-millisecond'] ?? null;
         $this->elapsedMilli = is_numeric($elapsedMilliVal) ? (int) $elapsedMilliVal : 0;
 
-        $cpuSecVal = isset($header['x-log-cpu-sec']) ? $header['x-log-cpu-sec'] : null;
+        $cpuSecVal = $header['x-log-cpu-sec'] ?? null;
         $this->cpuSec = is_numeric($cpuSecVal) ? (int) $cpuSecVal : 0;
 
-        $cpuCoresVal = isset($header['x-log-cpu-cores']) ? $header['x-log-cpu-cores'] : null;
+        $cpuCoresVal = $header['x-log-cpu-cores'] ?? null;
         $this->cpuCores = is_numeric($cpuCoresVal) ? (int) $cpuCoresVal : 0;
 
         $this->logs = [];

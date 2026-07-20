@@ -6,9 +6,12 @@ use Exception;
 
 // message Log.Content
 class Log_Content {
-    /** @var array<string, array<mixed>>|null */
+    /** @var array<string, array>|null */
     private ?array $_unknown = null;
 
+    /**
+     * @throws SDKException
+     */
     public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
@@ -29,6 +32,8 @@ class Log_Content {
 
     /**
      * @param resource $fp
+     * @param int|null $limit
+     * @throws SDKException
      */
     public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
@@ -84,6 +89,7 @@ class Log_Content {
 
     /**
      * @param resource $fp
+     * @throws SDKException
      */
     public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
