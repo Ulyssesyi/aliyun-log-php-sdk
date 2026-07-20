@@ -36,7 +36,6 @@
     "cs-fix": "php-cs-fixer fix",
     "cs-check": "php-cs-fixer fix --dry-run --diff",
     "phpstan": "phpstan analyse -c phpstan.neon.dist",
-    "phpstan-print-config": "phpstan analyse --configuration phpstan.neon.dist --debug --print-config",
     "check": [
       "@cs-check",
       "@phpstan"

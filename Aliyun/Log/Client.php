@@ -210,12 +210,12 @@ class Client {
      * Decodes a JSON string to a JSON Object.
      * Unsuccessful decode will cause an Exception.
      *
-     * @return string
+     * @return array
      * @throws Exception
      */
-    protected function parseToJson(?string $resBody, string $requestId): ?string {
+    protected function parseToJson(?string $resBody, string $requestId): array {
         if (! $resBody) {
-            return null;
+            return [];
         }
 
         $result = json_decode($resBody, true);
@@ -1121,7 +1121,7 @@ class Client {
         if (!empty($mode) && strcmp($mode, 'begin') !== 0 && strcmp($mode, 'end') !== 0) {
             throw new Exception('RequestError', "Request is failed. Mode value invalid:$mode");
         }
-        if ($fromTime !== -1 && (is_int($fromTime) == false || $fromTime < 0)) {
+        if ($fromTime !== -1 && $fromTime < 0) {
             throw new Exception('RequestError', "Request is failed. FromTime value invalid:$fromTime");
         }
         $params['type'] = 'cursor';

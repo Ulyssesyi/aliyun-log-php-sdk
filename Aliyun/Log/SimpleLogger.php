@@ -87,22 +87,12 @@ class SimpleLogger {
      * @param null $maxWaitTime max thread waiting time, bydefault it's 5 seconds
      */
     public function __construct($client, $project, $logstore, $topic, $maxCacheLog = null, $maxWaitTime = null, $maxCacheBytes = null) {
-        if (null === $maxCacheLog || !is_int($maxCacheLog)) {
-            $this->maxCacheLog = 100;
-        } else {
-            $this->maxCacheLog = $maxCacheLog;
-        }
-
-        if (null === $maxCacheBytes || !is_int($maxCacheBytes)) {
-            $this->maxCacheBytes = 256 * 1024;
-        } else {
-            $this->maxCacheBytes = $maxCacheBytes;
-        }
-
-        if (null === $maxWaitTime || !is_int($maxWaitTime)) {
-            $this->maxWaitTime = 5;
-        } else {
+        $this->maxCacheLog = is_int($maxCacheLog) ? $maxCacheLog : 100;
+        $this->maxCacheBytes = is_int($maxCacheBytes) ? $maxCacheBytes : 256 * 1024;
+        if (is_int($maxWaitTime)) {
             $this->maxWaitTime = $maxWaitTime;
+        } else {
+            $this->maxWaitTime = 5;
         }
         if ($client == null || $project == null || $logstore == null) {
             throw new \Exception('the input parameter is invalid! create SimpleLogger failed!');
@@ -283,10 +273,7 @@ class SimpleLogger {
             try {
                 $response = $this->client->putLogs($request);
                 return;
-            } catch (Exception $ex) {
-                $error_exception = $ex;
             } catch (\Exception $ex) {
-                var_dump($ex);
                 $error_exception = $ex;
             }
         }

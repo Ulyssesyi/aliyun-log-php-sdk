@@ -70,9 +70,6 @@ class LogLevel {
     public static function getLevelStr(LogLevel $logLevel) {
 
         $logLevelStr = '';
-        if (null === $logLevel) {
-            $logLevelStr = 'info';
-        }
         switch ($logLevel->level) {
             case 'error':
                 $logLevelStr = 'error';

@@ -33,17 +33,17 @@ class LogGroup {
             $field = $tag >> 3;
             switch ($field) {
                 case 1:
-                    assert('$wire == 2');
+                    assert($wire === 2);
                     $len = Protobuf::read_varint($fp, $limit);
                     if ($len === false) {
                         throw new Exception('Protobuf::read_varint returned false');
                     }
                     $limit -= $len;
                     $this->logs_[] = new Log($fp, $len);
-                    assert('$len == 0');
+                    assert($len === 0);
                     break;
                 case 2:
-                    assert('$wire == 2');
+                    assert($wire === 2);
                     $len = Protobuf::read_varint($fp, $limit);
                     if ($len === false) {
                         throw new Exception('Protobuf::read_varint returned false');
@@ -60,7 +60,7 @@ class LogGroup {
                     $limit -= $len;
                     break;
                 case 3:
-                    assert('$wire == 2');
+                    assert($wire === 2);
                     $len = Protobuf::read_varint($fp, $limit);
                     if ($len === false) {
                         throw new Exception('Protobuf::read_varint returned false');
@@ -77,7 +77,7 @@ class LogGroup {
                     $limit -= $len;
                     break;
                 case 4:
-                    assert('$wire == 2');
+                    assert($wire === 2);
                     $len = Protobuf::read_varint($fp, $limit);
                     if ($len === false) {
                         throw new Exception('Protobuf::read_varint returned false');

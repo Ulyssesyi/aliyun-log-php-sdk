@@ -33,18 +33,18 @@ class Log {
             $field = $tag >> 3;
             switch ($field) {
                 case 1:
-                    assert('$wire == 0');
+                    assert($wire === 0);
                     $this->time_ = Protobuf::read_varint($fp, $limit);
                     break;
                 case 2:
-                    assert('$wire == 2');
+                    assert($wire === 2);
                     $len = Protobuf::read_varint($fp, $limit);
                     if ($len === false) {
                         throw new Exception('Protobuf::read_varint returned false');
                     }
                     $limit -= $len;
                     $this->contents_[] = new Log_Content($fp, $len);
-                    assert('$len == 0');
+                    assert($len === 0);
                     break;
                 default:
                     $this->_unknown[$field . '-' . Protobuf::get_wiretype($wire)][] = Protobuf::read_field($fp, $wire, $limit);

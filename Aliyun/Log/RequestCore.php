@@ -763,11 +763,7 @@ class RequestCore {
     }
 
     public static function isCurlResource($curlHandle): bool {
-        if (is_resource($curlHandle)) {
-            return true;
-        }
-
-        return PHP_VERSION_ID >= 80000 && $curlHandle instanceof \CurlHandle;
+        return $curlHandle instanceof \CurlHandle;
     }
 
     /**
@@ -914,9 +910,6 @@ class RequestCore {
 
         $http = new $this->request_class();
         $multi_handle = curl_multi_init();
-        if ($multi_handle === false) {
-            throw new RequestCoreException('Unable to initialize cURL multi handle.');
-        }
 
         $handles_post = [];
         $attached_handles = [];

@@ -91,6 +91,15 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     }
 
     /**
+     * Get topic
+     *
+     * @return string|null topic
+     */
+    public function getTopic() {
+        return $this->topic;
+    }
+
+    /**
      * Get begin time
      *
      * @return integer begin time
