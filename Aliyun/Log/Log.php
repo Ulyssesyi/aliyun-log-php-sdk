@@ -130,6 +130,9 @@ class Log {
         return count($this->contents_);
     }
     public function getContents(int $index): Log_Content {
+        if ($this->contents_ === null) {
+            throw new Exception('Contents array is null');
+        }
         return $this->contents_[$index];
     }
     /** @return Log_Content[] */

@@ -183,6 +183,9 @@ class LogGroup {
         return count($this->logs_);
     }
     public function getLogs(int $index): Log {
+        if ($this->logs_ === null) {
+            throw new Exception('Logs array is null');
+        }
         return $this->logs_[$index];
     }
     /** @return Log[] */

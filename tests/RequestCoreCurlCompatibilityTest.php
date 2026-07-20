@@ -44,13 +44,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
         $handles = $request->send_multi_request([]);
         $this->assertSame([], $handles);
 
-        $this->assertFalse(RequestCore::isCurlResource(null));
-    }
-
-    /**
-     * @requires extension curl
-     */
-    public function testSendMultiRequestKeepsDistinctHandleResults(): void {
+        $this->assertTrue(RequestCore::isCurlResource(curl_init()));
         $file_one = tempnam(sys_get_temp_dir(), 'request-core-curl-');
         $file_two = tempnam(sys_get_temp_dir(), 'request-core-curl-');
         file_put_contents($file_one, 'one');

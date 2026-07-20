@@ -102,6 +102,9 @@ class LogGroupList {
         return count($this->logGroupList_);
     }
     public function getLogGroupList(int $index): LogGroup {
+        if ($this->logGroupList_ === null) {
+            throw new Exception('LogGroupList array is null');
+        }
         return $this->logGroupList_[$index];
     }
     /** @return LogGroup[] */

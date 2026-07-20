@@ -390,7 +390,11 @@ class Client {
      * @return PutLogsResponse
      */
     public function putLogs(PutLogsRequest $request): PutLogsResponse {
-        if (count($request->getLogitems()) > 4096) {
+        $logitems = $request->getLogitems();
+        if ($logitems === null) {
+            throw new Exception('InvalidLogSize', 'logItems is null.');
+        }
+        if (count($logitems) > 4096) {
             throw new Exception('InvalidLogSize', "logItems' length exceeds maximum limitation: 4096 lines.");
         }
 
@@ -403,7 +407,6 @@ class Client {
             $source = $this->source;
         }
         $logGroup->setSource($source);
-        $logitems = $request->getLogitems();
         foreach ($logitems as $logItem) {
             $log = new Log();
             $log->setTime($logItem->getTime());
@@ -988,7 +991,7 @@ class Client {
         $resource = "/logstores/$logstore/shards/$shardId";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         //$resp is a byteArray
-        $resp =  gzuncompress($resp);
+        $resp =  gzuncompress($resp ?? '');
         if ($resp === false) {
             $resp = new LogGroupList();
         } else {

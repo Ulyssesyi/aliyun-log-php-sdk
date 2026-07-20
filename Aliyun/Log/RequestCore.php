@@ -558,6 +558,10 @@ class RequestCore {
             return '';
         }
 
+        if ($this->read_stream === null) {
+            throw new RequestCoreException('Read stream is not set.');
+        }
+
         // If we're at the beginning of an upload and need to seek...
         if ($this->read_stream_read == 0 && isset($this->seek_position) && $this->seek_position !== ftell($this->read_stream)) {
             if (fseek($this->read_stream, $this->seek_position) !== 0) {
@@ -587,6 +591,10 @@ class RequestCore {
      * @return int The number of bytes written.
      */
     public function streaming_write_callback(CurlHandle $curl_handle, string $data): int {
+        if ($this->write_stream === null) {
+            throw new RequestCoreException('Write stream is not set.');
+        }
+
         $length = strlen($data);
         $written_total = 0;
         $written_last = 0;
@@ -764,7 +772,7 @@ class RequestCore {
         }
 
         // As long as this came back as a valid resource...
-        if ($this->isCurlResource($curl_handle)) {
+        if ($curl_handle instanceof CurlHandle) {
             // Determine what's what.
             $header_size = curl_getinfo($curl_handle, CURLINFO_HEADER_SIZE);
             $this->response_code = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
@@ -790,7 +798,7 @@ class RequestCore {
             $this->response_headers['_info'] = $this->response_info;
             $this->response_headers['_info']['method'] = $this->method;
 
-            if ($curl_handle && $this->response) {
+            if ($this->response) {
                 return new $this->response_class($this->response_headers, $this->response_body, $this->response_code);
             }
         }
@@ -801,6 +809,7 @@ class RequestCore {
 
     /**
      * @param mixed $curlHandle
+     * @phpstan-assert-if-true CurlHandle $curlHandle
      *
      * @return bool
      */
@@ -945,11 +954,6 @@ class RequestCore {
 
         // Initialize
         $handle_list = $handles;
-        foreach ($handle_list as $handle) {
-            if (!self::isCurlResource($handle)) {
-                throw new RequestCoreException('Invalid cURL handle supplied.');
-            }
-        }
 
         $http = new $this->request_class();
         $multi_handle = curl_multi_init();
@@ -972,6 +976,9 @@ class RequestCore {
                 }
 
                 $handle = array_shift($handles);
+                if (!$handle instanceof CurlHandle) {
+                    throw new RequestCoreException('Invalid cURL handle supplied.');
+                }
                 $status = curl_multi_add_handle($multi_handle, $handle);
                 if ($status !== CURLM_OK) {
                     throw new RequestCoreException(self::get_curl_multi_error_message($status));
