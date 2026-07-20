@@ -13,15 +13,9 @@
 namespace Aliyun\Log\Models\Request;
 
 class DeleteShardRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $logstore;
+    private ?string $logstore;
 
-    /**
-     * @var string|null
-     */
-    private $shardId;
+    private ?string $shardId;
 
     /**
      * DeleteShardRequest Constructor

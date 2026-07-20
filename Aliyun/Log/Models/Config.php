@@ -2,6 +2,9 @@
 
 namespace Aliyun\Log\Models;
 
+use Aliyun\Log\Models\Config\InputDetail;
+use Aliyun\Log\Models\Config\OutputDetail;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,9 +12,9 @@ namespace Aliyun\Log\Models;
 class Config {
     private ?string $configName = '';
     private ?string $inputType = '';
-    private ?Config_InputDetail $inputDetail = null;
+    private ?InputDetail $inputDetail = null;
     private ?string $outputType = '';
-    private ?Config_OutputDetail $outputDetail = null;
+    private ?OutputDetail $outputDetail = null;
 
     private mixed $createTime = null;
     private mixed $lastModifyTime = null;
@@ -19,9 +22,9 @@ class Config {
     public function __construct(
         ?string $configName = '',
         ?string $inputType = '',
-        ?Config_InputDetail $inputDetail = null,
+        ?InputDetail $inputDetail = null,
         ?string $outputType = '',
-        ?Config_OutputDetail $outputDetail = null,
+        ?OutputDetail $outputDetail = null,
         mixed $createTime = null,
         mixed $lastModifyTime = null,
     ) {
@@ -47,10 +50,10 @@ class Config {
     public function setInputType(?string $inputType): void {
         $this->inputType = $inputType;
     }
-    public function getInputDetail(): ?Config_InputDetail {
+    public function getInputDetail(): ?InputDetail {
         return $this->inputDetail;
     }
-    public function setInputDetail(?Config_InputDetail $inputDetail): void {
+    public function setInputDetail(?InputDetail $inputDetail): void {
         $this->inputDetail = $inputDetail;
     }
     public function getOutputType(): ?string {
@@ -59,10 +62,10 @@ class Config {
     public function setOutputType(?string $outputType): void {
         $this->outputType = $outputType;
     }
-    public function getOutputDetail(): ?Config_OutputDetail {
+    public function getOutputDetail(): ?OutputDetail {
         return $this->outputDetail;
     }
-    public function setOutputDetail(?Config_OutputDetail $outputDetail): void {
+    public function setOutputDetail(?OutputDetail $outputDetail): void {
         $this->outputDetail = $outputDetail;
     }
     public function getCreateTime(): mixed {
@@ -108,7 +111,7 @@ class Config {
 
     /** @param array<string, mixed> $resp */
     public function setFromArray(array $resp): void {
-        $inputDetail = new Config_InputDetail();
+        $inputDetail = new InputDetail();
         $inputDetail->filePattern = $resp['inputDetail']['filePattern'];
         $inputDetail->key = $resp['inputDetail']['key'];
         $inputDetail->localStorage = $resp['inputDetail']['localStorage'];
@@ -121,7 +124,7 @@ class Config {
         $inputDetail->filterKey = $resp['inputDetail']['filterKey'];
         $inputDetail->topicFormat = $resp['inputDetail']['topicFormat'];
 
-        $outputDetail = new Config_OutputDetail();
+        $outputDetail = new OutputDetail();
         $outputDetail->projectName = $resp['outputDetail']['projectName'];
         $outputDetail->logstoreName = $resp['outputDetail']['logstoreName'];
 

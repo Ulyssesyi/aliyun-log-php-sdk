@@ -7,10 +7,7 @@
 namespace Aliyun\Log\Models\Request;
 
 class ListShipperRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $logStore;
+    private ?string $logStore;
 
     /**
      * CreateShipperRequest Constructor

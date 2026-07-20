@@ -15,39 +15,18 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Histogram {
-    /**
-     * @var integer the begin time
-     */
-    private $from;
+    private int $from;
 
-    /**
-     * @var integer the end time
-     */
-    private $to;
+    private int $to;
 
-    /**
-     * @var integer log count of histogram that query hits
-     */
-    private $count;
+    private int $count;
 
-    /**
-     * @var string histogram query status(Complete or InComplete)
-     */
-    private $progress;
+    private string $progress;
 
     /**
      * Histogram constructor
-     *
-     * @param integer $from
-     *            the begin time
-     * @param integer $to
-     *            the end time
-     * @param integer $count
-     *            log count of histogram that query hits
-     * @param string $progress
-     *            histogram query status(Complete or InComplete)
      */
-    public function __construct($from, $to, $count, $progress) {
+    public function __construct(int $from, int $to, int $count, string $progress) {
         $this->from = $from;
         $this->to = $to;
         $this->count = $count;
@@ -56,37 +35,29 @@ class Histogram {
 
     /**
      * Get begin time
-     *
-     * @return integer the begin time
      */
-    public function getFrom() {
+    public function getFrom(): int {
         return $this->from;
     }
 
     /**
      * Get the end time
-     *
-     * @return integer the end time
      */
-    public function getTo() {
+    public function getTo(): int {
         return $this->to;
     }
 
     /**
      * Get log count of histogram that query hits
-     *
-     * @return integer log count of histogram that query hits
      */
-    public function getCount() {
+    public function getCount(): int {
         return $this->count;
     }
 
     /**
      * Check if the histogram is completed
-     *
-     * @return bool true if this histogram is completed
      */
-    public function isCompleted() {
+    public function isCompleted(): bool {
         return $this->progress == 'Complete';
     }
 }

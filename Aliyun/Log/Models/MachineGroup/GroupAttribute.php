@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Aliyun\Log\Models;
+namespace Aliyun\Log\Models\MachineGroup;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-class MachineGroup_GroupAttribute {
+class GroupAttribute {
     public ?string $externalName = null;
     public ?string $groupTopic = null;
 

@@ -13,48 +13,20 @@
 namespace Aliyun\Log\Models\Request;
 
 class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null logstore name
-     */
-    private $logstore;
+    private ?string $logstore;
 
-    /**
-     * @var string|null shard ID
-     */
-    private $shardId;
+    private ?string $shardId;
 
-    /**
-     * @var int|null max line number of return logs
-     */
-    private $count;
+    private ?int $count;
 
-    /**
-     * @var string|null start cursor
-     */
-    private $cursor;
+    private ?string $cursor;
 
-    /**
-     * @var string|null end cursor
-     */
-    private $endCursor;
+    private ?string $endCursor;
 
     /**
      * BatchGetLogsRequest Constructor
-     *
-     * @param string $project
-     *            project name
-     * @param string $logstore
-     *            logstore name
-     * @param string $shardId
-     *            shard ID
-     * @param integer $count
-     *            return max loggroup numbers
-     * @param string $cursor
-     *            start cursor
-     * @param string $end_cursor
-     *            end cursor
      */
-    public function __construct($project = null, $logstore = null, $shardId = null, $count = null, $cursor = null, $end_cursor = null) {
+    public function __construct(?string $project = null, ?string $logstore = null, ?string $shardId = null, ?int $count = null, ?string $cursor = null, ?string $end_cursor = null) {
         parent::__construct($project);
         $this->logstore = $logstore;
         $this->shardId = $shardId;
@@ -65,96 +37,71 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
 
     /**
      * Get logstore name
-     *
-     * @return string|null logstore name
      */
-    public function getLogstore() {
+    public function getLogstore(): ?string {
         return $this->logstore;
     }
 
     /**
      * Set logstore name
-     *
-     * @param string $logstore
-     *            logstore name
      */
-    public function setLogstore($logstore): void {
+    public function setLogstore(?string $logstore): void {
         $this->logstore = $logstore;
     }
 
     /**
      * Get shard ID
-     *
-     * @return string|null shardId
      */
-    public function getShardId() {
+    public function getShardId(): ?string {
         return $this->shardId;
     }
 
     /**
      * Set shard ID
-     *
-     * @param string $shardId
-     *            shard ID
      */
-    public function setShardId($shardId): void {
+    public function setShardId(?string $shardId): void {
         $this->shardId = $shardId;
     }
 
     /**
      * Get max return loggroup number
-     *
-     * @return int|null count
      */
-    public function getCount() {
+    public function getCount(): ?int {
         return $this->count;
     }
 
     /**
      * Set max return loggroup number
-     *
-     * @param integer $count
-     *            max return loggroup number
      */
-    public function setCount($count): void {
+    public function setCount(?int $count): void {
         $this->count = $count;
     }
 
     /**
      * Get start cursor
-     *
-     * @return string|null cursor
      */
-    public function getCursor() {
+    public function getCursor(): ?string {
         return $this->cursor;
     }
 
     /**
      * Get end cursor
-     *
-     * @return string|null cursor
      */
-    public function getEndCursor() {
+    public function getEndCursor(): ?string {
         return $this->endCursor;
     }
 
     /**
      * Set start cursor
-     *
-     * @param string $cursor
-     *            start cursor
      */
-    public function setCursor($cursor): void {
+    public function setCursor(?string $cursor): void {
         $this->cursor = $cursor;
     }
 
     /**
      * Set end cursor
-     *
-     * @param string $cursor
-     *            end cursor
      */
-    public function setEndCursor($cursor): void {
-        $this->endCursor = $cursor;
+    public function setEndCursor(?string $endCursor): void {
+        $this->endCursor = $endCursor;
     }
 }

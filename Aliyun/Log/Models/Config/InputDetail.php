@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Aliyun\Log\Models;
+namespace Aliyun\Log\Models\Config;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-class Config_InputDetail {
+class InputDetail {
     public ?string $filePattern = '';
     /** @var string[]|null */
     public ?array $key = [];

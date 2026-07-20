@@ -13,30 +13,16 @@
 namespace Aliyun\Log\Models\Request;
 
 class ListTopicsRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null $logstore logstore name
-     */
-    private $logstore;
+    private ?string $logstore;
 
-    /**
-     * @var string|null $token the start token to list topics
-     */
-    private $token;
+    private ?string $token;
 
-    /**
-     * @var int|null $line max topic counts to return
-     */
-    private $line;
+    private ?int $line;
 
     /**
      * ListTopicsRequest constructor
-     *
-     * @param string $project project name
-     * @param string $logstore logstore name
-     * @param string $token the start token to list topics
-     * @param integer $line max topic counts to return
      */
-    public function __construct($project = null, $logstore = null, $token = null, $line = null) {
+    public function __construct(?string $project = null, ?string $logstore = null, ?string $token = null, ?int $line = null) {
         parent::__construct($project);
         $this->logstore = $logstore;
         $this->token = $token;
@@ -44,57 +30,44 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
     }
 
     /**
-     * Get logstroe name
-     *
-     * @return string|null logstore name
+     * Get logstore name
      */
-    public function getLogstore() {
+    public function getLogstore(): ?string {
         return $this->logstore;
     }
 
     /**
      * Set logstore name
-     *
-     * @param string $logstore
-     *            logstore name
      */
-    public function setLogstore($logstore): void {
+    public function setLogstore(?string $logstore): void {
         $this->logstore = $logstore;
     }
 
     /**
      * Get start token to list topics
-     *
-     * @return string|null start token to list topics
      */
-    public function getToken() {
+    public function getToken(): ?string {
         return $this->token;
     }
 
     /**
      * Set start token to list topics
-     *
-     * @param string $token start token to list topics
      */
-    public function setToken($token): void {
+    public function setToken(?string $token): void {
         $this->token = $token;
     }
 
     /**
      * Get max topic counts to return
-     *
-     * @return int|null max topic counts to return
      */
-    public function getLine() {
+    public function getLine(): ?int {
         return $this->line;
     }
 
     /**
      * Set max topic counts to return
-     *
-     * @param integer $line max topic counts to return
      */
-    public function setLine($line): void {
+    public function setLine(?int $line): void {
         $this->line = $line;
     }
 }

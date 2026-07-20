@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models;
 
+use Aliyun\Log\Models\MachineGroup\GroupAttribute;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,7 +11,7 @@ namespace Aliyun\Log\Models;
 class MachineGroup {
     private ?string $groupName;
     private ?string $groupType;
-    private ?MachineGroup_GroupAttribute $groupAttribute;
+    private ?GroupAttribute $groupAttribute;
     /** @var array<int, Machine> */
     private ?array $machineList;
 
@@ -22,7 +24,7 @@ class MachineGroup {
     public function __construct(
         ?string $groupName = '',
         ?string $groupType = '',
-        ?MachineGroup_GroupAttribute $groupAttribute = null,
+        ?GroupAttribute $groupAttribute = null,
         ?array $machineList = null,
         ?string $createTime = null,
         ?string $lastModifyTime = null,
@@ -47,10 +49,10 @@ class MachineGroup {
     public function setGroupType(?string $groupType): void {
         $this->groupType = $groupType;
     }
-    public function getGroupAttribute(): ?MachineGroup_GroupAttribute {
+    public function getGroupAttribute(): ?GroupAttribute {
         return $this->groupAttribute;
     }
-    public function setGroupAttribute(?MachineGroup_GroupAttribute $groupAttribute): void {
+    public function setGroupAttribute(?GroupAttribute $groupAttribute): void {
         $this->groupAttribute = $groupAttribute;
     }
     /**
@@ -115,7 +117,7 @@ class MachineGroup {
         $groupAttribute = null;
         if (isset($resp['groupAttribute'])) {
             $groupAttributeArr = $resp['groupAttribute'];
-            $groupAttribute = new MachineGroup_GroupAttribute();
+            $groupAttribute = new GroupAttribute();
             if (isset($groupAttributeArr['externalName'])) {
                 $groupAttribute->externalName = $groupAttributeArr['externalName'];
             }

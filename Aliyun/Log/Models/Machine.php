@@ -2,6 +2,9 @@
 
 namespace Aliyun\Log\Models;
 
+use Aliyun\Log\Models\Machine\Info;
+use Aliyun\Log\Models\Machine\Status;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,8 +12,8 @@ namespace Aliyun\Log\Models;
 class Machine {
     private ?string $uuid = null;
     private ?string $lastHeartbeatTime = null;
-    private ?Machine_Info $info = null;
-    private ?Machine_Status $status = null;
+    private ?Info $info = null;
+    private ?Status $status = null;
 
     private ?string $createTime = null;
     private ?string $lastModifyTime = null;
@@ -18,8 +21,8 @@ class Machine {
     public function __construct(
         ?string $uuid = null,
         ?string $lastHeartbeatTime = null,
-        ?Machine_Info $info = null,
-        ?Machine_Status $status = null,
+        ?Info $info = null,
+        ?Status $status = null,
         ?string $createTime = null,
         ?string $lastModifyTime = null,
     ) {
@@ -44,16 +47,16 @@ class Machine {
     public function setLastHeartbeatTime(?string $lastHeartbeatTime): void {
         $this->lastHeartbeatTime = $lastHeartbeatTime;
     }
-    public function getInfo(): ?Machine_Info {
+    public function getInfo(): ?Info {
         return $this->info;
     }
-    public function setInfo(?Machine_Info $info): void {
+    public function setInfo(?Info $info): void {
         $this->info = $info;
     }
-    public function getStatus(): ?Machine_Status {
+    public function getStatus(): ?Status {
         return $this->status;
     }
-    public function setStatus(?Machine_Status $status): void {
+    public function setStatus(?Status $status): void {
         $this->status = $status;
     }
 
@@ -105,13 +108,13 @@ class Machine {
             $ip = (isset($resp['info']['ip'])) ? $resp['info']['ip'] : null;
             $os = (isset($resp['info']['os'])) ? $resp['info']['os'] : null;
             $hostName = (isset($resp['info']['hostName'])) ? $resp['info']['hostName'] : null;
-            $info = new Machine_Info($ip, $os, $hostName);
+            $info = new Info($ip, $os, $hostName);
         }
         $status = null;
         if (isset($resp['status'])) {
             $binaryCurVersion = (isset($resp['status']['binaryCurVersion'])) ? $resp['status']['binaryCurVersion'] : null;
             $binaryDeployVersion = (isset($resp['status']['binaryDeployVersion'])) ? $resp['status']['binaryDeployVersion'] : null;
-            $status = new Machine_Status($binaryCurVersion, $binaryDeployVersion);
+            $status = new Status($binaryCurVersion, $binaryDeployVersion);
         }
         $uuid = (isset($resp['uuid'])) ? $resp['uuid'] : null;
         $lastHeartbeatTime = (isset($resp['lastHeartbeatTime'])) ? $resp['lastHeartbeatTime'] : null;

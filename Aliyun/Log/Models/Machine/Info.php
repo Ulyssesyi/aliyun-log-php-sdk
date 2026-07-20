@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Aliyun\Log\Models;
+namespace Aliyun\Log\Models\Machine;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-class Machine_Info {
+class Info {
     public ?string $ip = null;
     public ?string $os = null;
     public ?string $hostName = null;

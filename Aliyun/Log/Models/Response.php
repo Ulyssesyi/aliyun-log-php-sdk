@@ -13,10 +13,8 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Response {
-    /**
-     * @var array<string, string> HTTP response header
-     */
-    private $headers;
+    /** @var array<string, string> HTTP response header */
+    private array $headers;
 
     /**
      * Response constructor

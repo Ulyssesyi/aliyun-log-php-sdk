@@ -13,29 +13,23 @@
 namespace Aliyun\Log\Models\Request;
 
 class GetCursorRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null logstore name
-     */
-    private $logstore;
+    private ?string $logstore;
+
+    private ?string $shardId;
 
     /**
-     * @var string|null shard id
+     * value should be 'begin' or 'end'
+     * begin:return cursor point to first loggroup
+     * end:return cursor point to position after last loggroup
+     * if $mode is set to not null,$fromTime must be set null
      */
-    private $shardId;
+    private ?string $mode;
 
     /**
-     * @var string|null value should be 'begin' or 'end'
-     *         begin:return cursor point to first loggroup
-     *         end:return cursor point to position after last loggroup
-     *         if $mode is set to not null,$fromTime must be set null
+     * unix_timestamp
+     * return cursor point to first loggroup whose time after $fromTime
      */
-    private $mode;
-
-    /**
-     * @var int|null unix_timestamp
-     *         return cursor point to first loggroup whose time after $fromTime
-     */
-    private $fromTime;
+    private ?int $fromTime;
 
     /**
      * GetCursorRequest Constructor

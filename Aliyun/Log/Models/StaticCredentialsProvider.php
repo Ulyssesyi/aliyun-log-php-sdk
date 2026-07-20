@@ -8,22 +8,12 @@ namespace Aliyun\Log\Models;
  */
 
 class StaticCredentialsProvider implements CredentialsProvider {
-    /**
-     * @var Credentials
-     */
-    private $credentials;
+    private Credentials $credentials;
 
-    /**
-     * @param string $accessKeyId
-     * @param string $accessKeySecret
-     * @param string $securityToken
-     */
     public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '') {
         $this->credentials = new Credentials($accessKeyId, $accessKeySecret, $securityToken);
     }
-    /**
-     * @return Credentials
-     */
+
     public function getCredentials(): Credentials {
         return $this->credentials;
     }

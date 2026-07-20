@@ -7,18 +7,9 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 class Credentials {
-    /**
-     * @var string
-     */
-    private $accessKeyId;
-    /**
-     * @var string
-     */
-    private $accessKeySecret;
-    /**
-     * @var string
-     */
-    private $securityToken;
+    private string $accessKeyId;
+    private string $accessKeySecret;
+    private string $securityToken;
 
     public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '') {
         $this->accessKeyId = $accessKeyId;
@@ -26,39 +17,21 @@ class Credentials {
         $this->securityToken = $securityToken;
     }
 
-    /**
-     * @return string accessKeyId
-     */
-    public function getAccessKeyId() {
+    public function getAccessKeyId(): string {
         return $this->accessKeyId;
     }
-    /**
-     * @param string $accessKeyId
-     */
     public function setAccessKeyId(string $accessKeyId): void {
         $this->accessKeyId = $accessKeyId;
     }
-    /**
-     * @return string accessKeySecret
-     */
-    public function getAccessKeySecret() {
+    public function getAccessKeySecret(): string {
         return $this->accessKeySecret;
     }
-    /**
-     * @param string $accessKeySecret
-     */
     public function setAccessKeySecret(string $accessKeySecret): void {
         $this->accessKeySecret = $accessKeySecret;
     }
-    /**
-     * @return string securityToken
-     */
-    public function getSecurityToken() {
+    public function getSecurityToken(): string {
         return $this->securityToken;
     }
-    /**
-     * @param string $securityToken
-     */
     public function setSecurityToken(string $securityToken): void {
         $this->securityToken = $securityToken;
     }
