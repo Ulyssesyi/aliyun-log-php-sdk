@@ -17,7 +17,7 @@ use Aliyun\Log\Models\Request;
 class LogStoreSqlRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $logstore = null,
+        private ?string $logStore = null,
         private ?int $from = null,
         private ?int $to = null,
         private ?string $topic = null,
@@ -28,12 +28,12 @@ class LogStoreSqlRequest extends Request {
         parent::__construct($project);
     }
 
-    public function getLogstore(): ?string {
-        return $this->logstore;
+    public function getLogStore(): ?string {
+        return $this->logStore;
     }
 
-    public function setLogstore(?string $logstore): void {
-        $this->logstore = $logstore;
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
     }
 
     public function getTopic(): ?string {
@@ -65,10 +65,10 @@ class LogStoreSqlRequest extends Request {
     }
 
     public function getPowerSql(): ?bool {
-        return $this -> powerSql;
+        return $this->powerSql;
     }
 
     public function setPowerSql(?bool $powerSql): void {
-        $this -> powerSql = $powerSql;
+        $this->powerSql = $powerSql;
     }
 }

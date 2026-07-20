@@ -217,14 +217,14 @@ function createCsvShipper(Client $client, $project, $logstore): void {
 function listShard(Client $client, $project, $logstore): void {
     $request = new ListShardsRequest($project, $logstore);
     try {
-        $response = $client -> listShards($request);
+        $response = $client->listShards($request);
         print('<br>');
-        foreach ($response ->getShardIds() as $shardId) {
+        foreach ($response->getShardIds() as $shardId) {
             print($shardId.'<br>');
         }
 
     } catch (Exception $ex) {
-        print('exception code: '.$ex -> getErrorCode());
+        print('exception code: '.$ex->getErrorCode());
     }
 }
 
@@ -255,7 +255,7 @@ function putLogs(Client $client, $project, $logstore): void {
 
     try {
         $response = $client->putLogs($request);
-        print($response ->getRequestId());
+        print($response->getRequestId());
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
@@ -277,9 +277,9 @@ function getLogs(Client $client, $project, $logstore): void {
 
     try {
         $response = $client->getLogs($request);
-        foreach ($response -> getLogs() as $log) {
-            print $log -> getTime()."\t";
-            foreach ($log -> getContents() as $key => $value) {
+        foreach ($response->getLogs() as $log) {
+            print $log->getTime()."\t";
+            foreach ($log->getContents() as $key => $value) {
                 print $key.':'.$value.'<br>';
             }
             print "\n";

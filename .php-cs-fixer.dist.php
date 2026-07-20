@@ -87,6 +87,9 @@ $rules = [
         'on_multiline' => 'ensure_fully_multiline',
     ],
 
+    // Operators
+    'object_operator_without_whitespace' => true,
+
     // Strings
     'single_quote' => true,
 

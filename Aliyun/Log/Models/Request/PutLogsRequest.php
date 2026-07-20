@@ -19,7 +19,7 @@ use Aliyun\Log\Models\Request;
 class PutLogsRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $logstore = null,
+        private ?string $logStore = null,
         private ?string $topic = null,
         private ?string $source = null,
         /** @var LogItem[]|null */
@@ -29,12 +29,12 @@ class PutLogsRequest extends Request {
         parent::__construct($project);
     }
 
-    public function getLogstore(): ?string {
-        return $this->logstore;
+    public function getLogStore(): ?string {
+        return $this->logStore;
     }
 
-    public function setLogstore(?string $logstore): void {
-        $this->logstore = $logstore;
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
     }
 
     public function getTopic(): ?string {
@@ -68,10 +68,10 @@ class PutLogsRequest extends Request {
     }
 
     public function setShardKey(?string $key): void {
-        $this -> shardKey = $key;
+        $this->shardKey = $key;
     }
 
     public function getShardKey(): ?string {
-        return $this ->shardKey;
+        return $this->shardKey;
     }
 }

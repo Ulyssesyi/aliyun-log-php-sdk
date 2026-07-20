@@ -29,10 +29,10 @@ class ProjectSqlRequest extends Request {
     }
 
     public function getPowerSql(): ?bool {
-        return $this -> powerSql;
+        return $this->powerSql;
     }
 
     public function setPowerSql(?bool $powerSql): void {
-        $this -> powerSql = $powerSql;
+        $this->powerSql = $powerSql;
     }
 }

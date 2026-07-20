@@ -83,9 +83,9 @@ function getLogs(Client $client, $project, $logstore): void {
 
     try {
         $response = $client->getLogs($request);
-        foreach ($response -> getLogs() as $log) {
-            print $log -> getTime()."\t";
-            foreach ($log -> getContents() as $key => $value) {
+        foreach ($response->getLogs() as $log) {
+            print $log->getTime()."\t";
+            foreach ($log->getContents() as $key => $value) {
                 print $key.':'.$value."\t";
             }
             print "\n";
@@ -107,17 +107,17 @@ function getLogsWithPowerSql(Client $client, $project, $logstore): void {
 
     try {
         $response = $client->executeLogStoreSql($request);
-        foreach ($response -> getLogs() as $log) {
-            print $log -> getTime()."\t";
-            foreach ($log -> getContents() as $key => $value) {
+        foreach ($response->getLogs() as $log) {
+            print $log->getTime()."\t";
+            foreach ($log->getContents() as $key => $value) {
                 print $key.':'.$value."\t";
             }
             print "\n";
         }
-        print 'proccesedRows:'.$response -> getProcessedRows()."\n";
-        print 'elapsedMilli:'.$response -> getElapsedMilli()."\n";
-        print 'cpuSec:'.$response -> getCpuSec()."\n";
-        print 'cpuCores:'.$response -> getCpuCores()."\n";
+        print 'proccesedRows:'.$response->getProcessedRows()."\n";
+        print 'elapsedMilli:'.$response->getElapsedMilli()."\n";
+        print 'cpuSec:'.$response->getCpuSec()."\n";
+        print 'cpuCores:'.$response->getCpuCores()."\n";
 
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
@@ -132,18 +132,18 @@ function getProjectLogsWithPowerSql(Client $client, $project): void {
     try {
         $response = $client->getProjectLogs($request);
         #$response = $client->getProjectLogs($request);
-        foreach ($response -> getLogs() as $log) {
-            print $log -> getTime()."\t";
-            foreach ($log -> getContents() as $key => $value) {
+        foreach ($response->getLogs() as $log) {
+            print $log->getTime()."\t";
+            foreach ($log->getContents() as $key => $value) {
                 print $key.':'.$value."\t";
             }
             print "\n";
         }
-        print 'proccesedRows:'.$response -> getProcessedRows()."\n";
-        print 'elapsedMilli:'.$response -> getElapsedMilli()."\n";
-        print 'cpuSec:'.$response -> getCpuSec()."\n";
-        print 'cpuCores:'.$response -> getCpuCores()."\n";
-        print 'requestId:'.$response ->getRequestId()."\n";
+        print 'proccesedRows:'.$response->getProcessedRows()."\n";
+        print 'elapsedMilli:'.$response->getElapsedMilli()."\n";
+        print 'cpuSec:'.$response->getCpuSec()."\n";
+        print 'cpuCores:'.$response->getCpuCores()."\n";
+        print 'requestId:'.$response->getRequestId()."\n";
 
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
@@ -158,18 +158,18 @@ function executeProjectSqlWithPowerSql(Client $client, $project): void {
     try {
         $response = $client->executeProjectSql($request);
         #$response = $client->getProjectLogs($request);
-        foreach ($response -> getLogs() as $log) {
-            print $log -> getTime()."\t";
-            foreach ($log -> getContents() as $key => $value) {
+        foreach ($response->getLogs() as $log) {
+            print $log->getTime()."\t";
+            foreach ($log->getContents() as $key => $value) {
                 print $key.':'.$value."\t";
             }
             print "\n";
         }
-        print 'proccesedRows:'.$response -> getProcessedRows()."\n";
-        print 'elapsedMilli:'.$response -> getElapsedMilli()."\n";
-        print 'cpuSec:'.$response -> getCpuSec()."\n";
-        print 'cpuCores:'.$response -> getCpuCores()."\n";
-        print 'requestId:'.$response ->getRequestId()."\n";
+        print 'proccesedRows:'.$response->getProcessedRows()."\n";
+        print 'elapsedMilli:'.$response->getElapsedMilli()."\n";
+        print 'cpuSec:'.$response->getCpuSec()."\n";
+        print 'cpuCores:'.$response->getCpuCores()."\n";
+        print 'requestId:'.$response->getRequestId()."\n";
 
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
@@ -178,11 +178,11 @@ function executeProjectSqlWithPowerSql(Client $client, $project): void {
     }
 }
 function crudSqlInstance(Client $client, $project): void {
-    $res = $client -> createSqlInstance($project, 1000);
+    $res = $client->createSqlInstance($project, 1000);
     logVarDump($res);
-    $res = $client -> updateSqlInstance($project, 999);
+    $res = $client->updateSqlInstance($project, 999);
     logVarDump($res);
-    $res = $client -> listSqlInstance($project);
+    $res = $client->listSqlInstance($project);
     logVarDump($res);
 }
 function getHistograms(Client $client, $project, $logstore): void {
@@ -203,7 +203,7 @@ function getHistograms(Client $client, $project, $logstore): void {
 function listShard(Client $client, $project, $logstore): void {
     $request = new ListShardsRequest($project, $logstore);
     try {
-        $response = $client -> listShards($request);
+        $response = $client->listShards($request);
         logVarDump($response);
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
@@ -214,65 +214,65 @@ function listShard(Client $client, $project, $logstore): void {
 
 function batchGetLogs(Client $client, $project, $logstore): void {
     $listShardRequest = new ListShardsRequest($project, $logstore);
-    $listShardResponse = $client -> listShards($listShardRequest);
-    foreach ($listShardResponse-> getShardIds() as $shardId) {
+    $listShardResponse = $client->listShards($listShardRequest);
+    foreach ($listShardResponse->getShardIds() as $shardId) {
         $getCursorRequest = new GetCursorRequest($project, $logstore, $shardId, null, time() - 60);
-        $response = $client -> getCursor($getCursorRequest);
-        $cursor = $response-> getCursor();
+        $response = $client->getCursor($getCursorRequest);
+        $cursor = $response->getCursor();
         $count = 100;
         while (true) {
             $batchGetDataRequest = new BatchGetLogsRequest($project, $logstore, $shardId, $count, $cursor);
             logVarDump($batchGetDataRequest);
-            $response = $client -> batchGetLogs($batchGetDataRequest);
-            if ($cursor == $response -> getNextCursor()) {
+            $response = $client->batchGetLogs($batchGetDataRequest);
+            if ($cursor == $response->getNextCursor()) {
                 break;
             }
-            $logGroupList = $response -> getLogGroupList();
+            $logGroupList = $response->getLogGroupList();
             foreach ($logGroupList as $logGroup) {
                 print($logGroup->getCategory());
 
-                foreach ($logGroup -> getLogsArray() as $log) {
-                    foreach ($log -> getContentsArray() as $content) {
-                        print($content-> getKey().':'.$content->getValue()."\t");
+                foreach ($logGroup->getLogsArray() as $log) {
+                    foreach ($log->getContentsArray() as $content) {
+                        print($content->getKey().':'.$content->getValue()."\t");
                     }
                     print("\n");
                 }
             }
-            $cursor = $response -> getNextCursor();
+            $cursor = $response->getNextCursor();
         }
     }
 }
 
 function batchGetLogsWithRange(Client $client, $project, $logstore): void {
     $listShardRequest = new ListShardsRequest($project, $logstore);
-    $listShardResponse = $client -> listShards($listShardRequest);
-    foreach ($listShardResponse-> getShardIds() as $shardId) {
+    $listShardResponse = $client->listShards($listShardRequest);
+    foreach ($listShardResponse->getShardIds() as $shardId) {
         //pull data which reached server at time range [now - 60s, now) for every shard
         $curTime = time();
         $beginCursorResponse = $client->getCursor(new GetCursorRequest($project, $logstore, $shardId, null, $curTime - 60));
-        $beginCursor = $beginCursorResponse-> getCursor();
-        $endCursorResponse = $client -> getCursor(new GetCursorRequest($project, $logstore, $shardId, null, $curTime));
-        $endCursor = $endCursorResponse-> getCursor();
+        $beginCursor = $beginCursorResponse->getCursor();
+        $endCursorResponse = $client->getCursor(new GetCursorRequest($project, $logstore, $shardId, null, $curTime));
+        $endCursor = $endCursorResponse->getCursor();
         $cursor = $beginCursor;
         print("-----------------------------------------\nbatchGetLogs for shard: ".$shardId.', cursor range: ['.$beginCursor.', '.$endCursor.")\n");
         $count = 100;
         while (true) {
             $batchGetDataRequest = new BatchGetLogsRequest($project, $logstore, $shardId, $count, $cursor, $endCursor);
-            $response = $client -> batchGetLogs($batchGetDataRequest);
-            $logGroupList = $response -> getLogGroupList();
+            $response = $client->batchGetLogs($batchGetDataRequest);
+            $logGroupList = $response->getLogGroupList();
             $logGroupCount = 0;
             $logCount = 0;
             foreach ($logGroupList as $logGroup) {
                 $logGroupCount += 1;
-                foreach ($logGroup -> getLogsArray() as $log) {
+                foreach ($logGroup->getLogsArray() as $log) {
                     $logCount += 1;
-                    foreach ($log -> getContentsArray() as $content) {
-                        print($content-> getKey().':'.$content->getValue()."\t");
+                    foreach ($log->getContentsArray() as $content) {
+                        print($content->getKey().':'.$content->getValue()."\t");
                     }
                     print("\n");
                 }
             }
-            $nextCursor = $response -> getNextCursor();
+            $nextCursor = $response->getNextCursor();
             print('batchGetLogs once, cursor: '.$cursor.', nextCursor: '.nextCursor.', logGroups: '.$logGroupCount.', logs: '.$logCount."\n");
             if ($cursor == $nextCursor) {
                 //read data finished
@@ -286,7 +286,7 @@ function batchGetLogsWithRange(Client $client, $project, $logstore): void {
 function mergeShard(Client $client, $project, $logstore, $shardId): void {
     $request = new MergeShardsRequest($project, $logstore, $shardId);
     try {
-        $response = $client -> mergeShards($request);
+        $response = $client->mergeShards($request);
         logVarDump($response);
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
@@ -297,7 +297,7 @@ function mergeShard(Client $client, $project, $logstore, $shardId): void {
 function splitShard(Client $client, $project, $logstore, $shardId, $midHash): void {
     $request = new SplitShardRequest($project, $logstore, $shardId, $midHash);
     try {
-        $response = $client -> splitShard($request);
+        $response = $client->splitShard($request);
         logVarDump($response);
     } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);

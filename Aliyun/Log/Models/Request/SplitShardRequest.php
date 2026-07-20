@@ -17,19 +17,19 @@ use Aliyun\Log\Models\Request;
 class SplitShardRequest extends Request {
     public function __construct(
         string $project,
-        private ?string $logstore,
+        private ?string $logStore,
         private string $shardId,
         private string $midHash,
     ) {
         parent::__construct($project);
     }
 
-    public function getLogstore(): ?string {
-        return $this->logstore;
+    public function getLogStore(): ?string {
+        return $this->logStore;
     }
 
-    public function setLogstore(?string $logstore): void {
-        $this->logstore = $logstore;
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
     }
 
     public function getShardId(): string {

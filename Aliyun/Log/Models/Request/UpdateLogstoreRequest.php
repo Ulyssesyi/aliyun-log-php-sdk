@@ -17,19 +17,19 @@ use Aliyun\Log\Models\Request;
 class UpdateLogstoreRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $logstore = null,
+        private ?string $logStore = null,
         private ?int $ttl = null,
         private ?int $shardCount = null,
     ) {
         parent::__construct($project);
     }
-    public function getLogstore(): ?string {
-        return $this -> logstore;
+    public function getLogStore(): ?string {
+        return $this->logStore;
     }
     public function getTtl(): ?int {
-        return $this -> ttl;
+        return $this->ttl;
     }
     public function getShardCount(): ?int {
-        return $this -> shardCount;
+        return $this->shardCount;
     }
 }

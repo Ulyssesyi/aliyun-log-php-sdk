@@ -404,10 +404,10 @@ class Client {
         $headers['Content-Type'] = 'application/x-protobuf';
         $body = gzcompress($body, 6);
 
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $shardKey = $request->getShardKey();
-        $resource = '/logstores/' . $logstore.($shardKey === null ? '/shards/lb' : '/shards/route');
+        $resource = '/logstores/' . $logStore.($shardKey === null ? '/shards/lb' : '/shards/route');
         if ($shardKey) {
             $params['key'] = $shardKey;
         }
@@ -585,13 +585,13 @@ class Client {
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $headers['Content-Type'] = 'application/json';
         $body = [
-            'logstoreName' => $request -> getLogstore(),
-            'ttl' => (int) ($request -> getTtl()),
-            'shardCount' => (int) ($request -> getShardCount()),
+            'logstoreName' => $request->getLogStore(),
+            'ttl' => (int) ($request->getTtl()),
+            'shardCount' => (int) ($request->getShardCount()),
         ];
         $body_str =  json_encode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header]  = $this -> send('POST', $project, $body_str, $resource, $params, $headers);
+        [$resp, $header]  = $this->send('POST', $project, $body_str, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return new CreateLogstoreResponse($header);
@@ -610,14 +610,14 @@ class Client {
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $headers['Content-Type'] = 'application/json';
         $body = [
-            'logstoreName' => $request -> getLogstore(),
-            'ttl' => (int) ($request -> getTtl()),
-            'shardCount' => (int) ($request -> getShardCount()),
+            'logstoreName' => $request->getLogStore(),
+            'ttl' => (int) ($request->getTtl()),
+            'shardCount' => (int) ($request->getShardCount()),
         ];
-        $resource = '/logstores/'.$request -> getLogstore();
+        $resource = '/logstores/'.$request->getLogStore();
         $body_str =  json_encode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header]  = $this -> send('PUT', $project, $body_str, $resource, $params, $headers);
+        [$resp, $header]  = $this->send('PUT', $project, $body_str, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return new UpdateLogstoreResponse($header);
@@ -653,8 +653,8 @@ class Client {
         $headers =  [];
         $params =  [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
-        $resource = "/logstores/$logstore";
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $resource = "/logstores/$logStore";
         [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
@@ -679,9 +679,9 @@ class Client {
             $params['line'] = $request->getLine();
         }
         $params['type'] = 'topic';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logstore";
+        $resource = "/logstores/$logStore";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
@@ -712,9 +712,9 @@ class Client {
             $params['query'] = $request->getQuery();
         }
         $params['type'] = 'histogram';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logstore";
+        $resource = "/logstores/$logStore";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
@@ -772,9 +772,9 @@ class Client {
         if ($request->getPowerSql() !== null) {
             $params['powerSql'] = 'true';
         }
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logstore";
+        $resource = "/logstores/$logStore";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
@@ -858,9 +858,9 @@ class Client {
         if ($request->getPowerSql() !== null) {
             $params['powerSql'] = 'true';
         }
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logstore";
+        $resource = "/logstores/$logStore";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
@@ -922,7 +922,7 @@ class Client {
             'cu' => $cu,
         ];
         $body_str = json_encode($body);
-        [$resp, $header]  = $this -> send('POST', $project, $body_str, $resource, $params, $headers);
+        [$resp, $header]  = $this->send('POST', $project, $body_str, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return new CreateSqlInstanceResponse($header);
@@ -946,7 +946,7 @@ class Client {
             'cu' => $cu,
         ];
         $body_str = json_encode($body);
-        [$resp, $header]  = $this -> send('PUT', $project, $body_str, $resource, $params, $headers);
+        [$resp, $header]  = $this->send('PUT', $project, $body_str, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return new UpdateSqlInstanceResponse($header);
@@ -965,7 +965,7 @@ class Client {
         $params = [];
         $resource = '/sqlinstance';
         $body_str = '';
-        [$resp, $header]  = $this -> send('GET', $project, $body_str, $resource, $params, $headers);
+        [$resp, $header]  = $this->send('GET', $project, $body_str, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return new ListSqlInstanceResponse($resp, $header);
@@ -983,7 +983,7 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $shardId = $request->getShardId() !== null ? $request->getShardId() : '';
         if ($request->getCount() !== null) {
             $params['count'] = $request->getCount();
@@ -998,7 +998,7 @@ class Client {
         $headers['Accept-Encoding'] = 'gzip';
         $headers['accept'] = 'application/x-protobuf';
 
-        $resource = "/logstores/$logstore/shards/$shardId";
+        $resource = "/logstores/$logStore/shards/$shardId";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         //$resp is a byteArray
         $resp =  gzuncompress($resp);
@@ -1022,9 +1022,9 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
 
-        $resource = '/logstores/'.$logstore.'/shards';
+        $resource = '/logstores/'.$logStore.'/shards';
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
@@ -1043,11 +1043,11 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $shardId = $request->getShardId();
         $midHash = $request->getMidHash();
 
-        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
         $params['action'] = 'split';
         $params['key'] = $midHash;
         [$resp, $header] = $this->send('POST', $project, null, $resource, $params, $headers);
@@ -1067,10 +1067,10 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject();
-        $logstore = $request->getLogstore();
+        $logStore = $request->getLogStore();
         $shardId = $request->getShardId();
 
-        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
         $params['action'] = 'merge';
         [$resp, $header] = $this->send('POST', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
@@ -1089,10 +1089,10 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject();
-        $logstore = $request->getLogstore();
+        $logStore = $request->getLogStore();
         $shardId = $request->getShardId();
 
-        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
         [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         return new DeleteShardResponse($header);
@@ -1110,7 +1110,7 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
         $shardId = $request->getShardId() !== null ? $request->getShardId() : '';
         $mode = $request->getMode() !== null ? $request->getMode() : '';
         $fromTime = $request->getFromTime() !== null ? $request->getFromTime() : -1;
@@ -1134,7 +1134,7 @@ class Client {
         } else {
             $params['mode'] = $mode;
         }
-        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
