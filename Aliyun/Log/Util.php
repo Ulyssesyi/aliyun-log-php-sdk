@@ -100,44 +100,32 @@ class Util {
     /**
      * Get canonicalizedLOGHeaders string as defined.
      *
-     * @param array<string, string> $header
+     * @param array<string, scalar> $header
      */
     public static function canonicalizedLOGHeaders(array $header): string {
         ksort($header);
-        $content = '';
-        $first = true;
+        $contents = [];
         foreach ($header as $key => $value) {
             if (str_starts_with($key, 'x-log-')   || str_starts_with($key, 'x-acs-')) { // x-log- header
-                if ($first) {
-                    $content .= $key . ':' . $value;
-                    $first = false;
-                } else {
-                    $content .= "\n" . $key . ':' . $value;
-                }
+                $contents[] = $key . ':' . $value;
             }
         }
-        return $content;
+        return implode("\n", $contents);
     }
 
     /**
      * Get canonicalizedResource string as defined.
      *
-     * @param array<string, string>|null $params
+     * @param array<string, scalar>|null $params
      */
     public static function canonicalizedResource(string $resource, ?array $params): string {
         if ($params) {
             ksort($params);
-            $urlString = '';
-            $first = true;
+            $parts = [];
             foreach ($params as $key => $value) {
-                if ($first) {
-                    $first = false;
-                    $urlString = "$key=$value";
-                } else {
-                    $urlString .= "&$key=$value";
-                }
+                $parts[] = $key . '=' . $value;
             }
-            return $resource . '?' . $urlString;
+            return $resource . '?' . implode('&', $parts);
         }
         return $resource;
     }
@@ -145,8 +133,8 @@ class Util {
     /**
      * Get request authorization string as defined.
      *
-     * @param array<string, string>|null $params
-     * @param array<string, string> $headers
+     * @param array<string, scalar>|null $params
+     * @param array<string, scalar> $headers
      */
     public static function getRequestAuthorization(string $method, string $resource, string $key, ?array $params, array $headers): string {
         if (! $key) {

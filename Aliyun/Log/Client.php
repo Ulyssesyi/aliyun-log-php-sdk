@@ -238,7 +238,7 @@ class Client {
      * @param string $method
      * @param string $url
      * @param string $body
-     * @param array<string, mixed> $headers
+     * @param array<string, scalar> $headers
      * @return array{0: int, 1: array<string, mixed>, 2: string}
      * @throws RequestCoreException
      */
@@ -265,7 +265,7 @@ class Client {
     }
 
     /**
-     * @param array<string, mixed> $headers
+     * @param array<string, scalar> $headers
      * @return array{0: ?string, 1: array<string, mixed>}
      * @throws SDKException
      */
@@ -309,7 +309,7 @@ class Client {
 
     /**
      * @param array<string, scalar> $params
-     * @param array<string, mixed> $headers
+     * @param array<string, scalar> $headers
      * @return array{0: ?string, 1: array<string, mixed>}
      * @throws SDKException
      */
@@ -347,7 +347,7 @@ class Client {
             $headers['Host'] = "$project.$this->logHost";
         }
         $headers['Date'] = $this->GetGMT();
-        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), array_map(fn ($v): string => (string) $v, $params), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
+        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), $params, $headers);
         $headers['Authorization'] = 'LOG '.$credentials->getAccessKeyId().":$signature";
 
         $url = $this->buildUrl($project, $resource, $params);
@@ -380,7 +380,7 @@ class Client {
      * @param string|null $body
      * @param string $resource
      * @param array<string, scalar> $params
-     * @param array<string, mixed> $headers
+     * @param array<string, scalar> $headers
      * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      * @throws SDKException
      */
