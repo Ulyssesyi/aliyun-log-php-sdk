@@ -42,11 +42,11 @@ class UpdateShipperRequest extends Request {
         $this->targetType = $targetType;
     }
 
-    public function getTargetConfigration() {
+    public function getTargetConfigration(): mixed {
         return $this->targetConfigration;
     }
 
-    public function setTargetConfigration($targetConfigration): void {
+    public function setTargetConfigration(mixed $targetConfigration): void {
         $this->targetConfigration = $targetConfigration;
     }
 }

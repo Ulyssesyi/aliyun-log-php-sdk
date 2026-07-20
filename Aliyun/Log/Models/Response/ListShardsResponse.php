@@ -21,6 +21,10 @@ class ListShardsResponse extends Response {
     /** @var Shard[] */
     private array $shards;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->shardIds = [];

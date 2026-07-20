@@ -14,6 +14,9 @@ class QueriedLog {
     /** @var array<string, string> */
     private array $contents;
 
+    /**
+     * @param array<string, string> $contents
+     */
     public function __construct(int $time, string $source, array $contents) {
         $this->time = $time;
         $this->source = $source;

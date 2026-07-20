@@ -17,6 +17,10 @@ class GetShipperTasksResponse extends Response {
     /** @var array<int, mixed> */
     private array $tasks;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->total = $resp['total'];

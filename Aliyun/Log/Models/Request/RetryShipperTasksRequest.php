@@ -33,11 +33,11 @@ class RetryShipperTasksRequest extends Request {
         $this->shipperName = $shipperName;
     }
 
-    public function getTaskLists() {
+    public function getTaskLists(): mixed {
         return $this->taskLists;
     }
 
-    public function setTaskLists($taskLists): void {
+    public function setTaskLists(mixed $taskLists): void {
         $this->taskLists = $taskLists;
     }
 }

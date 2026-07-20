@@ -18,8 +18,12 @@ class CompressedLogGroup {
     protected ?int $uncompressedSize = null;
     protected mixed $compressedData;
     protected ?int $time;
+    /** @var array<mixed>|null */
     protected ?array $contents;
 
+    /**
+     * @param array<mixed> $contents
+     */
     public function __construct(?int $time = null, array $contents = []) {
         if (! $time) {
             $time = time();

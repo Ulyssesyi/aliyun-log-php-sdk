@@ -14,6 +14,10 @@ class GetShipperConfigResponse extends Response {
     private string $targetType;
     private string $targetConfigration;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->shipperName = $resp['shipperName'];

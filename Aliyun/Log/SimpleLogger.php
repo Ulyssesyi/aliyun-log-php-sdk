@@ -39,9 +39,6 @@ class SimpleLogger {
         } else {
             $this->maxWaitTime = 5;
         }
-        if ($client == null || $project == null || $logstore == null) {
-            throw new Exception('the input parameter is invalid! create SimpleLogger failed!');
-        }
         $this->client = $client;
         $this->project = $project;
         $this->logstore = $logstore;
@@ -149,13 +146,12 @@ class SimpleLogger {
     }
 
     private function getLocalIp(): string {
-        $local_ip = gethostbyname(php_uname('n'));
-        if (strlen($local_ip) == 0) {
-            $local_ip = gethostbyname(gethostname());
-        }
-        return $local_ip;
+        return Util::getLocalIp();
     }
 
+    /**
+     * @param LogItem[] $logItems
+     */
     private function logBatch(array $logItems, ?string $topic): void {
         $ip = $this->getLocalIp();
         $request = new PutLogsRequest(
@@ -174,9 +170,7 @@ class SimpleLogger {
                 $error_exception = $ex;
             }
         }
-        if ($error_exception != null) {
-            var_dump($error_exception);
-        }
+        error_log('SimpleLogger: ' . (string) $error_exception);
     }
 
     /** manually flush all cached log to log server */

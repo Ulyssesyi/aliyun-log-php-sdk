@@ -18,6 +18,10 @@ use Aliyun\Log\Models\Response;
 class GetMachineGroupResponse extends Response {
     private MachineGroup $machineGroup;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->machineGroup = new MachineGroup();

@@ -19,6 +19,10 @@ class ListACLsResponse extends Response {
     /** @var ACL[] */
     private array $acls;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $aclArr = [];

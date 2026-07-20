@@ -20,6 +20,10 @@ class ListConfigsResponse extends Response {
     /** @var string[] */
     private array $configs;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->total = $resp['total'];

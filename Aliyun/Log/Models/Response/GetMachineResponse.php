@@ -18,6 +18,10 @@ use Aliyun\Log\Models\Response;
 class GetMachineResponse extends Response {
     private Machine $machine;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->machine = new Machine();

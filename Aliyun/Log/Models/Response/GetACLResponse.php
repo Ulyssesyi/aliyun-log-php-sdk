@@ -18,6 +18,9 @@ use Aliyun\Log\Models\Response;
 class GetACLResponse extends Response {
     private ?ACL $acl = null;
 
+    /**
+     * @param array<string, string> $header
+     */
     public function __construct(mixed $resp, array $header) {
         parent::__construct($header);
         if ($resp !== null) {

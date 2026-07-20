@@ -22,6 +22,10 @@ class GetHistogramsResponse extends Response {
     /** @var Histogram[] */
     private array $histograms;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->progress = $header['x-log-progress'];

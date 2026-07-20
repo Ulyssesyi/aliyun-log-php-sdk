@@ -14,7 +14,7 @@ use Exception;
  * Factory for creating logger instance, with $client, $project, $logstore, $topic configurable.
  * Will flush current logger when the factory instance was recycled.
  */
-class LoggerFactory {
+final class LoggerFactory {
     /** @var array<string, SimpleLogger> */
     private static array $loggerMap = [];
 
@@ -36,11 +36,7 @@ class LoggerFactory {
         return self::$loggerMap[$loggerKey];
     }
 
-    protected function __construct() {
-
-    }
-
-    private function __clone() {
+    private function __construct() {
     }
 
     public function __destruct() {

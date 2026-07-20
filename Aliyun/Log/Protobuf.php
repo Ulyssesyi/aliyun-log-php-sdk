@@ -128,31 +128,6 @@ class Protobuf {
         return $i;
     }
 
-    public static function read_double(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_float(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_uint64(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_int64(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_uint32(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_int32(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_zint32(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function read_zint64(mixed $fp): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-
     /**
      * Writes a varint to $fp
      * returns the number of bytes written
@@ -177,31 +152,6 @@ class Protobuf {
         } while ($i != 0);
 
         return $len;
-    }
-
-    public static function write_double(mixed $fp, float $d): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_float(mixed $fp, float $f): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_uint64(mixed $fp, int $i): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_int64(mixed $fp, int $i): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_uint32(mixed $fp, int $i): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_int32(mixed $fp, int $i): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_zint32(mixed $fp, int $i): void {
-        throw new Exception("I've not coded it yet Exception");
-    }
-    public static function write_zint64(mixed $fp, int $i): void {
-        throw new Exception("I've not coded it yet Exception");
     }
 
     /**

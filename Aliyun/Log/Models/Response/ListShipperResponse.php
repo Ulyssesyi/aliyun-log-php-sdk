@@ -16,6 +16,10 @@ class ListShipperResponse extends Response {
     /** @var string[] */
     private array $shippers;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->count = $resp['count'];

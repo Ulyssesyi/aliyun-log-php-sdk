@@ -17,6 +17,10 @@ use Aliyun\Log\Models\Response;
 class CreateACLResponse extends Response {
     private string $aclId;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->aclId = $resp['aclId'];

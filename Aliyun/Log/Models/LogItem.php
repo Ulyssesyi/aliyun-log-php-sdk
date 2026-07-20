@@ -18,6 +18,9 @@ class LogItem {
     private array $contents;
     private int $time;
 
+    /**
+     * @param array<string, string> $contents
+     */
     public function __construct(?int $time = null, array $contents = []) {
         if (! $time) {
             $time = time();

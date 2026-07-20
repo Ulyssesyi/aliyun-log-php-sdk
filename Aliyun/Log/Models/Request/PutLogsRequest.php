@@ -26,6 +26,9 @@ class PutLogsRequest extends Request {
 
     private ?string $shardKey;
 
+    /**
+     * @param LogItem[]|null $logitems
+     */
     public function __construct(?string $project = null, ?string $logstore = null, ?string $topic = null, ?string $source = null, ?array $logitems = null, ?string $shardKey = null) {
         parent::__construct($project);
         $this->logstore = $logstore;

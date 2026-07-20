@@ -25,7 +25,7 @@ class BatchGetLogsResponse extends Response {
     /**
      * BatchGetLogsResponse constructor
      *
-     * @param object $resp
+     * @param LogGroupList $resp
      *            HTTP response body (LogGroupList)
      * @param array<string, string> $header
      *            HTTP response header

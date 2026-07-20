@@ -16,6 +16,9 @@ class Response {
     /** @var array<string, string> */
     private array $headers;
 
+    /**
+     * @param array<string, string> $headers
+     */
     public function __construct(array $headers) {
         $this->headers = $headers;
     }

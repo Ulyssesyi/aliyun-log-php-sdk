@@ -26,6 +26,10 @@ class ProjectSqlResponse extends Response {
     private int $cpuSec;
     private int $cpuCores;
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->count = (int) $header['x-log-count'];

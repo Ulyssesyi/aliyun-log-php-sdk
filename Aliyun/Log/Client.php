@@ -392,7 +392,6 @@ class Client {
         }
 
         $body = Util::toBytes($logGroup);
-        unset($logGroup);
 
         $bodySize = strlen($body);
         if ($bodySize > 3 * 1024 * 1024) { // 3 MB
@@ -407,8 +406,8 @@ class Client {
 
         $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $shardKey = $request -> getShardKey();
-        $resource = '/logstores/' . $logstore.($shardKey == null ? '/shards/lb' : '/shards/route');
+        $shardKey = $request->getShardKey();
+        $resource = '/logstores/' . $logstore.($shardKey === null ? '/shards/lb' : '/shards/route');
         if ($shardKey) {
             $params['key'] = $shardKey;
         }
@@ -654,7 +653,7 @@ class Client {
         $headers =  [];
         $params =  [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request -> getLogstore() != null ? $request -> getLogstore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $resource = "/logstores/$logstore";
         [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
@@ -767,10 +766,10 @@ class Client {
         if ($request->getOffset() !== null) {
             $params['offset'] = $request->getOffset();
         }
-        if ($request->getOffset() !== null) {
+        if ($request->getReverse() !== null) {
             $params['reverse'] = $request->getReverse() ? 'true' : 'false';
         }
-        if ($request -> getPowerSql() != null) {
+        if ($request->getPowerSql() !== null) {
             $params['powerSql'] = 'true';
         }
         $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
@@ -812,7 +811,7 @@ class Client {
         if ($request->getQuery() !== null) {
             $params['query'] = $request->getQuery();
         }
-        if ($request -> getPowerSql() != null) {
+        if ($request->getPowerSql() !== null) {
             $params['powerSql'] = 'true';
         }
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -821,7 +820,6 @@ class Client {
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return [$resp, $header];
-        //return new GetLogsResponse ( $resp, $header );
     }
     /**
     * Get logs from Log service.
@@ -857,7 +855,7 @@ class Client {
             $params['query'] = $request->getQuery();
         }
         $params['type'] = 'log';
-        if ($request -> getPowerSql() != null) {
+        if ($request->getPowerSql() !== null) {
             $params['powerSql'] = 'true';
         }
         $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
@@ -882,7 +880,7 @@ class Client {
         if ($request->getQuery() !== null) {
             $params['query'] = $request->getQuery();
         }
-        if ($request -> getPowerSql() != null) {
+        if ($request->getPowerSql() !== null) {
             $params['powerSql'] = 'true';
         }
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -891,7 +889,6 @@ class Client {
         $requestId = $header['x-log-requestid'] ?? '';
         $resp = $this->parseToJson($resp, $requestId);
         return [$resp, $header];
-        //return new GetLogsResponse ( $resp, $header );
     }
     /**
     * Get logs from Log service.
@@ -964,7 +961,7 @@ class Client {
     public function listSqlInstance(string $project): ListSqlInstanceResponse {
         $headers = [];
         $headers['Content-Type'] = 'application/x-protobuf';
-        $hangzhou['Content-Length'] = '0';
+        $headers['Content-Length'] = '0';
         $params = [];
         $resource = '/sqlinstance';
         $body_str = '';
@@ -1069,9 +1066,9 @@ class Client {
     public function MergeShards(MergeShardsRequest $request): ListShardsResponse {
         $params = [];
         $headers = [];
-        $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
-        $shardId = $request -> getShardId() != null ? $request -> getShardId() : -1;
+        $project = $request->getProject();
+        $logstore = $request->getLogstore();
+        $shardId = $request->getShardId();
 
         $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
         $params['action'] = 'merge';
@@ -1091,9 +1088,9 @@ class Client {
     public function DeleteShard(DeleteShardRequest $request): DeleteShardResponse {
         $params = [];
         $headers = [];
-        $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
-        $shardId = $request -> getShardId() != null ? $request -> getShardId() : -1;
+        $project = $request->getProject();
+        $logstore = $request->getLogstore();
+        $shardId = $request->getShardId();
 
         $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
         [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);

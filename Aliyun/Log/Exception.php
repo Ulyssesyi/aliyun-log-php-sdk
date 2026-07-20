@@ -15,7 +15,7 @@ namespace Aliyun\Log;
 class Exception extends \Exception {
     private string $requestId;
 
-    public function __construct($code, $message, $requestId = '') {
+    public function __construct(string $code, string $message, string $requestId = '') {
         parent::__construct($message);
         $this->code = $code;
         $this->message = $message;
@@ -26,18 +26,18 @@ class Exception extends \Exception {
         return "Aliyun\\Log\\Exception: \n{\n    ErrorCode: $this->code,\n    ErrorMessage: $this->message\n    RequestId: $this->requestId\n}\n";
     }
 
-    public function getErrorCode() {
+    public function getErrorCode(): string {
         return $this->code;
     }
 
-    public function getErrorMessage() {
+    public function getErrorMessage(): string {
         return $this->message;
     }
 
     /**
      * Get request id, '' is set if client or HTTP error.
      */
-    public function getRequestId() {
+    public function getRequestId(): string {
         return $this->requestId;
     }
 }

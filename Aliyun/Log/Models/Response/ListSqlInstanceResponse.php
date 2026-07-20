@@ -18,6 +18,10 @@ class ListSqlInstanceResponse extends Response {
     /** @var SqlInstance[] */
     private array $sqlInstances = [];
 
+    /**
+     * @param array<mixed> $resp
+     * @param array<string, string> $header
+     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         foreach ($resp as $data) {
