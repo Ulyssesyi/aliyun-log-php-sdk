@@ -7,8 +7,5 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 interface CredentialsProvider {
-    /**
-     * @return Credentials
-     */
     public function getCredentials(): Credentials;
 }

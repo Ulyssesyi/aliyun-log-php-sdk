@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Aliyun\Log\Client;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -24,7 +25,7 @@ class EndpointTest extends TestCase {
     public function getUrl(string $endpoint, ?string $project, string $resource, array $params): string {
         $accessKeyId = 'testKey';
         $accessKey = 'testAccessKey';
-        $client = new Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey);
+        $client = new Client($endpoint, $accessKeyId, $accessKey);
         $reflection = new ReflectionClass($client);
         $method = $reflection->getMethod('buildUrl');
         $method->setAccessible(true);

@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,23 +14,14 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class CreateACLResponse extends \Aliyun\Log\Models\Response {
+class CreateACLResponse extends Response {
     private string $aclId;
 
-    /**
-     * CreateACLResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->aclId = $resp['aclId'];
     }
 
-    /**
-     * Get ACL ID from the response
-     */
     public function getAclId(): string {
         return $this->aclId;
     }

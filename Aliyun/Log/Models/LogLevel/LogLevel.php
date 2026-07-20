@@ -18,21 +18,10 @@ class LogLevel {
 
     private string $level;
 
-    /**
-     * Constructor
-     *
-     * @param string $level
-     */
     private function __construct(string $level) {
         $this->level = $level;
     }
 
-    /**
-     * Compares two logger levels.
-     *
-     * @param mixed $other
-     * @return boolean
-     */
     public function equals(mixed $other): bool {
         if ($other instanceof LogLevel) {
             return $this->level == $other->level;

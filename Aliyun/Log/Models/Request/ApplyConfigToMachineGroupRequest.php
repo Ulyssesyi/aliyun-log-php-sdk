@@ -12,47 +12,30 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ApplyConfigToMachineGroupRequest extends \Aliyun\Log\Models\Request {
-    private ?string $groupName;
+use Aliyun\Log\Models\Request;
 
+class ApplyConfigToMachineGroupRequest extends Request {
+    private ?string $groupName;
     private ?string $configName;
 
-    /**
-     * ApplyConfigToMachineGroupRequest Constructor
-     *
-     * @param string|null $groupName
-     * @param string|null $configName
-     */
     public function __construct(?string $groupName = null, ?string $configName = null) {
         parent::__construct();
         $this->groupName = $groupName;
         $this->configName = $configName;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGroupName(): ?string {
         return $this->groupName;
     }
 
-    /**
-     * @param string|null $groupName
-     */
     public function setGroupName(?string $groupName): void {
         $this->groupName = $groupName;
     }
 
-    /**
-     * @return string|null
-     */
     public function getConfigName(): ?string {
         return $this->configName;
     }
 
-    /**
-     * @param string|null $configName
-     */
     public function setConfigName(?string $configName): void {
         $this->configName = $configName;
     }

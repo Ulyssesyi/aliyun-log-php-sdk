@@ -2,6 +2,9 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\MachineGroup;
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,25 +15,16 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class GetMachineGroupResponse extends \Aliyun\Log\Models\Response {
-    private \Aliyun\Log\Models\MachineGroup $machineGroup;
+class GetMachineGroupResponse extends Response {
+    private MachineGroup $machineGroup;
 
-    /**
-     * GetMachineGroupResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->machineGroup = new \Aliyun\Log\Models\MachineGroup();
+        $this->machineGroup = new MachineGroup();
         $this->machineGroup->setFromArray($resp);
     }
 
-    /**
-     * Get MachineGroup from the response
-     */
-    public function getMachineGroup(): \Aliyun\Log\Models\MachineGroup {
+    public function getMachineGroup(): MachineGroup {
         return $this->machineGroup;
     }
 }

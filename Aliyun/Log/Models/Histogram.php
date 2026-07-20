@@ -16,16 +16,10 @@ namespace Aliyun\Log\Models;
  */
 class Histogram {
     private int $from;
-
     private int $to;
-
     private int $count;
-
     private string $progress;
 
-    /**
-     * Histogram constructor
-     */
     public function __construct(int $from, int $to, int $count, string $progress) {
         $this->from = $from;
         $this->to = $to;
@@ -33,30 +27,18 @@ class Histogram {
         $this->progress = $progress;
     }
 
-    /**
-     * Get begin time
-     */
     public function getFrom(): int {
         return $this->from;
     }
 
-    /**
-     * Get the end time
-     */
     public function getTo(): int {
         return $this->to;
     }
 
-    /**
-     * Get log count of histogram that query hits
-     */
     public function getCount(): int {
         return $this->count;
     }
 
-    /**
-     * Check if the histogram is completed
-     */
     public function isCompleted(): bool {
         return $this->progress == 'Complete';
     }

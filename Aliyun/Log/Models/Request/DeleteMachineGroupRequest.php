@@ -12,29 +12,20 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class DeleteMachineGroupRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class DeleteMachineGroupRequest extends Request {
     private ?string $groupName;
 
-    /**
-     * DeleteMachineGroupRequest Constructor
-     *
-     * @param string $groupName
-     */
     public function __construct(?string $groupName) {
         parent::__construct();
         $this->groupName = $groupName;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGroupName(): ?string {
         return $this->groupName;
     }
 
-    /**
-     * @param string|null $groupName
-     */
     public function setGroupName(?string $groupName): void {
         $this->groupName = $groupName;
     }

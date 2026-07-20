@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,7 +14,7 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class ListTopicsResponse extends \Aliyun\Log\Models\Response {
+class ListTopicsResponse extends Response {
     private int $count;
 
     /** @var string[] */
@@ -20,12 +22,6 @@ class ListTopicsResponse extends \Aliyun\Log\Models\Response {
 
     private ?string $nextToken;
 
-    /**
-     * ListTopicsResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->count = (int) $header['x-log-count'];
@@ -33,25 +29,16 @@ class ListTopicsResponse extends \Aliyun\Log\Models\Response {
         $this->nextToken = $header['x-log-nexttoken'] ?? null;
     }
 
-    /**
-     * Get the number of all the topics from the response
-     */
     public function getCount(): int {
         return $this->count;
     }
 
-    /**
-     * Get all the topics from the response
-     *
-     * @return string[]
-     */
+    /** @return string[] */
     public function getTopics(): array {
         return $this->topics;
     }
 
-    /**
-     * Return the next token from the response. If there is no more topic to list, it will return null
-     */
+    /** Return the next token. null if there are no more topics. */
     public function getNextToken(): ?string {
         return $this->nextToken;
     }

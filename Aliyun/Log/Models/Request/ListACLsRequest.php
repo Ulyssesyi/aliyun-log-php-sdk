@@ -12,15 +12,13 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ListACLsRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class ListACLsRequest extends Request {
     private ?int $offset;
     private ?int $size;
     private ?string $principleId;
 
-    /**
-     * ListACLsRequest Constructor
-     *
-     */
     public function __construct(?string $principleId = null, ?int $offset = null, ?int $size = null) {
         $this->offset = $offset;
         $this->size = $size;

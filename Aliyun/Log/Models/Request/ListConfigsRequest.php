@@ -12,17 +12,14 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ListConfigsRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class ListConfigsRequest extends Request {
     private ?string $configName;
     private ?int $offset;
     private ?int $size;
 
-    /**
-     * ListConfigsRequest Constructor
-     *
-     */
     public function __construct(?string $configName = null, ?int $offset = null, ?int $size = null) {
-        //parent::__construct ( $project );
         $this->configName = $configName;
         $this->offset = $offset;
         $this->size = $size;

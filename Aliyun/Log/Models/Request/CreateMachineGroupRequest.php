@@ -12,30 +12,22 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class CreateMachineGroupRequest extends \Aliyun\Log\Models\Request {
-    private ?\Aliyun\Log\Models\MachineGroup $machineGroup;
+use Aliyun\Log\Models\MachineGroup;
+use Aliyun\Log\Models\Request;
 
-    /**
-     * CreateMachineGroupRequest Constructor
-     *
-     * @param \Aliyun\Log\Models\MachineGroup|null $machineGroup
-     */
-    public function __construct(?\Aliyun\Log\Models\MachineGroup $machineGroup = null) {
+class CreateMachineGroupRequest extends Request {
+    private ?MachineGroup $machineGroup;
+
+    public function __construct(?MachineGroup $machineGroup = null) {
         parent::__construct();
         $this->machineGroup = $machineGroup;
     }
 
-    /**
-     * @return \Aliyun\Log\Models\MachineGroup|null
-     */
-    public function getMachineGroup(): ?\Aliyun\Log\Models\MachineGroup {
+    public function getMachineGroup(): ?MachineGroup {
         return $this->machineGroup;
     }
 
-    /**
-     * @param \Aliyun\Log\Models\MachineGroup|null $machineGroup
-     */
-    public function setMachineGroup(?\Aliyun\Log\Models\MachineGroup $machineGroup): void {
+    public function setMachineGroup(?MachineGroup $machineGroup): void {
         $this->machineGroup = $machineGroup;
     }
 

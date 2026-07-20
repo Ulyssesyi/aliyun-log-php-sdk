@@ -18,15 +18,6 @@ class LoggerFactory {
     /** @var array<string, SimpleLogger> */
     private static array $loggerMap = [];
 
-    /**
-     * Get logger instance
-     * @param Client $client valid log client
-     * @param string $project which could be created in AliYun Logger Server configuration page
-     * @param string $logstore which could be created in AliYun Logger Server configuration page
-     * @param string|null $topic used to specified the log by TOPIC field
-     * @return SimpleLogger return logger instance
-     * @throws Exception if the input parameter is invalid, throw exception
-     */
     public static function getLogger(Client $client, string $project, string $logstore, ?string $topic = null): SimpleLogger {
         if ($project == '') {
             throw new Exception('project name is blank!');
@@ -45,23 +36,13 @@ class LoggerFactory {
         return self::$loggerMap[$loggerKey];
     }
 
-    /**
-     * set modifier to protected for singleton pattern
-     * Aliyun_Log_LoggerFactory constructor.
-     */
     protected function __construct() {
 
     }
 
-    /**
-     * set clone function to private for singleton pattern
-     */
     private function __clone() {
     }
 
-    /**
-     * flush current logger in destruct function
-     */
     public function __destruct() {
         if (self::$loggerMap != null) {
             foreach (self::$loggerMap as $innerLogger) {

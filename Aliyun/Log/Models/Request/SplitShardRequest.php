@@ -12,21 +12,13 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class SplitShardRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class SplitShardRequest extends Request {
     private ?string $logstore;
-
     private string $shardId;
-
     private string $midHash;
 
-    /**
-     * SplitShardRequest Constructor
-     *
-     * @param string $project
-     * @param string $logstore
-     * @param string $shardId
-     * @param string $midHash
-     */
     public function __construct(string $project, string $logstore, string $shardId, string $midHash) {
         parent::__construct($project);
         $this->logstore = $logstore;
@@ -34,30 +26,18 @@ class SplitShardRequest extends \Aliyun\Log\Models\Request {
         $this->midHash = $midHash;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLogstore(): ?string {
         return $this->logstore;
     }
 
-    /**
-     * @param string|null $logstore
-     */
     public function setLogstore(?string $logstore): void {
         $this->logstore = $logstore;
     }
 
-    /**
-     * @return string
-     */
     public function getShardId(): string {
         return $this->shardId;
     }
 
-    /**
-     * @return string
-     */
     public function getMidHash(): string {
         return $this->midHash;
     }

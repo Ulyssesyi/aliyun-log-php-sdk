@@ -27,7 +27,9 @@ $rules = [
 
     // Imports
     // 1. 将代码中全路径的类名（FQN）自动提取到顶部的 use 语句中
-    'fully_qualified_strict_types' => true,
+    'fully_qualified_strict_types' => [
+        'import_symbols' => true,
+    ],
 
     // 2. 自动删除没有用到的 use 导入（防止简化后引入了重复或无效的类）
     'no_unused_imports' => true,

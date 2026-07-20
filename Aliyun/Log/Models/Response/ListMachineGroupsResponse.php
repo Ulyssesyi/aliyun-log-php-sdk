@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,20 +14,13 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class ListMachineGroupsResponse extends \Aliyun\Log\Models\Response {
+class ListMachineGroupsResponse extends Response {
     private int $offset;
-
     private int $size;
 
     /** @var string[] */
     private array $machineGroups;
 
-    /**
-     * ListMachineGroupsResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->offset = $resp['offset'];
@@ -33,25 +28,15 @@ class ListMachineGroupsResponse extends \Aliyun\Log\Models\Response {
         $this->machineGroups = $resp['machinegroups'];
     }
 
-    /**
-     * Get offset
-     */
     public function getOffset(): int {
         return $this->offset;
     }
 
-    /**
-     * Get size
-     */
     public function getSize(): int {
         return $this->size;
     }
 
-    /**
-     * Get machine groups
-     *
-     * @return string[]
-     */
+    /** @return string[] */
     public function getMachineGroups(): array {
         return $this->machineGroups;
     }

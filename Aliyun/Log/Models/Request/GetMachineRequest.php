@@ -12,13 +12,11 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class GetMachineRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class GetMachineRequest extends Request {
     private ?string $uuid;
 
-    /**
-     * GetMachineRequest Constructor
-     *
-     */
     public function __construct(?string $uuid = null) {
         $this->uuid = $uuid;
     }

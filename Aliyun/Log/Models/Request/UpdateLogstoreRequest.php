@@ -12,15 +12,13 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class UpdateLogstoreRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class UpdateLogstoreRequest extends Request {
     private ?string $logstore;
     private ?int $ttl;
     private ?int $shardCount;
-    /**
-     * UpdateLogstoreRequest constructor
-     *
-     * @param string $project project name
-     */
+
     public function __construct(?string $project = null, ?string $logstore = null, ?int $ttl = null, ?int $shardCount = null) {
         parent::__construct($project);
         $this -> logstore = $logstore;

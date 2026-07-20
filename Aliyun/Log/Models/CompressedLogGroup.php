@@ -14,31 +14,12 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class CompressedLogGroup {
-    /**
-     * @var integer uncompressed LogGroup size
-     *
-     */
+    /** uncompressed LogGroup size */
     protected ?int $uncompressedSize = null;
-
-    /**
-     * @var mixed uncompressed LogGroup size
-     *
-     */
     protected mixed $compressedData;
-
-    /**
-     * @var int|null
-     */
     protected ?int $time;
-
-    /**
-     * @var array<string, string>|null
-     */
     protected ?array $contents;
 
-    /**
-     * @param array<string, string> $contents
-     */
     public function __construct(?int $time = null, array $contents = []) {
         if (! $time) {
             $time = time();

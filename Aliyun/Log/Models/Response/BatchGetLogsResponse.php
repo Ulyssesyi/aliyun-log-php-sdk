@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\LogGroupList;
+use Aliyun\Log\Models\Response;
 use OutOfBoundsException;
 
 /**
@@ -9,15 +11,12 @@ use OutOfBoundsException;
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/../../sls.proto.php');
-require_once realpath(dirname(__FILE__) . '/../../protocolbuffers.inc.php');
-
 /**
  * The response of the BatchGetLogs API from log service.
  *
  * @author log service dev
  */
-class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
+class BatchGetLogsResponse extends Response {
     /** @var array<int, mixed> compressed Loggroup array */
     private array $logPackageList;
 
@@ -31,7 +30,7 @@ class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
      * @param array<string, string> $header
      *            HTTP response header
      */
-    public function __construct($resp, array $header) {
+    public function __construct(LogGroupList $resp, array $header) {
         parent::__construct($header);
         $this->logPackageList = $resp->getLogGroupListArray();
         $this->nextCursor = $header['x-log-cursor'] ?? null;

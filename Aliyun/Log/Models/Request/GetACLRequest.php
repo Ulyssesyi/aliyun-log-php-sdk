@@ -12,12 +12,11 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class GetACLRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class GetACLRequest extends Request {
     private ?string $aclId;
-    /**
-     * GetACLRequest Constructor
-     *
-     */
+
     public function __construct(?string $aclId = null) {
         $this->aclId = $aclId;
     }

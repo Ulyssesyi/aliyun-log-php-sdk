@@ -6,7 +6,9 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ListShipperRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class ListShipperRequest extends Request {
     private ?string $logStore;
 
     /**

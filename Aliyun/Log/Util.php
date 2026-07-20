@@ -62,37 +62,13 @@ class Util {
         fclose($mem);
 
         return $bytes;
-
-        //$mem = fopen("php://memory", "wb");
-        /*   $fiveMBs = 5*1024*1024;
-           $mem = fopen("php://temp/maxmemory:$fiveMBs", 'rwb');
-           $logGroup->write($mem);
-          // rewind($mem);
-
-          // fclose($mem);
-           //d://logGroup.pdoc
-          // $mem = fopen("php://memory", "rb");
-          // $mem = fopen("php://temp/maxmemory:$fiveMBs", 'r+');
-           $bytes;
-           while(!feof($mem))
-               $bytes = fread($mem, 10*1024*1024);
-           fclose($mem);
-           //test
-           if($bytes===false)echo "fread fail";
-           return $bytes;*/
-
     }
 
-    /**
-     * Get url encode.
-     */
     public static function urlEncodeValue(string $value): string {
         return urlencode($value);
     }
 
     /**
-     * Get url encode.
-     *
      * @param array<string, string> $params
      */
     public static function urlEncode(array $params): string {

@@ -2,6 +2,9 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Config;
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,25 +15,16 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class GetConfigResponse extends \Aliyun\Log\Models\Response {
-    private \Aliyun\Log\Models\Config $config;
+class GetConfigResponse extends Response {
+    private Config $config;
 
-    /**
-     * GetConfigResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->config = new \Aliyun\Log\Models\Config();
+        $this->config = new Config();
         $this->config->setFromArray($resp);
     }
 
-    /**
-     * Get Config from the response
-     */
-    public function getConfig(): \Aliyun\Log\Models\Config {
+    public function getConfig(): Config {
         return $this->config;
     }
 }

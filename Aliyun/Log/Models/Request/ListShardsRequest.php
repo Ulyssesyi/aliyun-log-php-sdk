@@ -12,7 +12,9 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ListShardsRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class ListShardsRequest extends Request {
     private ?string $logstore;
 
     /**

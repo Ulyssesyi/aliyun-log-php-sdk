@@ -12,12 +12,11 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class DeleteConfigRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class DeleteConfigRequest extends Request {
     private ?string $configName;
-    /**
-     * DeleteConfigRequest Constructor
-     *
-     */
+
     public function __construct(?string $configName = null) {
         $this->configName = $configName;
     }

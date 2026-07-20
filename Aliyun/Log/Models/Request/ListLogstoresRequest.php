@@ -12,7 +12,9 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ListLogstoresRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class ListLogstoresRequest extends Request {
     /**
      * ListLogstoresRequest constructor
      *

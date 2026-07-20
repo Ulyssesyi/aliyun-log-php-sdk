@@ -12,22 +12,14 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string user defined query
-     */
+use Aliyun\Log\Models\Request;
+
+class ProjectSqlRequest extends Request {
     private ?string $query;
 
-    /**
-     * @var bool if power sql is true, then the query will be run with powered instance, which can handle large amountof data
-     */
+    /** if power sql is true, the query will be run with powered instance */
     private ?bool $powerSql;
 
-    /**
-     * ProjectSqlRequest Constructor
-     * @param string $query
-     *            user defined query
-     */
     public function __construct(?string $project = null, ?string $query = null, ?bool $powerSql = null) {
         parent::__construct($project);
 
@@ -35,31 +27,14 @@ class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
         $this->powerSql = $powerSql;
     }
 
-    /**
-     * Get user defined query
-     *
-     * @return string user defined query
-     */
     public function getQuery(): ?string {
         return $this->query;
     }
 
-    /**
-     * Get request powerSql flag
-     *
-     * @reutnr bool powerSql flag
-     */
     public function getPowerSql(): ?bool {
         return $this -> powerSql;
     }
 
-    /**
-     *  Set request powerSql flag
-     *
-     *  @param bool $powerSql
-     *               powerSql flag
-     *
-     */
     public function setPowerSql(?bool $powerSql): void {
         $this -> powerSql = $powerSql;
     }

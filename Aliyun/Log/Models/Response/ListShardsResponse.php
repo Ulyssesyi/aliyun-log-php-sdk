@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,19 +14,13 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class ListShardsResponse extends \Aliyun\Log\Models\Response {
+class ListShardsResponse extends Response {
     /** @var int[] */
     private array $shardIds;
 
     /** @var Shard[] */
     private array $shards;
 
-    /**
-     * ListShardsResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->shardIds = [];
@@ -35,20 +31,12 @@ class ListShardsResponse extends \Aliyun\Log\Models\Response {
         }
     }
 
-    /**
-     * Get shard IDs
-     *
-     * @return int[]
-     */
+    /** @return int[] */
     public function getShardIds(): array {
         return $this->shardIds;
     }
 
-    /**
-     * Get shard objects
-     *
-     * @return Shard[]
-     */
+    /** @return Shard[] */
     public function getShards(): array {
         return $this->shards;
     }

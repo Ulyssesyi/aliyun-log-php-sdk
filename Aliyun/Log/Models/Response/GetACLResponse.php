@@ -2,6 +2,9 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\ACL;
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,27 +15,18 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class GetACLResponse extends \Aliyun\Log\Models\Response {
-    private ?\Aliyun\Log\Models\ACL $acl = null;
+class GetACLResponse extends Response {
+    private ?ACL $acl = null;
 
-    /**
-     * GetACLResponse constructor
-     *
-     * @param array<string, mixed>|null $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(mixed $resp, array $header) {
         parent::__construct($header);
         if ($resp !== null) {
-            $this->acl = new \Aliyun\Log\Models\ACL();
+            $this->acl = new ACL();
             $this->acl->setFromArray($resp);
         }
     }
 
-    /**
-     * Get ACL from the response
-     */
-    public function getAcl(): ?\Aliyun\Log\Models\ACL {
+    public function getAcl(): ?ACL {
         return $this->acl;
     }
 }

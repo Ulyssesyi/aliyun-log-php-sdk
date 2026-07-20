@@ -12,13 +12,11 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class CreateConfigRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class CreateConfigRequest extends Request {
     private mixed $config;
 
-    /**
-     * CreateConfigRequest Constructor
-     *
-     */
     public function __construct(mixed $config) {
         $this->config = $config;
     }

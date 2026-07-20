@@ -12,12 +12,11 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class CreateACLRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class CreateACLRequest extends Request {
     private mixed $acl;
-    /**
-     * CreateACLRequest Constructor
-     *
-     */
+
     public function __construct(mixed $acl = null) {
         $this->acl = $acl;
     }

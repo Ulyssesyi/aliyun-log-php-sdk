@@ -12,13 +12,11 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class DeleteLogstoreRequest extends \Aliyun\Log\Models\Request {
+use Aliyun\Log\Models\Request;
+
+class DeleteLogstoreRequest extends Request {
     private ?string $logstore;
-    /**
-     * DeleteLogstoreRequest constructor
-     *
-     * @param string $project project name
-     */
+
     public function __construct(?string $project = null, ?string $logstore = null) {
         parent::__construct($project);
         $this -> logstore = $logstore;

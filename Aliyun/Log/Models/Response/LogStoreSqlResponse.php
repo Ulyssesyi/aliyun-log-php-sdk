@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,28 +14,18 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class LogStoreSqlResponse extends \Aliyun\Log\Models\Response {
+class LogStoreSqlResponse extends Response {
     private int $count;
-
     private string $progress;
 
     /** @var QueriedLog[] */
     private array $logs;
 
     private int $processedRows;
-
     private int $elapsedMilli;
-
     private int $cpuSec;
-
     private int $cpuCores;
 
-    /**
-     * LogStoreSqlResponse constructor
-     *
-     * @param array<string, mixed> $resp HTTP response body
-     * @param array<string, string> $header HTTP response header
-     */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $this->count = (int) $header['x-log-count'];
@@ -53,53 +45,31 @@ class LogStoreSqlResponse extends \Aliyun\Log\Models\Response {
         }
     }
 
-    /**
-     * Get log number from the response
-     */
     public function getCount(): int {
         return $this->count;
     }
 
-    /**
-     * Check if the query is completed
-     */
     public function isCompleted(): bool {
         return $this->progress == 'Complete';
     }
 
-    /**
-     * Get all logs from the response
-     *
-     * @return QueriedLog[]
-     */
+    /** @return QueriedLog[] */
     public function getLogs(): array {
         return $this->logs;
     }
 
-    /**
-     * Get processedRows
-     */
     public function getProcessedRows(): int {
         return $this->processedRows;
     }
 
-    /**
-     * Get elapsedMilli
-     */
     public function getElapsedMilli(): int {
         return $this->elapsedMilli;
     }
 
-    /**
-     * Get cpuSec
-     */
     public function getCpuSec(): int {
         return $this->cpuSec;
     }
 
-    /**
-     * Get cpuCores
-     */
     public function getCpuCores(): int {
         return $this->cpuCores;
     }

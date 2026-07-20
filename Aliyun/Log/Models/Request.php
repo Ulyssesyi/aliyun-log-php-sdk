@@ -13,36 +13,16 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Request {
-    /**
-     * @var string project name
-     */
     private ?string $project;
 
-    /**
-     * Request constructor
-     *
-     * @param string $project
-     *            project name
-     */
     public function __construct(?string $project = null) {
         $this->project = $project;
     }
 
-    /**
-     * Get project name
-     *
-     * @return string project name
-     */
     public function getProject(): ?string {
         return $this->project;
     }
 
-    /**
-     * Set project name
-     *
-     * @param string $project
-     *            project name
-     */
     public function setProject(?string $project): void {
         $this->project = $project;
     }

@@ -12,41 +12,26 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class MergeShardsRequest extends \Aliyun\Log\Models\Request {
-    private ?string $logstore;
+use Aliyun\Log\Models\Request;
 
+class MergeShardsRequest extends Request {
+    private ?string $logstore;
     private string $shardId;
 
-    /**
-     * MergeShardsRequest Constructor
-     *
-     * @param string $project
-     * @param string $logstore
-     * @param string $shardId
-     */
     public function __construct(string $project, string $logstore, string $shardId) {
         parent::__construct($project);
         $this->logstore = $logstore;
         $this->shardId = $shardId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLogstore(): ?string {
         return $this->logstore;
     }
 
-    /**
-     * @param string|null $logstore
-     */
     public function setLogstore(?string $logstore): void {
         $this->logstore = $logstore;
     }
 
-    /**
-     * @return string
-     */
     public function getShardId(): string {
         return $this->shardId;
     }

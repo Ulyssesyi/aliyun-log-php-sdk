@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,14 +14,5 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class DeleteShardResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * DeleteShardResponse constructor
-     *
-     * @param array<string, string> $headers
-     *            HTTP response header
-     */
-    public function __construct(array $headers) {
-        parent::__construct($headers);
-    }
+class DeleteShardResponse extends Response {
 }

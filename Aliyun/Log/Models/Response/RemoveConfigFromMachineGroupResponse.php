@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -12,15 +14,5 @@ namespace Aliyun\Log\Models\Response;
  *
  * @author log service dev
  */
-class RemoveConfigFromMachineGroupResponse extends \Aliyun\Log\Models\Response {
-    /**
-     * RemoveConfigFromMachineGroupResponse constructor
-     *
-     * @param array<string, string> $header
-     *            HTTP response header
-     */
-    public function __construct(array $header) {
-        parent::__construct($header);
-    }
-
+class RemoveConfigFromMachineGroupResponse extends Response {
 }

@@ -18,66 +18,19 @@ use Exception;
  * When the count of messages reach the cache size, SimpleLogger will post the messages in bulk, and reset the cache accordingly.
  */
 class SimpleLogger {
-    /**
-     * internal cache for log messages
-     * @var LogItem[]
-     */
+    /** @var LogItem[] internal cache for log messages */
     private array $logItems = [];
 
-    /**
-     * max size of cached messages
-     */
     private int $maxCacheLog;
-
-    /**
-     * log topic field
-     */
     private ?string $topic;
-
-    /**
-     * max time before logger post the cached messages
-     */
     private int $maxWaitTime;
-
-    /**
-     * previous time for posting log messages
-     */
     private int $previousLogTime;
-
-    /**
-     * max storage size for cached messages
-     */
     private int $maxCacheBytes;
-
-    /**
-     * messages storage size for cached messages
-     */
     private int $cacheBytes;
-
-    /**
-     * log client which was wrappered by this logger
-     */
     private Client $client;
-
-    /**
-     * log project name
-     */
     private string $project;
-
-    /**
-     * logstore name
-     */
     private string $logstore;
 
-    /**
-     * SimpleLogger constructor.
-     * @param $client log client
-     * @param $project the corresponding project
-     * @param $logstore the logstore
-     * @param $topic
-     * @param null $maxCacheLog max log items limitation, by default it's 100
-     * @param null $maxWaitTime max thread waiting time, bydefault it's 5 seconds
-     */
     public function __construct(Client $client, string $project, string $logstore, ?string $topic, ?int $maxCacheLog = null, ?int $maxWaitTime = null, ?int $maxCacheBytes = null) {
         $this->maxCacheLog = is_int($maxCacheLog) ? $maxCacheLog : 100;
         $this->maxCacheBytes = is_int($maxCacheBytes) ? $maxCacheBytes : 256 * 1024;
@@ -97,11 +50,7 @@ class SimpleLogger {
         $this->cacheBytes = 0;
     }
 
-    /**
-     * add logItem to cached array, and post the cached messages when cache reach the limitation
-     * @param $cur_time
-     * @param $logItem
-     */
+    /** add logItem to cached array, post when cache reaches limitation */
     private function logItem(int $cur_time, LogItem $logItem): void {
         array_push($this->logItems, $logItem);
         if ($cur_time - $this->previousLogTime >= $this->maxWaitTime || count($this->logItems) >= $this->maxCacheLog
@@ -113,11 +62,6 @@ class SimpleLogger {
         }
     }
 
-    /**
-     * log single string message
-     * @param LogLevel $logLevel
-     * @param string $logMessage
-     */
     private function logSingleMessage(LogLevel $logLevel, string $logMessage): void {
         $cur_time = time();
         $contents = [ // key-value pair
@@ -133,8 +77,6 @@ class SimpleLogger {
     }
 
     /**
-     * log array message
-     * @param LogLevel $logLevel
      * @param array<string, mixed> $logMessage
      */
     private function logArrayMessage(LogLevel $logLevel, array $logMessage): void {
@@ -154,44 +96,27 @@ class SimpleLogger {
         $this->logItem($cur_time, $logItem);
     }
 
-    /**
-     * submit string log message with info level
-     * @param $logMessage
-     */
     public function info(string $logMessage): void {
         $logLevel = LogLevel::getLevelInfo();
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
-    /**
-     * submit string log message with debug level
-     * @param $logMessage
-     */
     public function debug(string $logMessage): void {
         $logLevel = LogLevel::getLevelDebug();
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
-    /**
-     * submit string log message with warn level
-     * @param $logMessage
-     */
     public function warn(string $logMessage): void {
         $logLevel = LogLevel::getLevelWarn();
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
-    /**
-     * submit string log message with error level
-     * @param $logMessage
-     */
     public function error(string $logMessage): void {
         $logLevel = LogLevel::getLevelError();
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
     /**
-     * submit array log message with info level
      * @param array<string, mixed> $logMessage
      */
     public function infoArray(array $logMessage): void {
@@ -200,7 +125,6 @@ class SimpleLogger {
     }
 
     /**
-     * submit array log message with debug level
      * @param array<string, mixed> $logMessage
      */
     public function debugArray(array $logMessage): void {
@@ -209,7 +133,6 @@ class SimpleLogger {
     }
 
     /**
-     * submit array log message with warn level
      * @param array<string, mixed> $logMessage
      */
     public function warnArray(array $logMessage): void {
@@ -218,7 +141,6 @@ class SimpleLogger {
     }
 
     /**
-     * submit array log message with error level
      * @param array<string, mixed> $logMessage
      */
     public function errorArray(array $logMessage): void {
@@ -226,10 +148,6 @@ class SimpleLogger {
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
-    /**
-     * get current machine IP
-     * @return string
-     */
     private function getLocalIp(): string {
         $local_ip = gethostbyname(php_uname('n'));
         if (strlen($local_ip) == 0) {
@@ -238,11 +156,6 @@ class SimpleLogger {
         return $local_ip;
     }
 
-    /**
-     * submit log messages in bulk
-     * @param LogItem[] $logItems
-     * @param string|null $topic
-     */
     private function logBatch(array $logItems, ?string $topic): void {
         $ip = $this->getLocalIp();
         $request = new PutLogsRequest(
@@ -266,9 +179,7 @@ class SimpleLogger {
         }
     }
 
-    /**
-     * manually flush all cached log to log server
-     */
+    /** manually flush all cached log to log server */
     public function logFlush(): void {
         if (count($this->logItems) > 0) {
             $this->logBatch($this->logItems, $this->topic);
