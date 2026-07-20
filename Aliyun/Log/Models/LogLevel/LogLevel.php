@@ -7,73 +7,12 @@ namespace Aliyun\Log\Models\LogLevel;
  * All rights reserved
  */
 
-class LogLevel {
-    public const debug = 'debug';
-    public const info = 'info';
-    public const warn = 'warn';
-    public const error = 'error';
-
-    /** @var array<string, self>|null */
-    private static ?array $constCacheArray = null;
-
-    private string $level;
-
-    private function __construct(string $level) {
-        $this->level = $level;
-    }
-
-    public function equals(mixed $other): bool {
-        if ($other instanceof LogLevel) {
-            return $this->level == $other->level;
-        }
-        return false;
-    }
-
-    public static function getLevelDebug(): self {
-        if (!isset(self::$constCacheArray[LogLevel::debug])) {
-            self::$constCacheArray[LogLevel::debug] = new LogLevel('debug');
-        }
-        return self::$constCacheArray[LogLevel::debug];
-    }
-
-    public static function getLevelInfo(): self {
-        if (!isset(self::$constCacheArray[LogLevel::info])) {
-            self::$constCacheArray[LogLevel::info] = new LogLevel('info');
-        }
-        return self::$constCacheArray[LogLevel::info];
-    }
-
-    public static function getLevelWarn(): self {
-        if (!isset(self::$constCacheArray[LogLevel::warn])) {
-            self::$constCacheArray[LogLevel::warn] = new LogLevel('warn');
-        }
-        return self::$constCacheArray[LogLevel::warn];
-    }
-
-    public static function getLevelError(): self {
-        if (!isset(self::$constCacheArray[LogLevel::error])) {
-            self::$constCacheArray[LogLevel::error] = new LogLevel('error');
-        }
-        return self::$constCacheArray[LogLevel::error];
-    }
-
-    public static function getLevelStr(LogLevel $logLevel): string {
-
-        $logLevelStr = '';
-        switch ($logLevel->level) {
-            case 'error':
-                $logLevelStr = 'error';
-                break;
-            case 'warn':
-                $logLevelStr = 'warn';
-                break;
-            case 'info':
-                $logLevelStr = 'info';
-                break;
-            case 'debug':
-                $logLevelStr = 'debug';
-                break;
-        }
-        return $logLevelStr;
-    }
+/**
+ * Log level enum for SimpleLogger.
+ */
+enum LogLevel: string {
+    case DEBUG = 'debug';
+    case INFO = 'info';
+    case WARN = 'warn';
+    case ERROR = 'error';
 }

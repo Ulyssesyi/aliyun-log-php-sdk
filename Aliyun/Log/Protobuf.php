@@ -40,15 +40,15 @@ class Protobuf {
      * Returns a string representing this wiretype
      */
     public static function get_wiretype(int $wire_type): string {
-        switch ($wire_type) {
-            case 0: return 'varint';
-            case 1: return '64-bit';
-            case 2: return 'length-delimited';
-            case 3: return 'group start';
-            case 4: return 'group end';
-            case 5: return '32-bit';
-            default: return 'unknown';
-        }
+        return match ($wire_type) {
+            0 => 'varint',
+            1 => '64-bit',
+            2 => 'length-delimited',
+            3 => 'group start',
+            4 => 'group end',
+            5 => '32-bit',
+            default => 'unknown',
+        };
     }
 
     /**

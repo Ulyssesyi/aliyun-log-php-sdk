@@ -17,25 +17,16 @@ use Aliyun\Log\Models\LogItem;
 use Aliyun\Log\Models\Request;
 
 class PutLogsRequest extends Request {
-    private ?string $logstore;
-    private ?string $topic;
-    private ?string $source;
-
-    /** @var LogItem[]|null */
-    private ?array $logitems;
-
-    private ?string $shardKey;
-
-    /**
-     * @param LogItem[]|null $logitems
-     */
-    public function __construct(?string $project = null, ?string $logstore = null, ?string $topic = null, ?string $source = null, ?array $logitems = null, ?string $shardKey = null) {
+    public function __construct(
+        ?string $project = null,
+        private ?string $logstore = null,
+        private ?string $topic = null,
+        private ?string $source = null,
+        /** @var LogItem[]|null */
+        private ?array $logitems = null,
+        private ?string $shardKey = null,
+    ) {
         parent::__construct($project);
-        $this->logstore = $logstore;
-        $this->topic = $topic;
-        $this->source = $source;
-        $this->logitems = $logitems;
-        $this->shardKey = $shardKey;
     }
 
     public function getLogstore(): ?string {

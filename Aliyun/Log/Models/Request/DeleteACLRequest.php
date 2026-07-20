@@ -15,10 +15,9 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class DeleteACLRequest extends Request {
-    private ?string $aclId;
-
-    public function __construct(?string $aclId = null) {
-        $this->aclId = $aclId;
+    public function __construct(
+        private ?string $aclId = null,
+    ) {
     }
     public function getAclId(): ?string {
         return $this->aclId;

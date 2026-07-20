@@ -14,19 +14,17 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class LogItem {
-    /** @var array<string, string> */
-    private array $contents;
     private int $time;
 
-    /**
-     * @param array<string, string> $contents
-     */
-    public function __construct(?int $time = null, array $contents = []) {
+    public function __construct(
+        ?int $time = null,
+        /** @var array<string, string> */
+        private array $contents = [],
+    ) {
         if (! $time) {
             $time = time();
         }
         $this->time = $time;
-        $this->contents = $contents;
     }
 
     public function getTime(): int {

@@ -15,15 +15,12 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class ListMachineGroupsRequest extends Request {
-    private ?string $groupName;
-    private ?int $offset;
-    private ?int $size;
-
-    public function __construct(?string $groupName = null, ?int $offset = null, ?int $size = null) {
+    public function __construct(
+        private ?string $groupName = null,
+        private ?int $offset = null,
+        private ?int $size = null,
+    ) {
         parent::__construct();
-        $this->groupName = $groupName;
-        $this->offset = $offset;
-        $this->size = $size;
     }
 
     public function getGroupName(): ?string {

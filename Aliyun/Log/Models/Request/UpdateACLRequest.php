@@ -15,10 +15,9 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class UpdateACLRequest extends Request {
-    private mixed $acl;
-
-    public function __construct(mixed $acl) {
-        $this->acl = $acl;
+    public function __construct(
+        private mixed $acl,
+    ) {
     }
 
     public function getAcl(): mixed {

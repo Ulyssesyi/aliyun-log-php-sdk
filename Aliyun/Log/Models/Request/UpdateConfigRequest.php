@@ -15,10 +15,9 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class UpdateConfigRequest extends Request {
-    private mixed $config;
-
-    public function __construct(mixed $config) {
-        $this->config = $config;
+    public function __construct(
+        private mixed $config,
+    ) {
     }
 
     public function getConfig(): mixed {

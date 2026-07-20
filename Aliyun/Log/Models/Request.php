@@ -13,10 +13,7 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Request {
-    private ?string $project;
-
-    public function __construct(?string $project = null) {
-        $this->project = $project;
+    public function __construct(private ?string $project = null) {
     }
 
     public function getProject(): ?string {

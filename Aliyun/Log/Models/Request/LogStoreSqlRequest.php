@@ -15,24 +15,17 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class LogStoreSqlRequest extends Request {
-    private ?string $logstore;
-    private ?int $from;
-    private ?int $to;
-    private ?string $query;
-    private ?string $topic;
-
-    /** if power sql is true, the query will be run with powered instance */
-    private ?bool $powerSql;
-
-    public function __construct(?string $project = null, ?string $logstore = null, ?int $from = null, ?int $to = null, ?string $topic = null, ?string $query = null, ?bool $powerSql = null) {
+    public function __construct(
+        ?string $project = null,
+        private ?string $logstore = null,
+        private ?int $from = null,
+        private ?int $to = null,
+        private ?string $topic = null,
+        private ?string $query = null,
+        /** if power sql is true, the query will be run with powered instance */
+        private ?bool $powerSql = null,
+    ) {
         parent::__construct($project);
-
-        $this->logstore = $logstore;
-        $this->from = $from;
-        $this->to = $to;
-        $this->topic = $topic;
-        $this->query = $query;
-        $this->powerSql = $powerSql;
     }
 
     public function getLogstore(): ?string {

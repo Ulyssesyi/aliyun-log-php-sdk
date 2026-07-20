@@ -15,19 +15,15 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class BatchGetLogsRequest extends Request {
-    private ?string $logstore;
-    private ?string $shardId;
-    private ?int $count;
-    private ?string $cursor;
-    private ?string $endCursor;
-
-    public function __construct(?string $project = null, ?string $logstore = null, ?string $shardId = null, ?int $count = null, ?string $cursor = null, ?string $end_cursor = null) {
+    public function __construct(
+        ?string $project = null,
+        private ?string $logstore = null,
+        private ?string $shardId = null,
+        private ?int $count = null,
+        private ?string $cursor = null,
+        private ?string $endCursor = null,
+    ) {
         parent::__construct($project);
-        $this->logstore = $logstore;
-        $this->shardId = $shardId;
-        $this->count = $count;
-        $this->cursor = $cursor;
-        $this->endCursor = $end_cursor;
     }
 
     public function getLogstore(): ?string {

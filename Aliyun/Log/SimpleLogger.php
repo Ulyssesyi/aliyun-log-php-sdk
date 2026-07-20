@@ -22,16 +22,20 @@ class SimpleLogger {
     private array $logItems = [];
 
     private int $maxCacheLog;
-    private ?string $topic;
     private int $maxWaitTime;
     private int $previousLogTime;
     private int $maxCacheBytes;
     private int $cacheBytes;
-    private Client $client;
-    private string $project;
-    private string $logstore;
 
-    public function __construct(Client $client, string $project, string $logstore, ?string $topic, ?int $maxCacheLog = null, ?int $maxWaitTime = null, ?int $maxCacheBytes = null) {
+    public function __construct(
+        private Client $client,
+        private string $project,
+        private string $logstore,
+        private ?string $topic = null,
+        ?int $maxCacheLog = null,
+        ?int $maxWaitTime = null,
+        ?int $maxCacheBytes = null,
+    ) {
         $this->maxCacheLog = is_int($maxCacheLog) ? $maxCacheLog : 100;
         $this->maxCacheBytes = is_int($maxCacheBytes) ? $maxCacheBytes : 256 * 1024;
         if (is_int($maxWaitTime)) {
@@ -39,10 +43,6 @@ class SimpleLogger {
         } else {
             $this->maxWaitTime = 5;
         }
-        $this->client = $client;
-        $this->project = $project;
-        $this->logstore = $logstore;
-        $this->topic = $topic;
         $this->previousLogTime = time();
         $this->cacheBytes = 0;
     }
@@ -63,7 +63,7 @@ class SimpleLogger {
         $cur_time = time();
         $contents = [ // key-value pair
             'time' => date('m/d/Y h:i:s a', $cur_time),
-            'loglevel' => LogLevel::getLevelStr($logLevel),
+            'loglevel' => $logLevel->value,
             'msg' => $logMessage,
         ];
         $this->cacheBytes += strlen($logMessage) + 32;
@@ -81,7 +81,7 @@ class SimpleLogger {
         $contents = [ // key-value pair
             'time' => date('m/d/Y h:i:s a', $cur_time),
         ];
-        $contents['logLevel'] = LogLevel::getLevelStr($logLevel);
+        $contents['logLevel'] = $logLevel->value;
         foreach ($logMessage as $key => $value) {
             $contents[$key] = $value;
             $this->cacheBytes += strlen((string) $key) + strlen((string) $value);
@@ -94,22 +94,22 @@ class SimpleLogger {
     }
 
     public function info(string $logMessage): void {
-        $logLevel = LogLevel::getLevelInfo();
+        $logLevel = LogLevel::INFO;
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
     public function debug(string $logMessage): void {
-        $logLevel = LogLevel::getLevelDebug();
+        $logLevel = LogLevel::DEBUG;
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
     public function warn(string $logMessage): void {
-        $logLevel = LogLevel::getLevelWarn();
+        $logLevel = LogLevel::WARN;
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
     public function error(string $logMessage): void {
-        $logLevel = LogLevel::getLevelError();
+        $logLevel = LogLevel::ERROR;
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
@@ -117,7 +117,7 @@ class SimpleLogger {
      * @param array<string, mixed> $logMessage
      */
     public function infoArray(array $logMessage): void {
-        $logLevel = LogLevel::getLevelInfo();
+        $logLevel = LogLevel::INFO;
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
@@ -125,7 +125,7 @@ class SimpleLogger {
      * @param array<string, mixed> $logMessage
      */
     public function debugArray(array $logMessage): void {
-        $logLevel = LogLevel::getLevelDebug();
+        $logLevel = LogLevel::DEBUG;
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
@@ -133,7 +133,7 @@ class SimpleLogger {
      * @param array<string, mixed> $logMessage
      */
     public function warnArray(array $logMessage): void {
-        $logLevel = LogLevel::getLevelWarn();
+        $logLevel = LogLevel::WARN;
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
@@ -141,7 +141,7 @@ class SimpleLogger {
      * @param array<string, mixed> $logMessage
      */
     public function errorArray(array $logMessage): void {
-        $logLevel = LogLevel::getLevelError();
+        $logLevel = LogLevel::ERROR;
         $this->logArrayMessage($logLevel, $logMessage);
     }
 

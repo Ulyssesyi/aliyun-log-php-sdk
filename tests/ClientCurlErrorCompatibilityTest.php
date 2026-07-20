@@ -13,7 +13,6 @@ class ClientCurlErrorCompatibilityTest extends TestCase {
     public function testCurlFailuresAreWrappedAsSdkExceptions(): void {
         $client = new Client('http://example.com', 'access-key-id', 'access-key-secret');
         $method = new ReflectionMethod(Client::class, 'sendRequest');
-        $method->setAccessible(true);
 
         try {
             $method->invoke($client, 'GET', 'unsupported-sls-test://example', '', []);

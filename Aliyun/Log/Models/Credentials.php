@@ -7,14 +7,11 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 class Credentials {
-    private string $accessKeyId;
-    private string $accessKeySecret;
-    private string $securityToken;
-
-    public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '') {
-        $this->accessKeyId = $accessKeyId;
-        $this->accessKeySecret = $accessKeySecret;
-        $this->securityToken = $securityToken;
+    public function __construct(
+        private string $accessKeyId,
+        private string $accessKeySecret,
+        private string $securityToken = '',
+    ) {
     }
 
     public function getAccessKeyId(): string {

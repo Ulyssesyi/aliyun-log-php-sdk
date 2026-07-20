@@ -15,15 +15,13 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class ListTopicsRequest extends Request {
-    private ?string $logstore;
-    private ?string $token;
-    private ?int $line;
-
-    public function __construct(?string $project = null, ?string $logstore = null, ?string $token = null, ?int $line = null) {
+    public function __construct(
+        ?string $project = null,
+        private ?string $logstore = null,
+        private ?string $token = null,
+        private ?int $line = null,
+    ) {
         parent::__construct($project);
-        $this->logstore = $logstore;
-        $this->token = $token;
-        $this->line = $line;
     }
 
     public function getLogstore(): ?string {

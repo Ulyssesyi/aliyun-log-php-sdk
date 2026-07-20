@@ -28,7 +28,6 @@ class EndpointTest extends TestCase {
         $client = new Client($endpoint, $accessKeyId, $accessKey);
         $reflection = new ReflectionClass($client);
         $method = $reflection->getMethod('buildUrl');
-        $method->setAccessible(true);
         return $method->invokeArgs($client, [$project, $resource, $params]);
     }
 }

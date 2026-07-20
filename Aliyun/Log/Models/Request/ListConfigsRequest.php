@@ -15,14 +15,11 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class ListConfigsRequest extends Request {
-    private ?string $configName;
-    private ?int $offset;
-    private ?int $size;
-
-    public function __construct(?string $configName = null, ?int $offset = null, ?int $size = null) {
-        $this->configName = $configName;
-        $this->offset = $offset;
-        $this->size = $size;
+    public function __construct(
+        private ?string $configName = null,
+        private ?int $offset = null,
+        private ?int $size = null,
+    ) {
     }
 
     public function getConfigName(): ?string {

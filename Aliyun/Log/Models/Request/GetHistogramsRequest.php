@@ -15,19 +15,15 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class GetHistogramsRequest extends Request {
-    private ?string $logstore;
-    private ?string $topic;
-    private ?int $from;
-    private ?int $to;
-    private ?string $query;
-
-    public function __construct(?string $project = null, ?string $logstore = null, ?int $from = null, ?int $to = null, ?string $topic = null, ?string $query = null) {
+    public function __construct(
+        ?string $project = null,
+        private ?string $logstore = null,
+        private ?int $from = null,
+        private ?int $to = null,
+        private ?string $topic = null,
+        private ?string $query = null,
+    ) {
         parent::__construct($project);
-        $this->logstore = $logstore;
-        $this->from = $from;
-        $this->to = $to;
-        $this->topic = $topic;
-        $this->query = $query;
     }
 
     public function getLogstore(): ?string {

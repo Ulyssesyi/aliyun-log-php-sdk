@@ -15,11 +15,11 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class DeleteLogstoreRequest extends Request {
-    private ?string $logstore;
-
-    public function __construct(?string $project = null, ?string $logstore = null) {
+    public function __construct(
+        ?string $project = null,
+        private ?string $logstore = null,
+    ) {
         parent::__construct($project);
-        $this -> logstore = $logstore;
     }
     public function getLogstore(): ?string {
         return $this -> logstore;

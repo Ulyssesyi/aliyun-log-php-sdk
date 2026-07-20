@@ -15,13 +15,11 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class RemoveConfigFromMachineGroupRequest extends Request {
-    private ?string $groupName;
-    private ?string $configName;
-
-    public function __construct(?string $groupName = null, ?string $configName = null) {
+    public function __construct(
+        private ?string $groupName = null,
+        private ?string $configName = null,
+    ) {
         parent::__construct();
-        $this->groupName = $groupName;
-        $this->configName = $configName;
     }
 
     public function getGroupName(): ?string {

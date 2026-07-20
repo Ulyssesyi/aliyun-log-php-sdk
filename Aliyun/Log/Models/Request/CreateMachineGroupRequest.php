@@ -16,11 +16,10 @@ use Aliyun\Log\Models\MachineGroup;
 use Aliyun\Log\Models\Request;
 
 class CreateMachineGroupRequest extends Request {
-    private ?MachineGroup $machineGroup;
-
-    public function __construct(?MachineGroup $machineGroup = null) {
+    public function __construct(
+        private ?MachineGroup $machineGroup = null,
+    ) {
         parent::__construct();
-        $this->machineGroup = $machineGroup;
     }
 
     public function getMachineGroup(): ?MachineGroup {

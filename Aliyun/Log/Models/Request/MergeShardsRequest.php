@@ -15,13 +15,12 @@ namespace Aliyun\Log\Models\Request;
 use Aliyun\Log\Models\Request;
 
 class MergeShardsRequest extends Request {
-    private ?string $logstore;
-    private string $shardId;
-
-    public function __construct(string $project, string $logstore, string $shardId) {
+    public function __construct(
+        string $project,
+        private ?string $logstore,
+        private string $shardId,
+    ) {
         parent::__construct($project);
-        $this->logstore = $logstore;
-        $this->shardId = $shardId;
     }
 
     public function getLogstore(): ?string {
