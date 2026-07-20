@@ -1,4 +1,5 @@
 {
+  "name": "sabao/aliyun-log-php-sdk",
   "readme": "README.md",
   "type": "library",
   "description": "The Php SDK of Alibaba log service",
@@ -47,7 +48,5 @@
       "Aliyun\\Log\\": "Aliyun/Log/"
     }
   },
-  "name": "sabao/aliyun-log-php-sdk",
-  "license": "MIT",
-  "version": "0.8.0"
+  "license": "MIT"
 }
