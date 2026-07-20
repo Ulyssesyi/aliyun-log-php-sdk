@@ -14,17 +14,17 @@ namespace Aliyun\Log\Models\Request;
 
 class ListTopicsRequest extends \Aliyun\Log\Models\Request {
     /**
-     * @var string $logstore logstore name
+     * @var string|null $logstore logstore name
      */
     private $logstore;
 
     /**
-     * @var string $token the start token to list topics
+     * @var string|null $token the start token to list topics
      */
     private $token;
 
     /**
-     * @var integer $line max topic counts to return
+     * @var int|null $line max topic counts to return
      */
     private $line;
 
@@ -46,7 +46,7 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get logstroe name
      *
-     * @return string logstore name
+     * @return string|null logstore name
      */
     public function getLogstore() {
         return $this->logstore;
@@ -65,7 +65,7 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get start token to list topics
      *
-     * @return string start token to list topics
+     * @return string|null start token to list topics
      */
     public function getToken() {
         return $this->token;
@@ -83,7 +83,7 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get max topic counts to return
      *
-     * @return integer max topic counts to return
+     * @return int|null max topic counts to return
      */
     public function getLine() {
         return $this->line;

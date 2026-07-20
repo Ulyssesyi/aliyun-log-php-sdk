@@ -3,4 +3,3 @@ parameters:
     paths:
         - Aliyun/Log
         - tests
-    treatPhpDocTypesAsCertain: false

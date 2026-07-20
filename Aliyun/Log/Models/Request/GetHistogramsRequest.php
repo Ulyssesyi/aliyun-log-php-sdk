@@ -14,27 +14,27 @@ namespace Aliyun\Log\Models\Request;
 
 class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
     /**
-     * @var string logstore name
+     * @var string|null logstore name
      */
     private $logstore;
 
     /**
-     * @var string topic name of logs
+     * @var string|null topic name of logs
      */
     private $topic;
 
     /**
-     * @var integer the begin time
+     * @var int|null the begin time
      */
     private $from;
 
     /**
-     * @var integer the end time
+     * @var int|null the end time
      */
     private $to;
 
     /**
-     * @var string user defined query
+     * @var string|null user defined query
      */
     private $query;
 
@@ -66,7 +66,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get logstore name
      *
-     * @return string logstore name
+     * @return string|null logstore name
      */
     public function getLogstore() {
         return $this->logstore;
@@ -85,7 +85,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get topic name
      *
-     * @return string topic name
+     * @return string|null topic name
      */
     public function getTopic() {
         return $this->topic;
@@ -104,7 +104,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get begin time
      *
-     * @return integer begin time
+     * @return int|null begin time
      */
     public function getFrom() {
         return $this->from;
@@ -123,7 +123,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get end time
      *
-     * @return integer end time
+     * @return int|null end time
      */
     public function getTo() {
         return $this->to;
@@ -142,7 +142,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get user defined query
      *
-     * @return string user defined query
+     * @return string|null user defined query
      */
     public function getQuery() {
         return $this->query;

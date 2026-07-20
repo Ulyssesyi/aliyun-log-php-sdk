@@ -14,27 +14,27 @@ namespace Aliyun\Log\Models\Request;
 
 class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     /**
-     * @var string logstore name
+     * @var string|null logstore name
      */
     private $logstore;
 
     /**
-     * @var string shard ID
+     * @var string|null shard ID
      */
     private $shardId;
 
     /**
-     * @var integer max line number of return logs
+     * @var int|null max line number of return logs
      */
     private $count;
 
     /**
-     * @var string start cursor
+     * @var string|null start cursor
      */
     private $cursor;
 
     /**
-     * @var string end cursor
+     * @var string|null end cursor
      */
     private $endCursor;
 
@@ -66,7 +66,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get logstore name
      *
-     * @return string logstore name
+     * @return string|null logstore name
      */
     public function getLogstore() {
         return $this->logstore;
@@ -85,7 +85,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get shard ID
      *
-     * @return string shardId
+     * @return string|null shardId
      */
     public function getShardId() {
         return $this->shardId;
@@ -104,7 +104,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get max return loggroup number
      *
-     * @return integer count
+     * @return int|null count
      */
     public function getCount() {
         return $this->count;
@@ -123,7 +123,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get start cursor
      *
-     * @return string cursor
+     * @return string|null cursor
      */
     public function getCursor() {
         return $this->cursor;
@@ -132,7 +132,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * Get end cursor
      *
-     * @return string cursor
+     * @return string|null cursor
      */
     public function getEndCursor() {
         return $this->endCursor;

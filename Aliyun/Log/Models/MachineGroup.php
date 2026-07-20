@@ -38,8 +38,8 @@ class MachineGroup {
     /** @var array<int, Machine> */
     private ?array $machineList;
 
-    private mixed $createTime;
-    private mixed $lastModifyTime;
+    private ?string $createTime = null;
+    private ?string $lastModifyTime = null;
 
     /**
      * @param ?array<int, Machine> $machineList
@@ -49,8 +49,8 @@ class MachineGroup {
         ?string $groupType = '',
         ?MachineGroup_GroupAttribute $groupAttribute = null,
         ?array $machineList = null,
-        mixed $createTime = null,
-        mixed $lastModifyTime = null,
+        ?string $createTime = null,
+        ?string $lastModifyTime = null,
     ) {
         $this->groupName = $groupName;
         $this->groupType = $groupType;
@@ -90,16 +90,16 @@ class MachineGroup {
     public function setMachineList(?array $machineList): void {
         $this->machineList = $machineList;
     }
-    public function getCreateTime(): mixed {
+    public function getCreateTime(): ?string {
         return $this->createTime;
     }
-    public function setCreateTime(mixed $createTime): void {
+    public function setCreateTime(?string $createTime): void {
         $this->createTime = $createTime;
     }
-    public function getLastModifyTime(): mixed {
+    public function getLastModifyTime(): ?string {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime(mixed $lastModifyTime): void {
+    public function setLastModifyTime(?string $lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
