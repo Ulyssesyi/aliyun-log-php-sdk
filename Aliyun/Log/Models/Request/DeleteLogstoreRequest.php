@@ -17,7 +17,7 @@ use Aliyun\Log\Models\Request;
 class DeleteLogstoreRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $logStore = null,
+        private readonly ?string $logStore = null,
     ) {
         parent::__construct($project);
     }

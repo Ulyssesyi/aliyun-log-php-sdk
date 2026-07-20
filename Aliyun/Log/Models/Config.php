@@ -10,14 +10,14 @@ use Aliyun\Log\Models\Config\OutputDetail;
  * All rights reserved
  */
 class Config {
-    private ?string $configName = '';
-    private ?string $inputType = '';
-    private ?InputDetail $inputDetail = null;
-    private ?string $outputType = '';
-    private ?OutputDetail $outputDetail = null;
+    private ?string $configName;
+    private ?string $inputType;
+    private ?InputDetail $inputDetail;
+    private ?string $outputType;
+    private ?OutputDetail $outputDetail;
 
-    private mixed $createTime = null;
-    private mixed $lastModifyTime = null;
+    private mixed $createTime;
+    private mixed $lastModifyTime;
 
     public function __construct(
         ?string $configName = '',

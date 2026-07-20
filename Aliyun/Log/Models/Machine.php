@@ -10,13 +10,13 @@ use Aliyun\Log\Models\Machine\Status;
  * All rights reserved
  */
 class Machine {
-    private ?string $uuid = null;
-    private ?string $lastHeartbeatTime = null;
-    private ?Info $info = null;
-    private ?Status $status = null;
+    private ?string $uuid;
+    private ?string $lastHeartbeatTime;
+    private ?Info $info;
+    private ?Status $status;
 
-    private ?string $createTime = null;
-    private ?string $lastModifyTime = null;
+    private ?string $createTime;
+    private ?string $lastModifyTime;
 
     public function __construct(
         ?string $uuid = null,

@@ -7,15 +7,15 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 class ACL {
-    private ?string $principleType = '';
-    private ?string $principleId = '';
-    private ?string $object = '';
+    private ?string $principleType;
+    private ?string $principleId;
+    private ?string $object;
     /** @var list<string>|null */
-    private ?array $privilege = [];
-    private ?string $aclId = null;
+    private ?array $privilege;
+    private ?string $aclId;
 
-    private string|int|null $createTime = null;
-    private string|int|null $lastModifyTime = null;
+    private string|int|null $createTime;
+    private string|int|null $lastModifyTime;
 
     /**
      * @param list<string> $privilege

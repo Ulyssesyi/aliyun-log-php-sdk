@@ -8,3 +8,4 @@ composer.phar
 /phpstan.php
 .claude/
 .phpunit.cache
+/.mcp.json

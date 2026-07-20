@@ -20,7 +20,9 @@ class ProtobufMessage {
     }
 
     /**
-     * @throws SDKException
+     * @param mixed|null $in
+     * @param int $limit
+     * @throws Exception
      */
     public function __construct(mixed $in = null, int &$limit = PHP_INT_MAX) {
         if ($in !== null) {

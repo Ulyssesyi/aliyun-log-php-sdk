@@ -17,9 +17,9 @@ use Aliyun\Log\Models\Request;
 class CreateLogstoreRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $logStore = null,
-        private ?int $ttl = null,
-        private ?int $shardCount = null,
+        private readonly ?string $logStore = null,
+        private readonly ?int $ttl = null,
+        private readonly ?int $shardCount = null,
     ) {
         parent::__construct($project);
     }

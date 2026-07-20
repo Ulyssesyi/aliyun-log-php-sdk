@@ -601,7 +601,6 @@ class RequestCore {
 
         $length = strlen($data);
         $written_total = 0;
-        $written_last = 0;
 
         while ($written_total < $length) {
             $written_last = fwrite($this->write_stream, substr($data, $written_total));
@@ -999,7 +998,7 @@ class RequestCore {
             }
 
             do {
-                $active = false;
+                $active = 0;
 
                 // Start executing and wait for a response.
                 do {

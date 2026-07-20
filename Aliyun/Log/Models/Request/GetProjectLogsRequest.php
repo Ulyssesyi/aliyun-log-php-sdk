@@ -17,7 +17,7 @@ use Aliyun\Log\Models\Request;
 class GetProjectLogsRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $query = null,
+        private readonly ?string $query = null,
         /** if power sql is true, the query will be run with powered instance */
         private ?bool $powerSql = null,
     ) {

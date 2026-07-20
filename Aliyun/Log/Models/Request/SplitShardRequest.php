@@ -18,8 +18,8 @@ class SplitShardRequest extends Request {
     public function __construct(
         string $project,
         private ?string $logStore,
-        private string $shardId,
-        private string $midHash,
+        private readonly string $shardId,
+        private readonly string $midHash,
     ) {
         parent::__construct($project);
     }

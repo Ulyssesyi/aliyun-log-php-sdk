@@ -92,7 +92,7 @@ class Protobuf {
      * @param resource $fp
      * @param int|null $limit
      * @return int|false the Varint from the stream, or false if the stream has reached eof.
-     * @throws SDKException
+     * @throws Exception
      */
     public static function read_varint(mixed $fp, int|null &$limit = null): int|false {
         $value = '';
@@ -138,7 +138,7 @@ class Protobuf {
      * @param resource $fp
      * @param int $i
      * @return int The number of bytes written
-     * @throws SDKException
+     * @throws Exception
      */
     public static function write_varint(mixed $fp, int $i): int {
         $len = 0;
@@ -165,7 +165,7 @@ class Protobuf {
      *
      * @param resource $fp
      * @return int
-     * @throws SDKException
+     * @throws Exception
      */
     public static function skip_varint(mixed $fp): int {
         $len = 0;
@@ -185,7 +185,7 @@ class Protobuf {
      * @param resource $fp
      * @param int $wire_type
      * @return int
-     * @throws SDKException
+     * @throws Exception
      */
     public static function skip_field(mixed $fp, int $wire_type): int {
         switch ($wire_type) {
@@ -227,7 +227,7 @@ class Protobuf {
      * @param int $wire_type
      * @param int|null $limit
      * @return int|string|false
-     * @throws SDKException
+     * @throws Exception
      */
     public static function read_field(mixed $fp, int $wire_type, int|null &$limit = null): int|string|false {
         switch ($wire_type) {

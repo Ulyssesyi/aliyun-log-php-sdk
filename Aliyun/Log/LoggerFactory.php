@@ -19,7 +19,12 @@ final class LoggerFactory {
     private static array $loggerMap = [];
 
     /**
-     * @throws SDKException
+     * @param Client $client
+     * @param string $project
+     * @param string $logstore
+     * @param string|null $topic
+     * @return SimpleLogger
+     * @throws Exception
      */
     public static function getLogger(Client $client, string $project, string $logstore, ?string $topic = null): SimpleLogger {
         if ($project == '') {

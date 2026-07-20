@@ -281,7 +281,7 @@ class Client {
         $requestId = is_string($rawRequestId) ? $rawRequestId : '';
 
         if ($responseCode == 200) {
-            return  [$resBody,$header];
+            return [$resBody,$header];
         }
 
         $exJson = $this->parseToJson($resBody, $requestId);
@@ -314,7 +314,6 @@ class Client {
      * @throws SDKException
      */
     private function send(string $method, ?string $project, ?string $body, string $resource, array $params, array $headers): array {
-        $credentials = null;
         try {
             $credentials = $this->credentialsProvider->getCredentials();
         } catch (Exception $ex) {
@@ -348,7 +347,7 @@ class Client {
             $headers['Host'] = "$project.$this->logHost";
         }
         $headers['Date'] = $this->GetGMT();
-        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), $credentials->getSecurityToken(), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $params), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
+        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $params), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
         $headers['Authorization'] = 'LOG '.$credentials->getAccessKeyId().":$signature";
 
         $url = $this->buildUrl($project, $resource, $params);
@@ -424,7 +423,7 @@ class Client {
 
         $logGroup = new LogGroup();
         $topic = $request->getTopic() !== null ? $request->getTopic() : '';
-        $logGroup->setTopic($request->getTopic());
+        $logGroup->setTopic($topic);
         $source = $request->getSource();
 
         if (! $source) {
@@ -474,10 +473,7 @@ class Client {
         if ($shardKey) {
             $params['key'] = $shardKey;
         }
-        [$resp, $header] = $this->send('POST', $project, $body, $resource, $params, $headers);
-        $rawRequestId = $header['x-log-requestid'] ?? '';
-        $requestId = is_string($rawRequestId) ? $rawRequestId : '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->send('POST', $project, $body, $resource, $params, $headers);
         return new PutLogsResponse($header);
     }
 
@@ -1002,9 +998,10 @@ class Client {
      * @throws SDKException
      */
     public function listSqlInstance(string $project): ListSqlInstanceResponse {
-        $headers = [];
-        $headers['Content-Type'] = 'application/x-protobuf';
-        $hangzhou['Content-Length'] = '0';
+        $headers = [
+            'Content-Type' => 'application/x-protobuf',
+            'Content-Length' => 0,
+        ];
         $params = [];
         $resource = '/sqlinstance';
         $body_str = '';
@@ -1130,8 +1127,7 @@ class Client {
         $shardId = $request->getShardId() != null ? $request->getShardId() : -1;
 
         $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
-        [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
+        [, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
         return new DeleteShardResponse($header);
     }
 
@@ -1189,7 +1185,7 @@ class Client {
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/configs';
-        [$resp, $header] = $this->send('POST', null, $body, $resource, $params, $headers);
+        [, $header] = $this->send('POST', null, $body, $resource, $params, $headers);
         return new CreateConfigResponse($header);
     }
 
@@ -1208,7 +1204,7 @@ class Client {
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/configs/'.$configName;
-        [$resp, $header] = $this->send('PUT', null, $body, $resource, $params, $headers);
+        [, $header] = $this->send('PUT', null, $body, $resource, $params, $headers);
         return new UpdateConfigResponse($header);
     }
 
@@ -1234,7 +1230,7 @@ class Client {
         $headers = [];
         $configName = ($request->getConfigName() !== null) ? $request->getConfigName() : '';
         $resource = '/configs/'.$configName;
-        [$resp, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
+        [, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
         return new DeleteConfigResponse($header);
     }
 
@@ -1272,8 +1268,7 @@ class Client {
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/machinegroups';
-        [$resp, $header] = $this->send('POST', null, $body, $resource, $params, $headers);
-
+        [, $header] = $this->send('POST', null, $body, $resource, $params, $headers);
         return new CreateMachineGroupResponse($header);
     }
 
@@ -1291,7 +1286,7 @@ class Client {
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/machinegroups/'.$groupName;
-        [$resp, $header] = $this->send('PUT', null, $body, $resource, $params, $headers);
+        [, $header] = $this->send('PUT', null, $body, $resource, $params, $headers);
         return new UpdateMachineGroupResponse($header);
     }
 
@@ -1318,7 +1313,7 @@ class Client {
 
         $groupName = ($request->getGroupName() !== null) ? $request->getGroupName() : '';
         $resource = '/machinegroups/'.$groupName;
-        [$resp, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
+        [, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
         return new DeleteMachineGroupResponse($header);
     }
 
@@ -1354,7 +1349,7 @@ class Client {
         $groupName = $request->getGroupName();
         $headers['Content-Type'] = 'application/json';
         $resource = '/machinegroups/'.$groupName.'/configs/'.$configName;
-        [$resp, $header] = $this->send('PUT', null, null, $resource, $params, $headers);
+        [, $header] = $this->send('PUT', null, null, $resource, $params, $headers);
         return new ApplyConfigToMachineGroupResponse($header);
     }
 
@@ -1368,7 +1363,7 @@ class Client {
         $groupName = $request->getGroupName();
         $headers['Content-Type'] = 'application/json';
         $resource = '/machinegroups/'.$groupName.'/configs/'.$configName;
-        [$resp, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
+        [, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
         return new RemoveConfigFromMachineGroupResponse($header);
     }
 
@@ -1418,7 +1413,7 @@ class Client {
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/acls/'.$aclId;
-        [$resp, $header] = $this->send('PUT', null, $body, $resource, $params, $headers);
+        [, $header] = $this->send('PUT', null, $body, $resource, $params, $headers);
         return new UpdateACLResponse($header);
     }
 
@@ -1444,7 +1439,7 @@ class Client {
         $headers = [];
         $aclId = ($request->getAclId() !== null) ? $request->getAclId() : '';
         $resource = '/acls/'.$aclId;
-        [$resp, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
+        [, $header] = $this->send('DELETE', null, null, $resource, $params, $headers);
         return new DeleteACLResponse($header);
     }
 

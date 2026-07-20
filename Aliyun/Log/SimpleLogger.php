@@ -28,10 +28,10 @@ class SimpleLogger {
     private int $cacheBytes;
 
     public function __construct(
-        private Client $client,
-        private string $project,
-        private string $logstore,
-        private ?string $topic = null,
+        private readonly Client $client,
+        private readonly string $project,
+        private readonly string $logstore,
+        private readonly ?string $topic = null,
         ?int $maxCacheLog = null,
         ?int $maxWaitTime = null,
         ?int $maxCacheBytes = null,
@@ -167,10 +167,9 @@ class SimpleLogger {
             $ip,
             $logItems,
         );
-        $error_exception = null;
         for ($i = 0 ;  $i < 3 ; $i++) {
             try {
-                $response = $this->client->putLogs($request);
+                $this->client->putLogs($request);
                 return;
             } catch (Exception $ex) {
                 $error_exception = $ex;

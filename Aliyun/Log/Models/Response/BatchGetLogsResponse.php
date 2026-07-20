@@ -42,7 +42,7 @@ class BatchGetLogsResponse extends Response {
      *
      * @return array<int, mixed> log package list
      */
-    public function getLogPackageList() {
+    public function getLogPackageList(): array {
         return $this->logPackageList;
     }
 
@@ -51,7 +51,7 @@ class BatchGetLogsResponse extends Response {
      *
      * @return string|null next cursor
      */
-    public function getNextCursor() {
+    public function getNextCursor(): ?string {
         return $this->nextCursor;
     }
 
@@ -60,7 +60,7 @@ class BatchGetLogsResponse extends Response {
      *
      * @return int count
      */
-    public function getCount() {
+    public function getCount(): int {
         return count($this->logPackageList);
     }
 
@@ -71,7 +71,7 @@ class BatchGetLogsResponse extends Response {
      * @return mixed log package at index
      * @throws OutOfBoundsException if index is out of bounds
      */
-    public function getLogPackage($index) {
+    public function getLogPackage(int $index): mixed {
         if ($index < $this->getCount()) {
             return $this->logPackageList[$index];
         } else {
@@ -84,7 +84,7 @@ class BatchGetLogsResponse extends Response {
      *
      * @return array<int, mixed> log group list
      */
-    public function getLogGroupList() {
+    public function getLogGroupList(): array {
         return $this->logPackageList;
     }
 
@@ -95,7 +95,7 @@ class BatchGetLogsResponse extends Response {
      * @return mixed log group at index
      * @throws OutOfBoundsException if index is out of bounds
      */
-    public function getLogGroup($index) {
+    public function getLogGroup(int $index): mixed {
         if ($index < $this->getCount()) {
             return $this->logPackageList[$index];
         } else {

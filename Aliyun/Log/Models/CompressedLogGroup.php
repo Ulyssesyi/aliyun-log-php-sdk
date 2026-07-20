@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models;
 
+use Aliyun\Log\Log;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -16,14 +18,14 @@ namespace Aliyun\Log\Models;
 class CompressedLogGroup {
     /** uncompressed LogGroup size */
     protected ?int $uncompressedSize = null;
-    protected mixed $compressedData;
+    protected string $compressedData;
     protected ?int $time;
-    /** @var array<mixed>|null */
-    protected ?array $contents;
+    /** @var array<Log> */
+    protected array $contents;
 
     /**
      * @param int|null $time
-     * @param array<mixed> $contents
+     * @param array<Log> $contents
      */
     public function __construct(?int $time = null, array $contents = []) {
         if (! $time) {

@@ -148,7 +148,7 @@ class Util {
      * @param array<string, string>|null $params
      * @param array<string, string> $headers
      */
-    public static function getRequestAuthorization(string $method, string $resource, string $key, ?string $stsToken, ?array $params, array $headers): string {
+    public static function getRequestAuthorization(string $method, string $resource, string $key, ?array $params, array $headers): string {
         if (! $key) {
             return '';
         }

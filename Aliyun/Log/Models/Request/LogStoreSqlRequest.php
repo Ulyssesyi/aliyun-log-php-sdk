@@ -20,7 +20,7 @@ class LogStoreSqlRequest extends Request {
         private ?string $logStore = null,
         private ?int $from = null,
         private ?int $to = null,
-        private ?string $topic = null,
+        private readonly ?string $topic = null,
         private ?string $query = null,
         /** if power sql is true, the query will be run with powered instance */
         private ?bool $powerSql = null,

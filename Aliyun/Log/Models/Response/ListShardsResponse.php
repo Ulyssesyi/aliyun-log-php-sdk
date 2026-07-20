@@ -29,7 +29,7 @@ class ListShardsResponse extends Response {
         parent::__construct($header);
         $this->shardIds = [];
         $this->shards = [];
-        foreach ($resp as $key => $value) {
+        foreach ($resp as $value) {
             if (!is_array($value)) {
                 continue;
             }

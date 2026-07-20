@@ -6,11 +6,11 @@ use Exception;
 
 // message Log.Content
 class Log_Content {
-    /** @var array<string, array<mixed>>|null */
+    /** @var array<string, array<string|int>>|null */
     private ?array $_unknown = null;
 
     /**
-     * @throws SDKException
+     * @throws Exception
      */
     public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
@@ -33,7 +33,7 @@ class Log_Content {
     /**
      * @param resource $fp
      * @param int|null $limit
-     * @throws SDKException
+     * @throws Exception
      */
     public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
@@ -79,7 +79,11 @@ class Log_Content {
                     $limit -= $len;
                     break;
                 default:
-                    $this->_unknown[$field . '-' . Protobuf::get_wiretype($wire)][] = Protobuf::read_field($fp, $wire, $limit);
+                    $result = Protobuf::read_varint($fp, $limit);
+                    if ($result === false) {
+                        throw new Exception('Protobuf::read_varint returned false');
+                    }
+                    $this->_unknown[$field . '-' . Protobuf::get_wiretype($wire)][] = $result;
             }
         }
         if (!$this->validateRequired()) {
@@ -89,7 +93,7 @@ class Log_Content {
 
     /**
      * @param resource $fp
-     * @throws SDKException
+     * @throws Exception
      */
     public function write(mixed $fp): void {
         if (!$this->validateRequired()) {

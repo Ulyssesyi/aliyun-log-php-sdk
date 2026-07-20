@@ -16,7 +16,7 @@ use Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class GetACLResponse extends Response {
-    private ?ACL $acl = null;
+    private ACL $acl;
 
     /**
      * @param array<string, mixed> $resp

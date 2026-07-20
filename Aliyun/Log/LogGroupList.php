@@ -6,11 +6,12 @@ use Exception;
 
 // message LogGroupList
 class LogGroupList {
-    /** @var array<string, array<mixed>>|null */
+    /** @var array<string, array<string|int>>|null */
     private ?array $_unknown = null;
 
     /**
      * @throws SDKException
+     * @throws Exception
      */
     public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
@@ -34,6 +35,7 @@ class LogGroupList {
      * @param resource $fp
      * @param int|null $limit
      * @throws SDKException
+     * @throws Exception
      */
     public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
@@ -55,7 +57,11 @@ class LogGroupList {
                     assert($len === 0);
                     break;
                 default:
-                    $this->_unknown[$field . '-' . Protobuf::get_wiretype($wire)][] = Protobuf::read_field($fp, $wire, $limit);
+                    $result = Protobuf::read_varint($fp, $limit);
+                    if ($result === false) {
+                        throw new Exception('Protobuf::read_varint returned false');
+                    }
+                    $this->_unknown[$field . '-' . Protobuf::get_wiretype($wire)][] = $result;
             }
         }
         if (!$this->validateRequired()) {
@@ -66,6 +72,7 @@ class LogGroupList {
     /**
      * @param resource $fp
      * @throws SDKException
+     * @throws Exception
      */
     public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
@@ -115,7 +122,9 @@ class LogGroupList {
     }
 
     /**
-     * @throws SDKException
+     * @param int $index
+     * @return LogGroup
+     * @throws Exception
      */
     public function getLogGroupList(int $index): LogGroup {
         if ($this->logGroupList_ === null) {

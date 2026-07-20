@@ -18,7 +18,7 @@ class DeleteShardRequest extends Request {
     public function __construct(
         string $project,
         private ?string $logStore,
-        private string $shardId,
+        private readonly string $shardId,
     ) {
         parent::__construct($project);
     }

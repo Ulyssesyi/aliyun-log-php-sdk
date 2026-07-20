@@ -15,8 +15,8 @@ class MachineGroup {
     /** @var array<int, Machine> */
     private ?array $machineList;
 
-    private ?string $createTime = null;
-    private ?string $lastModifyTime = null;
+    private ?string $createTime;
+    private ?string $lastModifyTime;
 
     /**
      * @param ?array<int, Machine> $machineList
