@@ -21,6 +21,7 @@ class CreateMachineGroupRequest extends \Aliyun\Log\Models\Request {
      * @param \Aliyun\Log\Models\MachineGroup|null $machineGroup
      */
     public function __construct(?\Aliyun\Log\Models\MachineGroup $machineGroup = null) {
+        parent::__construct();
         $this->machineGroup = $machineGroup;
     }
 

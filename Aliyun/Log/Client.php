@@ -1048,8 +1048,8 @@ class Client {
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
-        $shardId = $request -> getShardId() !== null ? $request -> getShardId() : -1;
-        $midHash = $request -> getMidHash() != null ? $request -> getMidHash() : '';
+        $shardId = $request->getShardId();
+        $midHash = $request->getMidHash();
 
         $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
         $params['action'] = 'split';

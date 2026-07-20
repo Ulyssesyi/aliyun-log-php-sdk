@@ -27,6 +27,7 @@ class ListMachineGroupsRequest extends \Aliyun\Log\Models\Request {
      * @param int|null $size
      */
     public function __construct(?string $groupName = null, ?int $offset = null, ?int $size = null) {
+        parent::__construct();
         $this->groupName = $groupName;
         $this->offset = $offset;
         $this->size = $size;

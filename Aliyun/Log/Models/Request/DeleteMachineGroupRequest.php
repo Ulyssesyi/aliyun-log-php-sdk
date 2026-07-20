@@ -21,6 +21,7 @@ class DeleteMachineGroupRequest extends \Aliyun\Log\Models\Request {
      * @param string $groupName
      */
     public function __construct(?string $groupName) {
+        parent::__construct();
         $this->groupName = $groupName;
     }
 

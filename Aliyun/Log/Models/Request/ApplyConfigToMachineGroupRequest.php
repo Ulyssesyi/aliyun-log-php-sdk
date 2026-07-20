@@ -24,6 +24,7 @@ class ApplyConfigToMachineGroupRequest extends \Aliyun\Log\Models\Request {
      * @param string|null $configName
      */
     public function __construct(?string $groupName = null, ?string $configName = null) {
+        parent::__construct();
         $this->groupName = $groupName;
         $this->configName = $configName;
     }

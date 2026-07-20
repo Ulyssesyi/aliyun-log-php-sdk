@@ -21,6 +21,7 @@ class GetMachineGroupRequest extends \Aliyun\Log\Models\Request {
      * @param string|null $groupName
      */
     public function __construct(?string $groupName = null) {
+        parent::__construct();
         $this->groupName = $groupName;
     }
 
