@@ -7,15 +7,9 @@
 namespace Aliyun\Log\Models\Request;
 
 class DeleteShipperRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $shipperName;
+    private ?string $shipperName;
 
-    /**
-     * @var string|null
-     */
-    private $logStore;
+    private ?string $logStore;
 
     /**
      * CreateShipperRequest Constructor

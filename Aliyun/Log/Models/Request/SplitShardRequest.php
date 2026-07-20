@@ -13,20 +13,11 @@
 namespace Aliyun\Log\Models\Request;
 
 class SplitShardRequest extends \Aliyun\Log\Models\Request {
-    /**
-     * @var string|null
-     */
-    private $logstore;
+    private ?string $logstore;
 
-    /**
-     * @var string|null
-     */
-    private $shardId;
+    private ?string $shardId;
 
-    /**
-     * @var string|null
-     */
-    private $midHash;
+    private ?string $midHash;
 
     /**
      * SplitShardRequest Constructor
