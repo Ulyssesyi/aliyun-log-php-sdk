@@ -79,14 +79,14 @@ class Util {
     }
 
     /**
-     * @param array<string, string> $params
+     * @param array<string, scalar> $params
      */
     public static function urlEncode(array $params): string {
         ksort($params);
         $url = '';
         $first = true;
         foreach ($params as $key => $value) {
-            $val = self::urlEncodeValue($value);
+            $val = self::urlEncodeValue((string) $value);
             if ($first) {
                 $first = false;
                 $url = "$key=$val";

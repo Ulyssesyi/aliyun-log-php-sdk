@@ -308,7 +308,7 @@ class Client {
     }
 
     /**
-     * @param array<string, mixed> $params
+     * @param array<string, scalar> $params
      * @param array<string, mixed> $headers
      * @return array{0: ?string, 1: array<string, mixed>}
      * @throws SDKException
@@ -347,7 +347,7 @@ class Client {
             $headers['Host'] = "$project.$this->logHost";
         }
         $headers['Date'] = $this->GetGMT();
-        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $params), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
+        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), array_map(fn ($v): string => (string) $v, $params), array_map(static fn (mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
         $headers['Authorization'] = 'LOG '.$credentials->getAccessKeyId().":$signature";
 
         $url = $this->buildUrl($project, $resource, $params);
@@ -355,13 +355,13 @@ class Client {
     }
 
     /**
-     * @param array<string, mixed> $params
+     * @param array<string, scalar> $params
      */
     private function buildUrl(?string $project, string $resource, array $params): string {
         $url = $resource;
         $schema = $this->useHttps ? 'https://' : 'http://';
         if ($params) {
-            $url .= '?' . Util::urlEncode(array_map(static fn (mixed $v): string => is_string($v) ? $v : '', $params));
+            $url .= '?' . Util::urlEncode($params);
         }
         if ($this->isRowIp) {
             return "$schema$this->endpoint$url";
@@ -379,7 +379,7 @@ class Client {
      * @param string|null $project
      * @param string|null $body
      * @param string $resource
-     * @param array<string, mixed> $params
+     * @param array<string, scalar> $params
      * @param array<string, mixed> $headers
      * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      * @throws SDKException
@@ -538,11 +538,11 @@ class Client {
     public function getShipperTasks(GetShipperTasksRequest $request): GetShipperTasksResponse {
         $headers = [];
         $params = [
-            'from' => $request->getStartTime(),
-            'to' => $request->getEndTime(),
-            'status' => $request->getStatusType(),
-            'offset' => $request->getOffset(),
-            'size' => $request->getSize(),
+            'from' => $request->getStartTime() ?: '',
+            'to' => $request->getEndTime() ?: '',
+            'status' => $request->getStatusType() ?: '',
+            'offset' => $request->getOffset() ?: '',
+            'size' => $request->getSize() ?: '',
         ];
         $resource = '/logstores/'.$request->getLogStore().'/shipper/'.$request->getShipperName().'/tasks';
         $project = $request->getProject() !== null ? $request->getProject() : '';
