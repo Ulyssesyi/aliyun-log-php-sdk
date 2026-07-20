@@ -6,7 +6,7 @@
 
 ## SDK RELEASE TIME
 
-2024-05-28
+2026-07-20
 
 ## Introduction
 
@@ -26,6 +26,6 @@ API Reference: [中文](https://help.aliyun.com/document_detail/29007.html) [ENG
 
 ## Environment Requirement
 
-1. PHP 7.1.7 and later：Master Branch
+1. PHP 8.1 and later：Master Branch
 2. PHP 5.2+：[Tree v1.0](https://github.com/aliyun/aliyun-log-php-sdk/tree/v1.0)
 
