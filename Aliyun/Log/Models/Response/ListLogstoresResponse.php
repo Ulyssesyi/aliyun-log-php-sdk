@@ -21,13 +21,17 @@ class ListLogstoresResponse extends Response {
     private array $logstores;
 
     /**
-     * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $resp
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->count = $resp['total'];
-        $this->logstores = $resp['logstores'];
+
+        $total = $resp['total'];
+        $this->count = is_numeric($total) ? (int) $total : 0;
+
+        $logstores = $resp['logstores'];
+        $this->logstores = is_array($logstores) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $logstores) : [];
     }
 
     public function getCount(): int {

@@ -99,7 +99,7 @@ class Util {
     /**
      * Get canonicalizedLOGHeaders string as defined.
      *
-     * @param array<string, mixed> $header
+     * @param array<string, string> $header
      */
     public static function canonicalizedLOGHeaders(array $header): string {
         ksort($header);
@@ -145,7 +145,7 @@ class Util {
      * Get request authorization string as defined.
      *
      * @param array<string, string>|null $params
-     * @param array<string, mixed> $headers
+     * @param array<string, string> $headers
      */
     public static function getRequestAuthorization(string $method, string $resource, string $key, ?string $stsToken, ?array $params, array $headers): string {
         if (! $key) {

@@ -19,11 +19,12 @@ class CreateACLResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->aclId = $resp['aclId'];
+        $val = $resp['aclId'];
+        $this->aclId = is_string($val) ? $val : '';
     }
 
     public function getAclId(): string {

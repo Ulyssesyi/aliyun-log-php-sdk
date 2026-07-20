@@ -13,8 +13,8 @@ class ProtobufEnum {
         if (is_null($value)) {
             return null;
         }
-        if (array_key_exists($value, self::$_values)) {
-            return self::$_values[$value];
+        if (is_string($value) && array_key_exists($value, static::$_values)) {
+            return static::$_values[$value];
         }
         return 'UNKNOWN';
     }

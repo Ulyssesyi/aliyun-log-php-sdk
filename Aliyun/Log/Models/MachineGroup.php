@@ -115,29 +115,38 @@ class MachineGroup {
      */
     public function setFromArray(array $resp): void {
         $groupAttribute = null;
-        if (isset($resp['groupAttribute'])) {
+        if (isset($resp['groupAttribute']) && is_array($resp['groupAttribute'])) {
             $groupAttributeArr = $resp['groupAttribute'];
             $groupAttribute = new GroupAttribute();
-            if (isset($groupAttributeArr['externalName'])) {
+            if (isset($groupAttributeArr['externalName']) && is_string($groupAttributeArr['externalName'])) {
                 $groupAttribute->externalName = $groupAttributeArr['externalName'];
             }
-            if (isset($groupAttributeArr['groupTopic'])) {
+            if (isset($groupAttributeArr['groupTopic']) && is_string($groupAttributeArr['groupTopic'])) {
                 $groupAttribute->groupTopic = $groupAttributeArr['groupTopic'];
             }
         }
-        $groupName = ($resp['groupName'] !== null) ? $resp['groupName'] : null;
-        $groupType = ($resp['groupType'] !== null) ? $resp['groupType'] : null;
+        $groupName = (isset($resp['groupName']) && is_string($resp['groupName'])) ? $resp['groupName'] : null;
+        $groupType = (isset($resp['groupType']) && is_string($resp['groupType'])) ? $resp['groupType'] : null;
         $machineList = [];
         if (isset($resp['machineList']) && is_array($resp['machineList']) && count($resp['machineList']) > 0) {
             foreach ($resp['machineList'] as $value) {
+                if (!is_array($value)) {
+                    continue;
+                }
+                $cleanValue = [];
+                foreach ($value as $k => $v) {
+                    if (is_string($k)) {
+                        $cleanValue[$k] = $v;
+                    }
+                }
                 $machine = new Machine();
-                $machine->setFromArray($value);
+                $machine->setFromArray($cleanValue);
                 $machineList[] = $machine;
             }
         }
 
-        $createTime = ($resp['createTime'] !== null) ? $resp['createTime'] : null;
-        $lastModifyTime = ($resp['lastModifyTime'] !== null) ? $resp['lastModifyTime'] : null;
+        $createTime = (isset($resp['createTime']) && is_string($resp['createTime'])) ? $resp['createTime'] : null;
+        $lastModifyTime = (isset($resp['lastModifyTime']) && is_string($resp['lastModifyTime'])) ? $resp['lastModifyTime'] : null;
         $this->setGroupName($groupName);
         $this->setGroupType($groupType);
         $this->setGroupAttribute($groupAttribute);

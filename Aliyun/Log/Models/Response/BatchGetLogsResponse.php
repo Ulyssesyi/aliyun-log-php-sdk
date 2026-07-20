@@ -27,13 +27,14 @@ class BatchGetLogsResponse extends Response {
      *
      * @param LogGroupList $resp
      *            HTTP response body (LogGroupList)
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      *            HTTP response header
      */
     public function __construct(LogGroupList $resp, array $header) {
         parent::__construct($header);
         $this->logPackageList = $resp->getLogGroupListArray();
-        $this->nextCursor = $header['x-log-cursor'] ?? null;
+        $val = $header['x-log-cursor'] ?? null;
+        $this->nextCursor = is_string($val) ? $val : null;
     }
 
     /**

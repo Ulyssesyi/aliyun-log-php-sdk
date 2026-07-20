@@ -28,6 +28,10 @@ class EndpointTest extends TestCase {
         $client = new Client($endpoint, $accessKeyId, $accessKey);
         $reflection = new ReflectionClass($client);
         $method = $reflection->getMethod('buildUrl');
-        return $method->invokeArgs($client, [$project, $resource, $params]);
+        $result = $method->invokeArgs($client, [$project, $resource, $params]);
+        if (!is_string($result)) {
+            throw new RuntimeException('buildUrl must return string');
+        }
+        return $result;
     }
 }

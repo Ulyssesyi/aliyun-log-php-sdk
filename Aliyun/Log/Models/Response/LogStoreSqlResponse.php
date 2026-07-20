@@ -28,22 +28,49 @@ class LogStoreSqlResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->count = (int) $header['x-log-count'];
-        $this->progress = $header['x-log-progress'];
-        $this->processedRows = (int) $header['x-log-processed-rows'];
-        $this->elapsedMilli = isset($header['x-log-elapsed-millisecond']) ? (int) $header['x-log-elapsed-millisecond'] : 0;
-        $this->cpuSec = isset($header['x-log-cpu-sec']) ? (int) $header['x-log-cpu-sec'] : 0;
-        $this->cpuCores = isset($header['x-log-cpu-cores']) ? (int) $header['x-log-cpu-cores'] : 0;
+
+        $cnt = $header['x-log-count'];
+        $this->count = is_numeric($cnt) ? (int) $cnt : 0;
+
+        $prog = $header['x-log-progress'];
+        $this->progress = is_string($prog) ? $prog : '';
+
+        $rows = $header['x-log-processed-rows'];
+        $this->processedRows = is_numeric($rows) ? (int) $rows : 0;
+
+        $elapsed = $header['x-log-elapsed-millisecond'] ?? null;
+        $this->elapsedMilli = is_numeric($elapsed) ? (int) $elapsed : 0;
+
+        $cpuSec = $header['x-log-cpu-sec'] ?? null;
+        $this->cpuSec = is_numeric($cpuSec) ? (int) $cpuSec : 0;
+
+        $cpuCores = $header['x-log-cpu-cores'] ?? null;
+        $this->cpuCores = is_numeric($cpuCores) ? (int) $cpuCores : 0;
+
         $this->logs = [];
         foreach ($resp as $data) {
-            $contents = $data;
-            $time = $data['__time__'];
-            $source = $data['__source__'];
-            unset($contents['__time__'], $contents['__source__']);
+            if (!is_array($data)) {
+                continue;
+            }
+            $rawTime = $data['__time__'] ?? null;
+            $time = is_numeric($rawTime) ? (int) $rawTime : 0;
+            $rawSource = $data['__source__'] ?? null;
+            $source = is_string($rawSource) ? $rawSource : '';
+
+            $contents = [];
+            foreach ($data as $key => $value) {
+                if (!is_string($key)) {
+                    continue;
+                }
+                if ($key === '__time__' || $key === '__source__') {
+                    continue;
+                }
+                $contents[$key] = is_string($value) ? $value : '';
+            }
 
             $this->logs[] = new QueriedLog($time, $source, $contents);
         }

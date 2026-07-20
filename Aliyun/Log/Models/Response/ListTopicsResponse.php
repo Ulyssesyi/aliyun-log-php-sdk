@@ -24,13 +24,15 @@ class ListTopicsResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->count = (int) $header['x-log-count'];
-        $this->topics = $resp;
-        $this->nextToken = $header['x-log-nexttoken'] ?? null;
+        $countVal = $header['x-log-count'];
+        $this->count = is_numeric($countVal) ? (int) $countVal : 0;
+        $this->topics = array_values(array_filter($resp, 'is_string'));
+        $nextTokenVal = $header['x-log-nexttoken'] ?? null;
+        $this->nextToken = is_string($nextTokenVal) ? $nextTokenVal : null;
     }
 
     public function getCount(): int {

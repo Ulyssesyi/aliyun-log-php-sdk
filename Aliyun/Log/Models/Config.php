@@ -109,33 +109,36 @@ class Config {
         return $format_array;
     }
 
-    /** @param array<string, mixed> $resp */
+    /**
+     * @param array<string, mixed> $resp
+     *
+     * @phpstan-param array{configName?: string, inputType?: string, outputType?: string, inputDetail?: array{filePattern?: string, key?: string[], localStorage?: bool, logBeginRegex?: string, logPath?: string, logType?: string, regex?: string, timeFormat?: string, filterRegex?: string[], filterKey?: string[], topicFormat?: string}, outputDetail?: array{projectName?: string, logstoreName?: string}} $resp
+     */
     public function setFromArray(array $resp): void {
+        $inputDetailData = $resp['inputDetail'] ?? [];
+        $outputDetailData = $resp['outputDetail'] ?? [];
+
         $inputDetail = new InputDetail();
-        $inputDetail->filePattern = $resp['inputDetail']['filePattern'];
-        $inputDetail->key = $resp['inputDetail']['key'];
-        $inputDetail->localStorage = $resp['inputDetail']['localStorage'];
-        $inputDetail->logBeginRegex = $resp['inputDetail']['logBeginRegex'];
-        $inputDetail->logPath = $resp['inputDetail']['logPath'];
-        $inputDetail->logType = $resp['inputDetail']['logType'];
-        $inputDetail->regex = $resp['inputDetail']['regex'];
-        $inputDetail->timeFormat = $resp['inputDetail']['timeFormat'];
-        $inputDetail->filterRegex = $resp['inputDetail']['filterRegex'];
-        $inputDetail->filterKey = $resp['inputDetail']['filterKey'];
-        $inputDetail->topicFormat = $resp['inputDetail']['topicFormat'];
+        $inputDetail->filePattern = $inputDetailData['filePattern'] ?? null;
+        $inputDetail->key = $inputDetailData['key'] ?? null;
+        $inputDetail->localStorage = $inputDetailData['localStorage'] ?? null;
+        $inputDetail->logBeginRegex = $inputDetailData['logBeginRegex'] ?? null;
+        $inputDetail->logPath = $inputDetailData['logPath'] ?? null;
+        $inputDetail->logType = $inputDetailData['logType'] ?? null;
+        $inputDetail->regex = $inputDetailData['regex'] ?? null;
+        $inputDetail->timeFormat = $inputDetailData['timeFormat'] ?? null;
+        $inputDetail->filterRegex = $inputDetailData['filterRegex'] ?? null;
+        $inputDetail->filterKey = $inputDetailData['filterKey'] ?? null;
+        $inputDetail->topicFormat = $inputDetailData['topicFormat'] ?? null;
 
         $outputDetail = new OutputDetail();
-        $outputDetail->projectName = $resp['outputDetail']['projectName'];
-        $outputDetail->logstoreName = $resp['outputDetail']['logstoreName'];
+        $outputDetail->projectName = $outputDetailData['projectName'] ?? null;
+        $outputDetail->logstoreName = $outputDetailData['logstoreName'] ?? null;
 
-        $configName = $resp['configName'];
-        $inputType = $resp['inputType'];
-        $outputType = $resp['outputType'];
-
-        $this->setConfigName($configName);
-        $this->setInputType($inputType);
+        $this->setConfigName($resp['configName'] ?? null);
+        $this->setInputType($resp['inputType'] ?? null);
         $this->setInputDetail($inputDetail);
-        $this->setOutputType($outputType);
+        $this->setOutputType($resp['outputType'] ?? null);
         $this->setOutputDetail($outputDetail);
     }
 }

@@ -27,6 +27,9 @@ class Log_Content {
         }
     }
 
+    /**
+     * @param resource $fp
+     */
     public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
@@ -79,6 +82,9 @@ class Log_Content {
         }
     }
 
+    /**
+     * @param resource $fp
+     */
     public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');

@@ -19,14 +19,13 @@ class GetACLResponse extends Response {
     private ?ACL $acl = null;
 
     /**
-     * @param array<string, string> $header
+     * @param array<string, mixed> $resp
+     * @param array<string, mixed> $header
      */
-    public function __construct(mixed $resp, array $header) {
+    public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        if ($resp !== null) {
-            $this->acl = new ACL();
-            $this->acl->setFromArray($resp);
-        }
+        $this->acl = new ACL();
+        $this->acl->setFromArray($resp);
     }
 
     public function getAcl(): ?ACL {

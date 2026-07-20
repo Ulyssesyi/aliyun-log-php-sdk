@@ -17,14 +17,17 @@ class ListShipperResponse extends Response {
     private array $shippers;
 
     /**
-     * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $resp
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->count = $resp['count'];
-        $this->total = $resp['total'];
-        $this->shippers = $resp['shipper'];
+        $count = $resp['count'] ?? 0;
+        $this->count = is_numeric($count) ? (int) $count : 0;
+        $total = $resp['total'] ?? 0;
+        $this->total = is_numeric($total) ? (int) $total : 0;
+        $shippers = $resp['shipper'] ?? [];
+        $this->shippers = is_array($shippers) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $shippers) : [];
     }
 
     public function getCount(): int {

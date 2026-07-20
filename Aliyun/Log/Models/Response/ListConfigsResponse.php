@@ -21,13 +21,15 @@ class ListConfigsResponse extends Response {
     private array $configs;
 
     /**
-     * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $resp
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->total = $resp['total'];
-        $this->configs = $resp['configs'];
+        $totalVal = $resp['total'];
+        $this->total = is_numeric($totalVal) ? (int) $totalVal : 0;
+        $configsVal = $resp['configs'];
+        $this->configs = is_array($configsVal) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $configsVal) : [];
     }
 
     public function getSize(): int {

@@ -89,6 +89,8 @@ class Protobuf {
     /**
      * Tries to read a varint from $fp.
      *
+     * @param resource $fp
+     *
      * @return int|false the Varint from the stream, or false if the stream has reached eof.
      */
     public static function read_varint(mixed $fp, int|null &$limit = null): int|false {
@@ -132,6 +134,8 @@ class Protobuf {
      * Writes a varint to $fp
      * returns the number of bytes written
      *
+     * @param resource $fp
+     *
      * @return int The number of bytes written
      */
     public static function write_varint(mixed $fp, int $i): int {
@@ -156,6 +160,8 @@ class Protobuf {
 
     /**
      * Seek past a varint
+     *
+     * @param resource $fp
      */
     public static function skip_varint(mixed $fp): int {
         $len = 0;
@@ -171,6 +177,8 @@ class Protobuf {
 
     /**
      * Seek past the current field
+     *
+     * @param resource $fp
      */
     public static function skip_field(mixed $fp, int $wire_type): int {
         switch ($wire_type) {
@@ -207,6 +215,8 @@ class Protobuf {
 
     /**
      * Read a unknown field from the stream and return its raw bytes
+     *
+     * @param resource $fp
      */
     public static function read_field(mixed $fp, int $wire_type, int|null &$limit = null): int|string|false {
         switch ($wire_type) {
@@ -273,8 +283,10 @@ class Protobuf {
                 $ret .= '"' . $safevalue . '" (' . strlen($value) . " bytes)\n";
             } elseif (is_bool($value)) {
                 $ret .= ($value ? 'true' : 'false') . "\n";
-            } else {
+            } elseif (is_int($value) || is_float($value)) {
                 $ret .= (string) $value . "\n";
+            } else {
+                $ret .= "\n";
             }
         }
         return $ret;

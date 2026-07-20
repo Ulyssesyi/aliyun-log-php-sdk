@@ -28,22 +28,38 @@ class ProjectSqlResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->count = (int) $header['x-log-count'];
-        $this->progress = $header['x-log-progress'];
-        $this->processedRows = (int) $header['x-log-processed-rows'];
-        $this->elapsedMilli = isset($header['x-log-elapsed-millisecond']) ? (int) $header['x-log-elapsed-millisecond'] : 0;
-        $this->cpuSec = isset($header['x-log-cpu-sec']) ? (int) $header['x-log-cpu-sec'] : 0;
-        $this->cpuCores = isset($header['x-log-cpu-cores']) ? (int) $header['x-log-cpu-cores'] : 0;
+        $countVal = $header['x-log-count'];
+        $this->count = is_numeric($countVal) ? (int) $countVal : 0;
+        $progressVal = $header['x-log-progress'];
+        $this->progress = is_string($progressVal) ? $progressVal : '';
+        $processedRowsVal = $header['x-log-processed-rows'];
+        $this->processedRows = is_numeric($processedRowsVal) ? (int) $processedRowsVal : 0;
+        $elapsedMilliVal = $header['x-log-elapsed-millisecond'] ?? null;
+        $this->elapsedMilli = is_numeric($elapsedMilliVal) ? (int) $elapsedMilliVal : 0;
+        $cpuSecVal = $header['x-log-cpu-sec'] ?? null;
+        $this->cpuSec = is_numeric($cpuSecVal) ? (int) $cpuSecVal : 0;
+        $cpuCoresVal = $header['x-log-cpu-cores'] ?? null;
+        $this->cpuCores = is_numeric($cpuCoresVal) ? (int) $cpuCoresVal : 0;
         $this->logs = [];
         foreach ($resp as $data) {
-            $contents = $data;
-            $time = $data['__time__'];
-            $source = $data['__source__'];
-            unset($contents['__time__'], $contents['__source__']);
+            $time = 0;
+            $source = '';
+            $contents = [];
+            if (is_array($data)) {
+                $timeVal = $data['__time__'] ?? null;
+                $time = is_numeric($timeVal) ? (int) $timeVal : 0;
+                $sourceVal = $data['__source__'] ?? null;
+                $source = is_string($sourceVal) ? $sourceVal : '';
+                foreach ($data as $key => $value) {
+                    if ($key !== '__time__' && $key !== '__source__' && is_string($value)) {
+                        $contents[(string) $key] = $value;
+                    }
+                }
+            }
 
             $this->logs[] = new QueriedLog($time, $source, $contents);
         }

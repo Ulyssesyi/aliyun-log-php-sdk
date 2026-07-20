@@ -16,13 +16,16 @@ class GetShipperConfigResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->shipperName = $resp['shipperName'];
-        $this->targetConfigration = $resp['targetConfiguration'];
-        $this->targetType = $resp['targetType'];
+        $val = $resp['shipperName'] ?? '';
+        $this->shipperName = is_string($val) ? $val : '';
+        $val = $resp['targetConfiguration'] ?? '';
+        $this->targetConfigration = is_string($val) ? $val : '';
+        $val = $resp['targetType'] ?? '';
+        $this->targetType = is_string($val) ? $val : '';
     }
 
     public function getShipperName(): string {

@@ -83,8 +83,14 @@ class SimpleLogger {
         ];
         $contents['logLevel'] = $logLevel->value;
         foreach ($logMessage as $key => $value) {
-            $contents[$key] = $value;
-            $this->cacheBytes += strlen((string) $key) + strlen((string) $value);
+            $strValue = match (true) {
+                is_string($value) => $value,
+                is_int($value), is_float($value) => (string) $value,
+                is_bool($value) => $value ? 'true' : 'false',
+                default => '',
+            };
+            $contents[$key] = $strValue;
+            $this->cacheBytes += strlen($key) + strlen($strValue);
         }
         $this->cacheBytes += 32;
         $logItem = new LogItem();

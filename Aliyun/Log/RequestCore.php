@@ -72,7 +72,7 @@ class RequestCore {
     /**
      * Stores the proxy settings to use for the request.
      *
-     * @var array<string, mixed>|null
+     * @var array{host?: string, port?: int|null, user?: string|null, pass?: string|null, ...}|null
      */
     public ?array $proxy = null;
 
@@ -678,8 +678,11 @@ class RequestCore {
         if ($this->proxy) {
             curl_setopt($curl_handle, CURLOPT_HTTPPROXYTUNNEL, true);
 
-            $host = $this->proxy['host'];
-            $host .= ($this->proxy['port']) ? ':' . $this->proxy['port'] : '';
+            $host = $this->proxy['host'] ?? '';
+            $port = $this->proxy['port'] ?? null;
+            if ($port !== null) {
+                $host .= ':' . $port;
+            }
             curl_setopt($curl_handle, CURLOPT_PROXY, $host);
 
             if (isset($this->proxy['user']) && isset($this->proxy['pass'])) {
@@ -1083,7 +1086,9 @@ class RequestCore {
      */
     public function get_response_header(?string $header = null): string|array {
         if ($header) {
-            return $this->response_headers[strtolower($header)];
+            $value = $this->response_headers[strtolower($header)] ?? null;
+
+            return is_string($value) ? $value : '';
         }
 
         return $this->response_headers;

@@ -20,17 +20,20 @@ class ListACLsResponse extends Response {
     private array $acls;
 
     /**
-     * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $resp
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         $aclArr = [];
-        if (isset($resp['acls'])) {
-            foreach ($resp['acls'] as $value) {
-                $aclObj = new ACL();
-                $aclObj->setFromArray($value);
-                $aclArr[] = $aclObj;
+        $rawAcls = $resp['acls'] ?? [];
+        if (is_array($rawAcls)) {
+            foreach ($rawAcls as $value) {
+                if (is_array($value)) {
+                    $aclObj = new ACL();
+                    $aclObj->setFromArray(array_filter($value, 'is_string', ARRAY_FILTER_USE_KEY));
+                    $aclArr[] = $aclObj;
+                }
             }
         }
         $this->acls = $aclArr;

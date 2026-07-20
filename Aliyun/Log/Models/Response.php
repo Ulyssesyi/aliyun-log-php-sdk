@@ -13,31 +13,33 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Response {
-    /** @var array<string, string> */
+    /** @var array<string, mixed> */
     private array $headers;
 
     /**
-     * @param array<string, string> $headers
+     * @param array<string, mixed> $headers
      */
     public function __construct(array $headers) {
         $this->headers = $headers;
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function getAllHeaders(): array {
         return $this->headers;
     }
 
     public function getHeader(string $key): string {
-        return $this->headers[$key] ?? '';
+        $value = $this->headers[$key] ?? '';
+        return is_string($value) ? $value : '';
     }
 
     /**
      * '' will be returned if not set.
      */
     public function getRequestId(): string {
-        return $this->headers['x-log-requestid'] ?? '';
+        $value = $this->headers['x-log-requestid'] ?? '';
+        return is_string($value) ? $value : '';
     }
 }

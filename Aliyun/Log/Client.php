@@ -214,16 +214,19 @@ class Client {
      * @return array<mixed>
      * @throws Exception
      */
+    /**
+     * @return array<string, mixed>
+     */
     protected function parseToJson(?string $resBody, string $requestId): array {
-        if (! $resBody) {
+        if ($resBody === null || $resBody === '') {
             return [];
         }
 
         $result = json_decode($resBody, true);
-        if ($result === null) {
+        if (!is_array($result)) {
             throw new Exception('BadResponse', "Bad format,not json: $resBody", $requestId);
         }
-        return $result;
+        return array_filter($result, fn(mixed $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -233,7 +236,9 @@ class Client {
     protected function getHttpResponse(string $method, string $url, string $body, array $headers): array {
         $request = new RequestCore($url);
         foreach ($headers as $key => $value) {
-            $request->add_header($key, $value);
+            if (is_string($value)) {
+                $request->add_header($key, $value);
+            }
         }
         $request->set_method($method);
         $request->set_useragent(SLS_USER_AGENT);
@@ -263,31 +268,34 @@ class Client {
             throw new Exception($ex->getMessage(), $ex->__toString());
         }
 
-        $requestId = $header['x-log-requestid'] ?? '';
+        $rawRequestId = $header['x-log-requestid'] ?? '';
+        $requestId = is_string($rawRequestId) ? $rawRequestId : '';
 
         if ($responseCode == 200) {
             return  [$resBody,$header];
-        } else {
-            $exJson = $this->parseToJson($resBody, $requestId);
-            if (isset($exJson['error_code']) && isset($exJson['error_message'])) {
-                throw new Exception(
-                    $exJson['error_code'],
-                    $exJson['error_message'],
-                    $requestId,
-                );
-            } else {
-                if ($exJson) {
-                    $exJson = ' The return json is ' . json_encode($exJson);
-                } else {
-                    $exJson = '';
-                }
-                throw new Exception(
-                    'RequestError',
-                    "Request is failed. Http code is $responseCode.$exJson",
-                    $requestId,
-                );
-            }
         }
+
+        $exJson = $this->parseToJson($resBody, $requestId);
+        if (isset($exJson['error_code']) && isset($exJson['error_message'])) {
+            $errorCode = is_string($exJson['error_code']) ? $exJson['error_code'] : '';
+            $errorMessage = is_string($exJson['error_message']) ? $exJson['error_message'] : '';
+            throw new Exception(
+                $errorCode,
+                $errorMessage,
+                $requestId,
+            );
+        }
+
+        if ($exJson) {
+            $exJsonStr = ' The return json is ' . json_encode($exJson);
+        } else {
+            $exJsonStr = '';
+        }
+        throw new Exception(
+            'RequestError',
+            "Request is failed. Http code is $responseCode.$exJsonStr",
+            $requestId,
+        );
     }
 
     /**
@@ -331,7 +339,7 @@ class Client {
             $headers['Host'] = "$project.$this->logHost";
         }
         $headers['Date'] = $this->GetGMT();
-        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), $credentials->getSecurityToken(), $params, $headers);
+        $signature = Util::getRequestAuthorization($method, $resource, $credentials->getAccessKeySecret(), $credentials->getSecurityToken(), array_map(static fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $params), array_map(static fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $headers));
         $headers['Authorization'] = 'LOG '.$credentials->getAccessKeyId().":$signature";
 
         $url = $this->buildUrl($project, $resource, $params);
@@ -345,7 +353,7 @@ class Client {
         $url = $resource;
         $schema = $this->useHttps ? 'https://' : 'http://';
         if ($params) {
-            $url .= '?' . Util::urlEncode($params);
+            $url .= '?' . Util::urlEncode(array_map(static fn(mixed $v): string => is_string($v) ? $v : '', $params));
         }
         if ($this->isRowIp) {
             return "$schema$this->endpoint$url";
@@ -361,11 +369,12 @@ class Client {
      *
      * @param array<string, mixed> $params
      * @param array<string, mixed> $headers
-     * @return array{0: array<mixed>, 1: array<string, mixed>}
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      */
     private function executeApi(string $method, ?string $project, ?string $body, string $resource, array $params, array $headers): array {
         [$resp, $header] = $this->send($method, $project, $body, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
+        $rawRequestId = $header['x-log-requestid'] ?? '';
+        $requestId = is_string($rawRequestId) ? $rawRequestId : '';
         $resp = $this->parseToJson($resp, $requestId);
         return [$resp, $header];
     }
@@ -447,7 +456,8 @@ class Client {
             $params['key'] = $shardKey;
         }
         [$resp, $header] = $this->send('POST', $project, $body, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
+        $rawRequestId = $header['x-log-requestid'] ?? '';
+        $requestId = is_string($rawRequestId) ? $rawRequestId : '';
         $resp = $this->parseToJson($resp, $requestId);
         return new PutLogsResponse($header);
     }
@@ -705,7 +715,7 @@ class Client {
      *
      * @param GetHistogramsRequest $request the GetHistograms request parameters class.
      * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, string>}
+     * @return array{0: array<mixed>, 1: array<string, mixed>}
      */
     public function getHistogramsJson(GetHistogramsRequest $request): array {
         $headers =  [];
@@ -750,7 +760,7 @@ class Client {
      *
      * @param GetLogsRequest $request the GetLogs request parameters class.
      * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, string>}
+     * @return array{0: array<mixed>, 1: array<string, mixed>}
      */
     public function getLogsJson(GetLogsRequest $request): array {
         $headers =  [];
@@ -807,7 +817,7 @@ class Client {
      *
      * @param GetProjectLogsRequest $request the GetLogs request parameters class.
      * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, string>}
+     * @return array{0: array<mixed>, 1: array<string, mixed>}
      */
     public function getProjectLogsJson(GetProjectLogsRequest $request): array {
         $headers =  [];
@@ -871,7 +881,7 @@ class Client {
      *
      * @param ProjectSqlRequest $request the GetLogs request parameters class.
      * @throws Exception
-     * @return array{0: array<mixed>, 1: array<string, string>}
+     * @return array{0: array<mixed>, 1: array<string, mixed>}
      */
     public function executeProjectSqlJson(ProjectSqlRequest $request): array {
         $headers =  [];
@@ -1127,8 +1137,9 @@ class Client {
         $params = [];
         $headers = [];
         $body = null;
-        if ($request->getConfig() !== null) {
-            $body = $this->jsonEncode($request->getConfig()->toArray());
+        $config = $request->getConfig();
+        if (is_object($config) && method_exists($config, 'toArray')) {
+            $body = $this->jsonEncode($config->toArray());
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/configs';
@@ -1141,9 +1152,10 @@ class Client {
         $headers = [];
         $body = null;
         $configName = '';
-        if ($request->getConfig() !== null) {
-            $body = $this->jsonEncode($request->getConfig()->toArray());
-            $configName = ($request->getConfig()->getConfigName() !== null) ? $request->getConfig()->getConfigName() : '';
+        $config = $request->getConfig();
+        if (is_object($config) && method_exists($config, 'toArray')) {
+            $body = $this->jsonEncode($config->toArray());
+            $configName = (method_exists($config, 'getConfigName') && $config->getConfigName() !== null) ? $config->getConfigName() : '';
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/configs/'.$configName;
@@ -1296,8 +1308,9 @@ class Client {
         $params = [];
         $headers = [];
         $body = null;
-        if ($request->getAcl() !== null) {
-            $body = $this->jsonEncode($request->getAcl()->toArray());
+        $acl = $request->getAcl();
+        if (is_object($acl) && method_exists($acl, 'toArray')) {
+            $body = $this->jsonEncode($acl->toArray());
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/acls';
@@ -1310,9 +1323,10 @@ class Client {
         $headers = [];
         $body = null;
         $aclId = '';
-        if ($request->getAcl() !== null) {
-            $body = $this->jsonEncode($request->getAcl()->toArray());
-            $aclId = ($request->getAcl()->getAclId() !== null) ? $request->getAcl()->getAclId() : '';
+        $acl = $request->getAcl();
+        if (is_object($acl) && method_exists($acl, 'toArray')) {
+            $body = $this->jsonEncode($acl->toArray());
+            $aclId = (method_exists($acl, 'getAclId') && $acl->getAclId() !== null) ? $acl->getAclId() : '';
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/acls/'.$aclId;

@@ -22,14 +22,20 @@ class ListMachineGroupsResponse extends Response {
     private array $machineGroups;
 
     /**
-     * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $resp
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->offset = $resp['offset'];
-        $this->size = $resp['size'];
-        $this->machineGroups = $resp['machinegroups'];
+
+        $offset = $resp['offset'];
+        $this->offset = is_numeric($offset) ? (int) $offset : 0;
+
+        $size = $resp['size'];
+        $this->size = is_numeric($size) ? (int) $size : 0;
+
+        $machineGroups = $resp['machinegroups'];
+        $this->machineGroups = is_array($machineGroups) ? array_map(fn(mixed $v): string => is_string($v) ? $v : (is_scalar($v) ? (string) $v : ''), $machineGroups) : [];
     }
 
     public function getOffset(): int {

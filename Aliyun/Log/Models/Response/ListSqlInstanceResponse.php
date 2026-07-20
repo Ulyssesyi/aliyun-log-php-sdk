@@ -20,12 +20,17 @@ class ListSqlInstanceResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
         foreach ($resp as $data) {
-            $this->sqlInstances[] = new SqlInstance($data['name'], (int) $data['cu'], (int) $data['createTime'], (int) $data['updateTime']);
+            $row = is_array($data) ? $data : [];
+            $name = is_string($row['name'] ?? null) ? $row['name'] : '';
+            $cu = is_numeric($row['cu'] ?? null) ? (int) $row['cu'] : 0;
+            $createTime = is_numeric($row['createTime'] ?? null) ? (int) $row['createTime'] : 0;
+            $updateTime = is_numeric($row['updateTime'] ?? null) ? (int) $row['updateTime'] : 0;
+            $this->sqlInstances[] = new SqlInstance($name, $cu, $createTime, $updateTime);
         }
     }
 

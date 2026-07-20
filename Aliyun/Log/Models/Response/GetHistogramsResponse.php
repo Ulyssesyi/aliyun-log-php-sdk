@@ -24,15 +24,28 @@ class GetHistogramsResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->progress = $header['x-log-progress'];
-        $this->count = (int) $header['x-log-count'];
+
+        $progress = $header['x-log-progress'];
+        $this->progress = is_string($progress) ? $progress : '';
+
+        $count = $header['x-log-count'];
+        $this->count = is_numeric($count) ? (int) $count : 0;
+
         $this->histograms = [];
         foreach ($resp as $data) {
-            $this->histograms[] = new Histogram($data['from'], $data['to'], $data['count'], $data['progress']);
+            if (!is_array($data)) {
+                continue;
+            }
+            $this->histograms[] = new Histogram(
+                is_numeric($data['from'] ?? null) ? (int) $data['from'] : 0,
+                is_numeric($data['to'] ?? null) ? (int) $data['to'] : 0,
+                is_numeric($data['count'] ?? null) ? (int) $data['count'] : 0,
+                is_string($data['progress'] ?? null) ? $data['progress'] : ''
+            );
         }
     }
 

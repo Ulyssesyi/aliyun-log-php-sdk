@@ -28,23 +28,44 @@ class GetLogsResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->count = (int) $header['x-log-count'];
-        $this->progress = $header['x-log-progress'];
-        $this->processedRows = (int) $header['x-log-processed-rows'];
-        $this->elapsedMilli = isset($header['x-log-elapsed-millisecond']) ? (int) $header['x-log-elapsed-millisecond'] : 0;
-        $this->cpuSec = isset($header['x-log-cpu-sec']) ? (int) $header['x-log-cpu-sec'] : 0;
-        $this->cpuCores = isset($header['x-log-cpu-cores']) ? (int) $header['x-log-cpu-cores'] : 0;
+
+        $countVal = $header['x-log-count'];
+        $this->count = is_numeric($countVal) ? (int) $countVal : 0;
+
+        $progressVal = $header['x-log-progress'];
+        $this->progress = is_string($progressVal) ? $progressVal : '';
+
+        $processedRowsVal = $header['x-log-processed-rows'];
+        $this->processedRows = is_numeric($processedRowsVal) ? (int) $processedRowsVal : 0;
+
+        $elapsedMilliVal = isset($header['x-log-elapsed-millisecond']) ? $header['x-log-elapsed-millisecond'] : null;
+        $this->elapsedMilli = is_numeric($elapsedMilliVal) ? (int) $elapsedMilliVal : 0;
+
+        $cpuSecVal = isset($header['x-log-cpu-sec']) ? $header['x-log-cpu-sec'] : null;
+        $this->cpuSec = is_numeric($cpuSecVal) ? (int) $cpuSecVal : 0;
+
+        $cpuCoresVal = isset($header['x-log-cpu-cores']) ? $header['x-log-cpu-cores'] : null;
+        $this->cpuCores = is_numeric($cpuCoresVal) ? (int) $cpuCoresVal : 0;
+
         $this->logs = [];
         foreach ($resp as $data) {
+            if (!is_array($data)) {
+                continue;
+            }
+
+            $timeVal = $data['__time__'] ?? 0;
+            $time = is_numeric($timeVal) ? (int) $timeVal : 0;
+            $sourceVal = $data['__source__'] ?? '';
+            $source = is_string($sourceVal) ? $sourceVal : '';
+
             $contents = $data;
-            $time = $data['__time__'];
-            $source = $data['__source__'];
             unset($contents['__time__'], $contents['__source__']);
 
+            /** @var array<string, string> $contents */
             $this->logs[] = new QueriedLog($time, $source, $contents);
         }
     }

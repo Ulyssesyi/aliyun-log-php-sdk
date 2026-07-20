@@ -19,14 +19,22 @@ class GetShipperTasksResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->total = $resp['total'];
-        $this->count = $resp['count'];
-        $this->statistics = $resp['statistics'];
-        $this->tasks = $resp['tasks'];
+
+        $totalVal = $resp['total'];
+        $this->total = is_numeric($totalVal) ? (int) $totalVal : 0;
+
+        $countVal = $resp['count'];
+        $this->count = is_numeric($countVal) ? (int) $countVal : 0;
+
+        $statisticsVal = $resp['statistics'];
+        $this->statistics = is_string($statisticsVal) ? $statisticsVal : '';
+
+        $tasksVal = $resp['tasks'];
+        $this->tasks = is_array($tasksVal) ? $tasksVal : [];
     }
 
     public function getCount(): int {

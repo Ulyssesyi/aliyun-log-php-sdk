@@ -104,28 +104,25 @@ class Machine {
      */
     public function setFromArray(array $resp): void {
         $info = null;
-        if (isset($resp['info'])) {
-            $ip = (isset($resp['info']['ip'])) ? $resp['info']['ip'] : null;
-            $os = (isset($resp['info']['os'])) ? $resp['info']['os'] : null;
-            $hostName = (isset($resp['info']['hostName'])) ? $resp['info']['hostName'] : null;
+        if (isset($resp['info']) && is_array($resp['info'])) {
+            $infoArr = $resp['info'];
+            $ip = (isset($infoArr['ip']) && is_string($infoArr['ip'])) ? $infoArr['ip'] : null;
+            $os = (isset($infoArr['os']) && is_string($infoArr['os'])) ? $infoArr['os'] : null;
+            $hostName = (isset($infoArr['hostName']) && is_string($infoArr['hostName'])) ? $infoArr['hostName'] : null;
             $info = new Info($ip, $os, $hostName);
         }
         $status = null;
-        if (isset($resp['status'])) {
-            $binaryCurVersion = (isset($resp['status']['binaryCurVersion'])) ? $resp['status']['binaryCurVersion'] : null;
-            $binaryDeployVersion = (isset($resp['status']['binaryDeployVersion'])) ? $resp['status']['binaryDeployVersion'] : null;
+        if (isset($resp['status']) && is_array($resp['status'])) {
+            $statusArr = $resp['status'];
+            $binaryCurVersion = (isset($statusArr['binaryCurVersion']) && is_string($statusArr['binaryCurVersion'])) ? $statusArr['binaryCurVersion'] : null;
+            $binaryDeployVersion = (isset($statusArr['binaryDeployVersion']) && is_string($statusArr['binaryDeployVersion'])) ? $statusArr['binaryDeployVersion'] : null;
             $status = new Status($binaryCurVersion, $binaryDeployVersion);
         }
-        $uuid = (isset($resp['uuid'])) ? $resp['uuid'] : null;
-        $lastHeartbeatTime = (isset($resp['lastHeartbeatTime'])) ? $resp['lastHeartbeatTime'] : null;
-        $createTime = (isset($resp['createTime'])) ? $resp['createTime'] : null;
-        $lastModifyTime = (isset($resp['lastModifyTime'])) ? $resp['lastModifyTime'] : null;
-
-        $this->setUuid($uuid);
-        $this->setLastHeartbeatTime($lastHeartbeatTime);
+        $this->setUuid(isset($resp['uuid']) && is_string($resp['uuid']) ? $resp['uuid'] : null);
+        $this->setLastHeartbeatTime(isset($resp['lastHeartbeatTime']) && is_string($resp['lastHeartbeatTime']) ? $resp['lastHeartbeatTime'] : null);
         $this->setInfo($info);
         $this->setStatus($status);
-        $this->setCreateTime($createTime);
-        $this->setLastModifyTime($lastModifyTime);
+        $this->setCreateTime(isset($resp['createTime']) && is_string($resp['createTime']) ? $resp['createTime'] : null);
+        $this->setLastModifyTime(isset($resp['lastModifyTime']) && is_string($resp['lastModifyTime']) ? $resp['lastModifyTime'] : null);
     }
 }

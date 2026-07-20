@@ -19,11 +19,12 @@ class GetCursorResponse extends Response {
 
     /**
      * @param array<mixed> $resp
-     * @param array<string, string> $header
+     * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
         parent::__construct($header);
-        $this->cursor = $resp['cursor'];
+        $val = $resp['cursor'];
+        $this->cursor = is_string($val) ? $val : '';
     }
 
     public function getCursor(): string {
