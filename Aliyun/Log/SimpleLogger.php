@@ -19,63 +19,54 @@ use Aliyun\Log\Models\Request\PutLogsRequest;
 class SimpleLogger {
     /**
      * internal cache for log messages
-     * @var array
+     * @var LogItem[]
      */
-    private $logItems = [];
+    private array $logItems = [];
 
     /**
      * max size of cached messages
-     * @var int
      */
-    private $maxCacheLog;
+    private int $maxCacheLog;
 
     /**
      * log topic field
-     * @var string|null
      */
-    private $topic;
+    private ?string $topic;
 
     /**
      * max time before logger post the cached messages
-     * @var int
      */
-    private $maxWaitTime;
+    private int $maxWaitTime;
 
     /**
      * previous time for posting log messages
-     * @var int
      */
-    private $previousLogTime;
+    private int $previousLogTime;
 
     /**
      * max storage size for cached messages
-     * @var int
      */
-    private $maxCacheBytes;
+    private int $maxCacheBytes;
 
     /**
      * messages storage size for cached messages
-     * @var int
      */
-    private $cacheBytes;
+    private int $cacheBytes;
 
     /**
      * log client which was wrappered by this logger
-     * @var Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * log project name
-     * @var string
      */
-    private $project;
+    private string $project;
 
     /**
      * logstore name
-     * @var string
      */
-    private $logstore;
+    private string $logstore;
 
     /**
      * SimpleLogger constructor.
@@ -86,7 +77,7 @@ class SimpleLogger {
      * @param null $maxCacheLog max log items limitation, by default it's 100
      * @param null $maxWaitTime max thread waiting time, bydefault it's 5 seconds
      */
-    public function __construct($client, $project, $logstore, $topic, $maxCacheLog = null, $maxWaitTime = null, $maxCacheBytes = null) {
+    public function __construct(Client $client, string $project, string $logstore, ?string $topic, ?int $maxCacheLog = null, ?int $maxWaitTime = null, ?int $maxCacheBytes = null) {
         $this->maxCacheLog = is_int($maxCacheLog) ? $maxCacheLog : 100;
         $this->maxCacheBytes = is_int($maxCacheBytes) ? $maxCacheBytes : 256 * 1024;
         if (is_int($maxWaitTime)) {
@@ -110,7 +101,7 @@ class SimpleLogger {
      * @param $cur_time
      * @param $logItem
      */
-    private function logItem($cur_time, $logItem): void {
+    private function logItem(int $cur_time, LogItem $logItem): void {
         array_push($this->logItems, $logItem);
         if ($cur_time - $this->previousLogTime >= $this->maxWaitTime || count($this->logItems) >= $this->maxCacheLog
             || $this->cacheBytes >= $this->maxCacheBytes) {
@@ -124,13 +115,9 @@ class SimpleLogger {
     /**
      * log single string message
      * @param LogLevel $logLevel
-     * @param $logMessage
-     * @throws Exception
+     * @param string $logMessage
      */
-    private function logSingleMessage(LogLevel $logLevel, $logMessage): void {
-        if (is_array($logMessage)) {
-            throw new \Exception('array is not supported in this function, please use logArrayMessage!');
-        }
+    private function logSingleMessage(LogLevel $logLevel, string $logMessage): void {
         $cur_time = time();
         $contents = [ // key-value pair
             'time' => date('m/d/Y h:i:s a', $cur_time),
@@ -147,13 +134,9 @@ class SimpleLogger {
     /**
      * log array message
      * @param LogLevel $logLevel
-     * @param $logMessage
-     * @throws Exception
+     * @param array<string, mixed> $logMessage
      */
-    private function logArrayMessage(LogLevel $logLevel, $logMessage): void {
-        if (!is_array($logMessage)) {
-            throw new \Exception('input message is not array, please use logSingleMessage!');
-        }
+    private function logArrayMessage(LogLevel $logLevel, array $logMessage): void {
         $cur_time = time();
         $contents = [ // key-value pair
             'time' => date('m/d/Y h:i:s a', $cur_time),
@@ -161,7 +144,7 @@ class SimpleLogger {
         $contents['logLevel'] = LogLevel::getLevelStr($logLevel);
         foreach ($logMessage as $key => $value) {
             $contents[$key] = $value;
-            $this->cacheBytes += strlen($key) + strlen($value);
+            $this->cacheBytes += strlen((string) $key) + strlen((string) $value);
         }
         $this->cacheBytes += 32;
         $logItem = new LogItem();
@@ -174,7 +157,7 @@ class SimpleLogger {
      * submit string log message with info level
      * @param $logMessage
      */
-    public function info($logMessage): void {
+    public function info(string $logMessage): void {
         $logLevel = LogLevel::getLevelInfo();
         $this->logSingleMessage($logLevel, $logMessage);
     }
@@ -183,7 +166,7 @@ class SimpleLogger {
      * submit string log message with debug level
      * @param $logMessage
      */
-    public function debug($logMessage): void {
+    public function debug(string $logMessage): void {
         $logLevel = LogLevel::getLevelDebug();
         $this->logSingleMessage($logLevel, $logMessage);
     }
@@ -192,7 +175,7 @@ class SimpleLogger {
      * submit string log message with warn level
      * @param $logMessage
      */
-    public function warn($logMessage): void {
+    public function warn(string $logMessage): void {
         $logLevel = LogLevel::getLevelWarn();
         $this->logSingleMessage($logLevel, $logMessage);
     }
@@ -201,43 +184,43 @@ class SimpleLogger {
      * submit string log message with error level
      * @param $logMessage
      */
-    public function error($logMessage): void {
+    public function error(string $logMessage): void {
         $logLevel = LogLevel::getLevelError();
         $this->logSingleMessage($logLevel, $logMessage);
     }
 
     /**
      * submit array log message with info level
-     * @param $logMessage
+     * @param array<string, mixed> $logMessage
      */
-    public function infoArray($logMessage): void {
+    public function infoArray(array $logMessage): void {
         $logLevel = LogLevel::getLevelInfo();
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
     /**
      * submit array log message with debug level
-     * @param $logMessage
+     * @param array<string, mixed> $logMessage
      */
-    public function debugArray($logMessage): void {
+    public function debugArray(array $logMessage): void {
         $logLevel = LogLevel::getLevelDebug();
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
     /**
      * submit array log message with warn level
-     * @param $logMessage
+     * @param array<string, mixed> $logMessage
      */
-    public function warnArray($logMessage): void {
+    public function warnArray(array $logMessage): void {
         $logLevel = LogLevel::getLevelWarn();
         $this->logArrayMessage($logLevel, $logMessage);
     }
 
     /**
      * submit array log message with error level
-     * @param $logMessage
+     * @param array<string, mixed> $logMessage
      */
-    public function errorArray($logMessage): void {
+    public function errorArray(array $logMessage): void {
         $logLevel = LogLevel::getLevelError();
         $this->logArrayMessage($logLevel, $logMessage);
     }
@@ -246,7 +229,7 @@ class SimpleLogger {
      * get current machine IP
      * @return string
      */
-    private function getLocalIp() {
+    private function getLocalIp(): string {
         $local_ip = gethostbyname(php_uname('n'));
         if (strlen($local_ip) == 0) {
             $local_ip = gethostbyname(gethostname());
@@ -256,10 +239,10 @@ class SimpleLogger {
 
     /**
      * submit log messages in bulk
-     * @param $logItems
-     * @param $topic
+     * @param LogItem[] $logItems
+     * @param string|null $topic
      */
-    private function logBatch($logItems, $topic): void {
+    private function logBatch(array $logItems, ?string $topic): void {
         $ip = $this->getLocalIp();
         $request = new PutLogsRequest(
             $this->project,
@@ -294,7 +277,7 @@ class SimpleLogger {
         }
     }
 
-    public function __destruct() {
+    public function __destruct(): void {
         if (count($this->logItems) > 0) {
             $this->logBatch($this->logItems, $this->topic);
         }

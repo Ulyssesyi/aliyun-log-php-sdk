@@ -7,9 +7,9 @@ class ProtobufEnum {
      * Subclasses should override this with their own values.
      * @var array<string, string>
      */
-    protected static $_values = [];
+    protected static array $_values = [];
 
-    public static function toString($value) {
+    public static function toString(mixed $value): ?string {
         if (is_null($value)) {
             return null;
         }

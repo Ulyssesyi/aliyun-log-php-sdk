@@ -10,10 +10,8 @@ namespace Aliyun\Log;
 class Util {
     /**
      * Get the local machine ip address.
-     *
-     * @return string
      */
-    public static function getLocalIp() {
+    public static function getLocalIp(): string {
         $local_ip = gethostbyname(php_uname('n'));
         if (strlen($local_ip) == 0) {
             $local_ip = gethostbyname(gethostname());
@@ -23,44 +21,36 @@ class Util {
 
     /**
      * If $gonten is raw IP address, return true.
-     *
-     * @return bool
      */
-    public static function isIp($gonten) {
+    public static function isIp(string $gonten): bool {
         $ip = explode('.', $gonten);
         for ($i = 0;$i < count($ip);++$i) {
             if ($ip[$i] > 255) {
                 return false;
             }
         }
-        return preg_match("/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $gonten);
+        return (bool) preg_match("/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $gonten);
     }
 
     /**
      * Calculate string $value MD5.
-     *
-     * @return string
      */
-    public static function calMD5($value) {
+    public static function calMD5(string $value): string {
         return strtoupper(md5($value));
     }
 
     /**
      * Calculate string $content hmacSHA1 with secret key $key.
-     *
-     * @return string
      */
-    public static function hmacSHA1($content, $key) {
+    public static function hmacSHA1(string $content, string $key): string {
         $signature = hash_hmac('sha1', $content, $key, true);
         return base64_encode($signature);
     }
 
     /**
      * Change $logGroup to bytes.
-     *
-     * @return string
      */
-    public static function toBytes($logGroup) {
+    public static function toBytes(LogGroup $logGroup): string {
         $mem = fopen('php://memory', 'rwb');
         $logGroup->write($mem);
         rewind($mem);
@@ -95,19 +85,17 @@ class Util {
 
     /**
      * Get url encode.
-     *
-     * @return string
      */
-    public static function urlEncodeValue($value) {
+    public static function urlEncodeValue(string $value): string {
         return urlencode($value);
     }
 
     /**
      * Get url encode.
      *
-     * @return string
+     * @param array<string, string> $params
      */
-    public static function urlEncode($params) {
+    public static function urlEncode(array $params): string {
         ksort($params);
         $url = '';
         $first = true;
@@ -126,9 +114,9 @@ class Util {
     /**
      * Get canonicalizedLOGHeaders string as defined.
      *
-     * @return string
+     * @param array<string, mixed> $header
      */
-    public static function canonicalizedLOGHeaders($header) {
+    public static function canonicalizedLOGHeaders(array $header): string {
         ksort($header);
         $content = '';
         $first = true;
@@ -148,9 +136,9 @@ class Util {
     /**
      * Get canonicalizedResource string as defined.
      *
-     * @return string
+     * @param array<string, string>|null $params
      */
-    public static function canonicalizedResource($resource, $params) {
+    public static function canonicalizedResource(string $resource, ?array $params): string {
         if ($params) {
             ksort($params);
             $urlString = '';
@@ -171,9 +159,10 @@ class Util {
     /**
      * Get request authorization string as defined.
      *
-     * @return string
+     * @param array<string, string>|null $params
+     * @param array<string, mixed> $headers
      */
-    public static function getRequestAuthorization($method, $resource, $key, $stsToken, $params, $headers) {
+    public static function getRequestAuthorization(string $method, string $resource, string $key, ?string $stsToken, ?array $params, array $headers): string {
         if (! $key) {
             return '';
         }

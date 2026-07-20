@@ -16,7 +16,7 @@ class Request {
     /**
      * @var string project name
      */
-    private $project;
+    private ?string $project;
 
     /**
      * Request constructor
@@ -24,7 +24,7 @@ class Request {
      * @param string $project
      *            project name
      */
-    public function __construct($project) {
+    public function __construct(?string $project = null) {
         $this->project = $project;
     }
 
@@ -33,7 +33,7 @@ class Request {
      *
      * @return string project name
      */
-    public function getProject() {
+    public function getProject(): ?string {
         return $this->project;
     }
 
@@ -43,7 +43,7 @@ class Request {
      * @param string $project
      *            project name
      */
-    public function setProject($project): void {
+    public function setProject(?string $project): void {
         $this->project = $project;
     }
 }

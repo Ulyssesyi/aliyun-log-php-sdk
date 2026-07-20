@@ -13,19 +13,19 @@
 namespace Aliyun\Log\Models\Request;
 
 class CreateACLRequest extends \Aliyun\Log\Models\Request {
-    private $acl;
+    private mixed $acl;
     /**
      * CreateACLRequest Constructor
      *
      */
-    public function __construct($acl = null) {
+    public function __construct(mixed $acl = null) {
         $this->acl = $acl;
     }
 
-    public function getAcl() {
+    public function getAcl(): mixed {
         return $this->acl;
     }
-    public function setAcl($acl): void {
+    public function setAcl(mixed $acl): void {
         $this->acl = $acl;
     }
 

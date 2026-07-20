@@ -13,21 +13,21 @@
 namespace Aliyun\Log\Models\Request;
 
 class GetConfigRequest extends \Aliyun\Log\Models\Request {
-    private $configName;
+    private ?string $configName;
 
     /**
      * GetConfigRequest Constructor
      *
      */
-    public function __construct($configName = null) {
+    public function __construct(?string $configName = null) {
         $this->configName = $configName;
     }
 
-    public function getConfigName() {
+    public function getConfigName(): ?string {
         return $this->configName;
     }
 
-    public function setConfigName($configName): void {
+    public function setConfigName(?string $configName): void {
         $this->configName = $configName;
     }
 

@@ -6,9 +6,10 @@ use Exception;
 
 // message LogGroupList
 class LogGroupList {
-    private $_unknown;
+    /** @var array<string, array<mixed>>|null */
+    private ?array $_unknown = null;
 
-    public function __construct($in = null, &$limit = PHP_INT_MAX) {
+    public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
                 $fp = fopen('php://memory', 'r+b');
@@ -23,7 +24,7 @@ class LogGroupList {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX): void {
+    public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -51,7 +52,7 @@ class LogGroupList {
         }
     }
 
-    public function write($fp): void {
+    public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -64,7 +65,7 @@ class LogGroupList {
         }
     }
 
-    public function size() {
+    public function size(): int {
         $size = 0;
         if (!is_null($this->logGroupList_)) {
             foreach ($this->logGroupList_ as $v) {
@@ -75,42 +76,46 @@ class LogGroupList {
         return $size;
     }
 
-    public function validateRequired() {
+    public function validateRequired(): bool {
         return true;
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return ''
              . Protobuf::toString('unknown', $this->_unknown)
              . Protobuf::toString('logGroupList_', $this->logGroupList_);
     }
 
     // repeated .LogGroup logGroupList = 1;
-    private $logGroupList_ = null;
+    /** @var LogGroup[]|null */
+    private ?array $logGroupList_ = null;
     public function clearLogGroupList(): void {
         $this->logGroupList_ = null;
     }
-    public function getLogGroupListCount() {
+    public function getLogGroupListCount(): int {
         if ($this->logGroupList_ === null) {
             return 0;
         }
         return count($this->logGroupList_);
     }
-    public function getLogGroupList($index) {
+    public function getLogGroupList(int $index): LogGroup {
         return $this->logGroupList_[$index];
     }
-    public function getLogGroupListArray() {
+    /** @return LogGroup[] */
+    public function getLogGroupListArray(): array {
         if ($this->logGroupList_ === null) {
             return [];
         }
         return $this->logGroupList_;
     }
-    public function setLogGroupList($index, $value): void {
+    public function setLogGroupList(int $index, LogGroup $value): void {
         $this->logGroupList_[$index] = $value;
     }
-    public function addLogGroupList($value): void {
+    public function addLogGroupList(LogGroup $value): void {
         $this->logGroupList_[] = $value;
     }
+
+    /** @param LogGroup[] $values */
     public function addAllLogGroupList(array $values): void {
         foreach ($values as $value) {
             $this->logGroupList_[] = $value;

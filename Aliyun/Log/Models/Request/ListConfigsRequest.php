@@ -13,42 +13,42 @@
 namespace Aliyun\Log\Models\Request;
 
 class ListConfigsRequest extends \Aliyun\Log\Models\Request {
-    private $configName;
-    private $offset;
-    private $size;
+    private ?string $configName;
+    private ?int $offset;
+    private ?int $size;
 
     /**
      * ListConfigsRequest Constructor
      *
      */
-    public function __construct($configName = null, $offset = null, $size = null) {
+    public function __construct(?string $configName = null, ?int $offset = null, ?int $size = null) {
         //parent::__construct ( $project );
         $this->configName = $configName;
         $this->offset = $offset;
         $this->size = $size;
     }
 
-    public function getConfigName() {
+    public function getConfigName(): ?string {
         return $this->configName;
     }
 
-    public function setConfigName($configName): void {
+    public function setConfigName(?string $configName): void {
         $this->configName = $configName;
     }
 
-    public function getOffset() {
+    public function getOffset(): ?int {
         return $this->offset;
     }
 
-    public function setOffset($offset): void {
+    public function setOffset(?int $offset): void {
         $this->offset = $offset;
     }
 
-    public function getSize() {
+    public function getSize(): ?int {
         return $this->size;
     }
 
-    public function setSize($size): void {
+    public function setSize(?int $size): void {
         $this->size = $size;
     }
 }

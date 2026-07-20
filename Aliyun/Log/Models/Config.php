@@ -8,30 +8,38 @@ namespace Aliyun\Log\Models;
  */
 
 class Config_InputDetail {
-    public $filePattern;
-    public $key;
-    public $localStorage;
-    public $logBeginRegex;
-    public $logPath;
-    public $logType;
-    public $regex;
-    public $timeFormat;
-    public $filterRegex;
-    public $filterKey;
-    public $topicFormat;
+    public ?string $filePattern = '';
+    /** @var string[]|null */
+    public ?array $key = [];
+    public ?bool $localStorage = true;
+    public ?string $logBeginRegex = '';
+    public ?string $logPath = '';
+    public ?string $logType = '';
+    public ?string $regex = '';
+    public ?string $timeFormat = '';
+    /** @var string[]|null */
+    public ?array $filterRegex = [];
+    /** @var string[]|null */
+    public ?array $filterKey = [];
+    public ?string $topicFormat = 'none';
 
+    /**
+     * @param string[]|null $key
+     * @param string[]|null $filterRegex
+     * @param string[]|null $filterKey
+     */
     public function __construct(
-        $filePattern = '',
-        $key = [],
-        $localStorage = true,
-        $logBeginRegex = '',
-        $logPath = '',
-        $logType = '',
-        $regex = '',
-        $timeFormat = '',
-        $filterRegex = [],
-        $filterKey = [],
-        $topicFormat = 'none',
+        ?string $filePattern = '',
+        ?array $key = [],
+        ?bool $localStorage = true,
+        ?string $logBeginRegex = '',
+        ?string $logPath = '',
+        ?string $logType = '',
+        ?string $regex = '',
+        ?string $timeFormat = '',
+        ?array $filterRegex = [],
+        ?array $filterKey = [],
+        ?string $topicFormat = 'none',
     ) {
         $this->filePattern = $filePattern;
         $this->key = $key;
@@ -46,7 +54,8 @@ class Config_InputDetail {
         $this->topicFormat = $topicFormat;
     }
 
-    public function toArray() {
+    /** @return array<string, mixed> */
+    public function toArray(): array {
         $resArray = [];
         if ($this->filePattern !== null) {
             $resArray['filePattern'] = $this->filePattern;
@@ -86,14 +95,15 @@ class Config_InputDetail {
 }
 
 class Config_OutputDetail {
-    public $projectName;
-    public $logstoreName;
+    public ?string $projectName = '';
+    public ?string $logstoreName = '';
 
-    public function __construct($projectName = '', $logstoreName = '') {
+    public function __construct(?string $projectName = '', ?string $logstoreName = '') {
         $this->projectName = $projectName;
         $this->logstoreName = $logstoreName;
     }
-    public function toArray() {
+    /** @return array<string, mixed> */
+    public function toArray(): array {
         $resArray = [];
         if ($this->projectName !== null) {
             $resArray['projectName'] = $this->projectName;
@@ -106,23 +116,23 @@ class Config_OutputDetail {
 }
 
 class Config {
-    private $configName;
-    private $inputType;
-    private $inputDetail;
-    private $outputType;
-    private $outputDetail;
+    private ?string $configName = '';
+    private ?string $inputType = '';
+    private ?Config_InputDetail $inputDetail = null;
+    private ?string $outputType = '';
+    private ?Config_OutputDetail $outputDetail = null;
 
-    private $createTime;
-    private $lastModifyTime;
+    private mixed $createTime = null;
+    private mixed $lastModifyTime = null;
 
     public function __construct(
-        $configName = '',
-        $inputType = '',
-        $inputDetail = null,
-        $outputType = '',
-        $outputDetail = null,
-        $createTime = null,
-        $lastModifyTime = null,
+        ?string $configName = '',
+        ?string $inputType = '',
+        ?Config_InputDetail $inputDetail = null,
+        ?string $outputType = '',
+        ?Config_OutputDetail $outputDetail = null,
+        mixed $createTime = null,
+        mixed $lastModifyTime = null,
     ) {
         $this->configName = $configName;
         $this->inputType = $inputType;
@@ -134,51 +144,52 @@ class Config {
 
     }
 
-    public function getConfigName() {
+    public function getConfigName(): ?string {
         return $this->configName;
     }
-    public function setConfigName($configName): void {
+    public function setConfigName(?string $configName): void {
         $this->configName = $configName;
     }
-    public function getInputType() {
+    public function getInputType(): ?string {
         return $this->inputType;
     }
-    public function setInputType($inputType): void {
+    public function setInputType(?string $inputType): void {
         $this->inputType = $inputType;
     }
-    public function getInputDetail() {
+    public function getInputDetail(): ?Config_InputDetail {
         return $this->inputDetail;
     }
-    public function setInputDetail($inputDetail): void {
+    public function setInputDetail(?Config_InputDetail $inputDetail): void {
         $this->inputDetail = $inputDetail;
     }
-    public function getOutputType() {
+    public function getOutputType(): ?string {
         return $this->outputType;
     }
-    public function setOutputType($outputType): void {
+    public function setOutputType(?string $outputType): void {
         $this->outputType = $outputType;
     }
-    public function getOutputDetail() {
+    public function getOutputDetail(): ?Config_OutputDetail {
         return $this->outputDetail;
     }
-    public function setOutputDetail($outputDetail): void {
+    public function setOutputDetail(?Config_OutputDetail $outputDetail): void {
         $this->outputDetail = $outputDetail;
     }
-    public function getCreateTime() {
+    public function getCreateTime(): mixed {
         return $this->createTime;
     }
-    public function setCreateTime($createTime): void {
+    public function setCreateTime(mixed $createTime): void {
         $this->createTime = $createTime;
     }
 
-    public function getLastModifyTime() {
+    public function getLastModifyTime(): mixed {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime): void {
+    public function setLastModifyTime(mixed $lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function toArray() {
+    /** @return array<string, mixed> */
+    public function toArray(): array {
         $format_array = [];
         if ($this->configName !== null) {
             $format_array['configName'] = $this->configName;
@@ -204,7 +215,8 @@ class Config {
         return $format_array;
     }
 
-    public function setFromArray($resp): void {
+    /** @param array<string, mixed> $resp */
+    public function setFromArray(array $resp): void {
         $inputDetail = new Config_InputDetail();
         $inputDetail->filePattern = $resp['inputDetail']['filePattern'];
         $inputDetail->key = $resp['inputDetail']['key'];

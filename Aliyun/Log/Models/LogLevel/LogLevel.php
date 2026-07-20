@@ -13,16 +13,17 @@ class LogLevel {
     public const warn = 'warn';
     public const error = 'error';
 
-    private static $constCacheArray = null;
+    /** @var array<string, self>|null */
+    private static ?array $constCacheArray = null;
 
-    private $level;
+    private string $level;
 
     /**
      * Constructor
      *
      * @param string $level
      */
-    private function __construct($level) {
+    private function __construct(string $level) {
         $this->level = $level;
     }
 
@@ -32,42 +33,42 @@ class LogLevel {
      * @param mixed $other
      * @return boolean
      */
-    public function equals($other) {
+    public function equals(mixed $other): bool {
         if ($other instanceof LogLevel) {
             return $this->level == $other->level;
         }
         return false;
     }
 
-    public static function getLevelDebug() {
+    public static function getLevelDebug(): self {
         if (!isset(self::$constCacheArray[LogLevel::debug])) {
             self::$constCacheArray[LogLevel::debug] = new LogLevel('debug');
         }
         return self::$constCacheArray[LogLevel::debug];
     }
 
-    public static function getLevelInfo() {
+    public static function getLevelInfo(): self {
         if (!isset(self::$constCacheArray[LogLevel::info])) {
             self::$constCacheArray[LogLevel::info] = new LogLevel('info');
         }
         return self::$constCacheArray[LogLevel::info];
     }
 
-    public static function getLevelWarn() {
+    public static function getLevelWarn(): self {
         if (!isset(self::$constCacheArray[LogLevel::warn])) {
             self::$constCacheArray[LogLevel::warn] = new LogLevel('warn');
         }
         return self::$constCacheArray[LogLevel::warn];
     }
 
-    public static function getLevelError() {
+    public static function getLevelError(): self {
         if (!isset(self::$constCacheArray[LogLevel::error])) {
             self::$constCacheArray[LogLevel::error] = new LogLevel('error');
         }
         return self::$constCacheArray[LogLevel::error];
     }
 
-    public static function getLevelStr(LogLevel $logLevel) {
+    public static function getLevelStr(LogLevel $logLevel): string {
 
         $logLevelStr = '';
         switch ($logLevel->level) {

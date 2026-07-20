@@ -17,31 +17,27 @@ class LogItem {
     /**
      * @var integer time of the log item, the default time if the now time.
      */
-    private $time;
+    private int $time;
 
     /**
-     * @var array the data of the log item, including many key/value pairs.
+     * @var array<string, string> the data of the log item, including many key/value pairs.
      */
-    private $contents;
+    private array $contents;
 
     /**
      * LogItem cnostructor
      *
-     * @param array $contents
+     * @param array<string, string> $contents
      *            the data of the log item, including many key/value pairs.
      * @param integer $time
      *            time of the log item, the default time if the now time.
      */
-    public function __construct($time = null, $contents = null) {
+    public function __construct(?int $time = null, array $contents = []) {
         if (! $time) {
             $time = time();
         }
         $this->time = $time;
-        if ($contents) {
-            $this->contents = $contents;
-        } else {
-            $this->contents =  [];
-        }
+        $this->contents = $contents;
     }
 
     /**
@@ -49,7 +45,7 @@ class LogItem {
      *
      * @return integer log time
      */
-    public function getTime() {
+    public function getTime(): int {
         return $this->time;
     }
 
@@ -59,26 +55,26 @@ class LogItem {
      * @param integer $time
      *            log time
      */
-    public function setTime($time): void {
+    public function setTime(int $time): void {
         $this->time = $time;
     }
 
     /**
      * Get log contents
      *
-     * @return array log contents
+     * @return array<string, string> log contents
      */
-    public function getContents() {
+    public function getContents(): array {
         return $this->contents;
     }
 
     /**
      * Set log contents
      *
-     * @param array $contents
+     * @param array<string, string> $contents
      *            log contents
      */
-    public function setContents($contents): void {
+    public function setContents(array $contents): void {
         $this->contents = $contents;
     }
 
@@ -90,7 +86,7 @@ class LogItem {
      * @param string $value
      *            log content value
      */
-    public function pushBack($key, $value): void {
+    public function pushBack(string $key, string $value): void {
         $this->contents[$key] = $value;
     }
 }

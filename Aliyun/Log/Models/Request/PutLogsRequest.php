@@ -17,27 +17,27 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * @var string logstore name
      */
-    private $logstore;
+    private ?string $logstore;
 
     /**
      * @var string topic name
      */
-    private $topic;
+    private ?string $topic;
 
     /**
      * @var string source of the logs
      */
-    private $source;
+    private ?string $source;
 
     /**
-     * @var array LogItem array, log data
+     * @var \Aliyun\Log\Models\LogItem[] log data
      */
-    private $logitems;
+    private ?array $logitems;
 
     /**
      * @var string shardKey putlogs shard hash key
      */
-    private $shardKey;
+    private ?string $shardKey;
 
     /**
      * PutLogsRequest cnstructor
@@ -50,10 +50,10 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *            topic name
      * @param string $source
      *            source of the log
-     * @param array $logitems
+     * @param \Aliyun\Log\Models\LogItem[] $logitems
      *            LogItem array,log data
      */
-    public function __construct($project = null, $logstore = null, $topic = null, $source = null, $logitems = null, $shardKey = null) {
+    public function __construct(?string $project = null, ?string $logstore = null, ?string $topic = null, ?string $source = null, ?array $logitems = null, ?string $shardKey = null) {
         parent::__construct($project);
         $this->logstore = $logstore;
         $this->topic = $topic;
@@ -67,7 +67,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string logstore name
      */
-    public function getLogstore() {
+    public function getLogstore(): ?string {
         return $this->logstore;
     }
 
@@ -77,7 +77,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore): void {
+    public function setLogstore(?string $logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -86,7 +86,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string topic name
      */
-    public function getTopic() {
+    public function getTopic(): ?string {
         return $this->topic;
     }
 
@@ -96,26 +96,26 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $topic
      *            topic name
      */
-    public function setTopic($topic): void {
+    public function setTopic(?string $topic): void {
         $this->topic = $topic;
     }
 
     /**
      * Get all the log data
      *
-     * @return array LogItem array, log data
+     * @return \Aliyun\Log\Models\LogItem[] log data
      */
-    public function getLogItems() {
+    public function getLogItems(): ?array {
         return $this->logitems;
     }
 
     /**
      * Set the log data
      *
-     * @param array $logitems
+     * @param \Aliyun\Log\Models\LogItem[] $logitems
      *            LogItem array, log data
      */
-    public function setLogItems($logitems): void {
+    public function setLogItems(?array $logitems): void {
         $this->logitems = $logitems;
     }
 
@@ -124,7 +124,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string log source
      */
-    public function getSource() {
+    public function getSource(): ?string {
         return $this->source;
     }
 
@@ -134,7 +134,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $source
      *            log source
      */
-    public function setSource($source): void {
+    public function setSource(?string $source): void {
         $this->source = $source;
     }
     /**
@@ -142,7 +142,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *
      * @param string $key
      */
-    public function setShardKey($key): void {
+    public function setShardKey(?string $key): void {
         $this -> shardKey = $key;
     }
     /**
@@ -150,7 +150,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string shardKey
      */
-    public function getShardKey() {
+    public function getShardKey(): ?string {
         return $this ->shardKey;
     }
 }

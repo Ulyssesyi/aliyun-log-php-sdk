@@ -7,21 +7,17 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-class OssShipperStorage {
-    private $format;
+abstract class OssShipperStorage {
+    private mixed $format = null;
 
-    /**
-     * @return mixed
-     */
-    public function getFormat() {
+    public function getFormat(): mixed {
         return $this->format;
     }
 
-    /**
-     * @param mixed $format
-     */
-    public function setFormat($format): void {
+    public function setFormat(mixed $format): void {
         $this->format = $format;
     }
 
+    /** @return array<string, mixed> */
+    abstract public function to_json_object(): array;
 }

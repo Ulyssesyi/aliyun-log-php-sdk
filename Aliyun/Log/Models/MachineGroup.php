@@ -8,13 +8,18 @@ namespace Aliyun\Log\Models;
  */
 
 class MachineGroup_GroupAttribute {
-    public $externalName;
-    public $groupTopic;
-    public function __construct($externalName = null, $groupTopic = null) {
+    public ?string $externalName = null;
+    public ?string $groupTopic = null;
+
+    public function __construct(?string $externalName = null, ?string $groupTopic = null) {
         $this->externalName = $externalName;
         $this->groupTopic = $groupTopic;
     }
-    public function toArray() {
+
+    /**
+     * @return array<string, ?string>
+     */
+    public function toArray(): array {
         $resArray = [];
         if ($this->externalName !== null) {
             $resArray['externalName'] = $this->externalName;
@@ -27,21 +32,25 @@ class MachineGroup_GroupAttribute {
 }
 
 class MachineGroup {
-    private $groupName;
-    private $groupType;
-    private $groupAttribute;
-    private $machineList;
+    private ?string $groupName;
+    private ?string $groupType;
+    private ?MachineGroup_GroupAttribute $groupAttribute;
+    /** @var array<int, Machine> */
+    private ?array $machineList;
 
-    private $createTime;
-    private $lastModifyTime;
+    private mixed $createTime;
+    private mixed $lastModifyTime;
 
+    /**
+     * @param ?array<int, Machine> $machineList
+     */
     public function __construct(
-        $groupName = '',
-        $groupType = '',
-        $groupAttribute = null,
-        $machineList = null,
-        $createTime = null,
-        $lastModifyTime = null,
+        ?string $groupName = '',
+        ?string $groupType = '',
+        ?MachineGroup_GroupAttribute $groupAttribute = null,
+        ?array $machineList = null,
+        mixed $createTime = null,
+        mixed $lastModifyTime = null,
     ) {
         $this->groupName = $groupName;
         $this->groupType = $groupType;
@@ -51,44 +60,53 @@ class MachineGroup {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function getGroupName() {
+    public function getGroupName(): ?string {
         return $this->groupName;
     }
-    public function setGroupName($groupName): void {
+    public function setGroupName(?string $groupName): void {
         $this->groupName = $groupName;
     }
-    public function getGroupType() {
+    public function getGroupType(): ?string {
         return $this->groupType;
     }
-    public function setGroupType($groupType): void {
+    public function setGroupType(?string $groupType): void {
         $this->groupType = $groupType;
     }
-    public function getGroupAttribute() {
+    public function getGroupAttribute(): ?MachineGroup_GroupAttribute {
         return $this->groupAttribute;
     }
-    public function setGroupAttribute($groupAttribute): void {
+    public function setGroupAttribute(?MachineGroup_GroupAttribute $groupAttribute): void {
         $this->groupAttribute = $groupAttribute;
     }
-    public function getMachineList() {
+    /**
+     * @return ?array<int, Machine>
+     */
+    public function getMachineList(): ?array {
         return $this->machineList;
     }
-    public function setMachineList($machineList): void {
+    /**
+     * @param ?array<int, Machine> $machineList
+     */
+    public function setMachineList(?array $machineList): void {
         $this->machineList = $machineList;
     }
-    public function getCreateTime() {
+    public function getCreateTime(): mixed {
         return $this->createTime;
     }
-    public function setCreateTime($createTime): void {
+    public function setCreateTime(mixed $createTime): void {
         $this->createTime = $createTime;
     }
-    public function getLastModifyTime() {
+    public function getLastModifyTime(): mixed {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime): void {
+    public function setLastModifyTime(mixed $lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function toArray() {
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array {
         $format_array = [];
         if ($this->groupName !== null) {
             $format_array['groupName'] = $this->groupName;
@@ -115,7 +133,10 @@ class MachineGroup {
         return $format_array;
     }
 
-    public function setFromArray($resp): void {
+    /**
+     * @param array<string, mixed> $resp
+     */
+    public function setFromArray(array $resp): void {
         $groupAttribute = null;
         if (isset($resp['groupAttribute'])) {
             $groupAttributeArr = $resp['groupAttribute'];

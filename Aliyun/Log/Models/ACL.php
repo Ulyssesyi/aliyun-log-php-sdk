@@ -6,25 +6,28 @@ namespace Aliyun\Log\Models;
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-
 class ACL {
-    private $principleType;
-    private $principleId;
-    private $object;
-    private $privilege;
-    private $aclId;
+    private ?string $principleType = '';
+    private ?string $principleId = '';
+    private ?string $object = '';
+    /** @var list<string>|null */
+    private ?array $privilege = [];
+    private ?string $aclId = null;
 
-    private $createTime;
-    private $lastModifyTime;
+    private string|int|null $createTime = null;
+    private string|int|null $lastModifyTime = null;
 
+    /**
+     * @param list<string> $privilege
+     */
     public function __construct(
-        $principleType = '',
-        $principleId = '',
-        $object = '',
-        $privilege = [],
-        $aclId = null,
-        $createTime = null,
-        $lastModifyTime = null,
+        string $principleType = '',
+        string $principleId = '',
+        string $object = '',
+        array $privilege = [],
+        ?string $aclId = null,
+        string|int|null $createTime = null,
+        string|int|null $lastModifyTime = null,
     ) {
         $this->principleType = $principleType;
         $this->principleId = $principleId;
@@ -36,52 +39,72 @@ class ACL {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function getPrincipleType() {
+    public function getPrincipleType(): ?string {
         return $this->principleType;
     }
-    public function setPrincipleType($principleType): void {
+
+    public function setPrincipleType(?string $principleType): void {
         $this->principleType = $principleType;
     }
 
-    public function getPrincipleId() {
+    public function getPrincipleId(): ?string {
         return $this->principleId;
     }
-    public function setPrincipleId($principleId): void {
+
+    public function setPrincipleId(?string $principleId): void {
         $this->principleId = $principleId;
     }
 
-    public function getObject() {
+    public function getObject(): ?string {
         return $this->object;
     }
-    public function setObject($object): void {
+
+    public function setObject(?string $object): void {
         $this->object = $object;
     }
-    public function getPrivilege() {
+
+    /**
+     * @return list<string>|null
+     */
+    public function getPrivilege(): ?array {
         return $this->privilege;
     }
-    public function setPrivilege($privilege): void {
+
+    /**
+     * @param list<string>|null $privilege
+     */
+    public function setPrivilege(?array $privilege): void {
         $this->privilege = $privilege;
     }
-    public function getAclId() {
+
+    public function getAclId(): ?string {
         return $this->aclId;
     }
-    public function setAclId($aclId): void {
+
+    public function setAclId(?string $aclId): void {
         $this->aclId = $aclId;
     }
-    public function getCreateTime() {
+
+    public function getCreateTime(): string|int|null {
         return $this->createTime;
     }
-    public function setCreateTime($createTime): void {
+
+    public function setCreateTime(string|int|null $createTime): void {
         $this->createTime = $createTime;
     }
-    public function getLastModifyTime() {
+
+    public function getLastModifyTime(): string|int|null {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime): void {
+
+    public function setLastModifyTime(string|int|null $lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function toArray() {
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array {
         $format_array = [];
         if ($this->principleType !== null) {
             $format_array['principleType'] = $this->principleType;
@@ -104,10 +127,14 @@ class ACL {
         if ($this->lastModifyTime !== null) {
             $format_array['lastModifyTime'] = $this->lastModifyTime;
         }
+
         return $format_array;
     }
 
-    public function setFromArray($resp): void {
+    /**
+     * @param array<string, mixed> $resp
+     */
+    public function setFromArray(array $resp): void {
         $principleType = ($resp['principleType'] !== null) ? $resp['principleType'] : null;
         $principleId = ($resp['principleId'] !== null) ? $resp['principleId'] : null;
         $object = ($resp['object'] !== null) ? $resp['object'] : null;

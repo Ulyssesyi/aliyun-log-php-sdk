@@ -8,146 +8,93 @@ namespace Aliyun\Log\Models;
  */
 
 class OssShipperConfig {
-    private $ossBucket;
-    private $ossPrefix;
-    private $bufferInterval = 300;
-    private $bufferSize;
-    private $compressType;
-    private $roleArn;
-    private $pathFormat;
-    private $timeZone;
-    private $storage;
+    private ?string $ossBucket = null;
+    private ?string $ossPrefix = null;
+    private int $bufferInterval = 300;
+    private ?int $bufferSize = null;
+    private ?string $compressType = null;
+    private ?string $roleArn = null;
+    private ?string $pathFormat = null;
+    private ?string $timeZone = null;
+    private ?OssShipperStorage $storage = null;
 
-    /**
-     * @return mixed
-     */
-    public function getRoleArn() {
+    public function getRoleArn(): ?string {
         return $this->roleArn;
     }
 
-    /**
-     * @param mixed $roleArn
-     */
-    public function setRoleArn($roleArn): void {
+    public function setRoleArn(?string $roleArn): void {
         $this->roleArn = $roleArn;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPathFormat() {
+    public function getPathFormat(): ?string {
         return $this->pathFormat;
     }
 
-    /**
-     * @param mixed $pathFormat
-     */
-    public function setPathFormat($pathFormat): void {
+    public function setPathFormat(?string $pathFormat): void {
         $this->pathFormat = $pathFormat;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStorage() {
+    public function getStorage(): ?OssShipperStorage {
         return $this->storage;
     }
 
-    /**
-     * @param mixed $storage
-     */
-    public function setStorage($storage): void {
+    public function setStorage(?OssShipperStorage $storage): void {
         $this->storage = $storage;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOssBucket() {
+    public function getOssBucket(): ?string {
         return $this->ossBucket;
     }
 
-    /**
-     * @param mixed $ossBucket
-     */
-    public function setOssBucket($ossBucket): void {
+    public function setOssBucket(?string $ossBucket): void {
         $this->ossBucket = $ossBucket;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOssPrefix() {
+    public function getOssPrefix(): ?string {
         return $this->ossPrefix;
     }
 
-    /**
-     * @param mixed $ossPrefix
-     */
-    public function setOssPrefix($ossPrefix): void {
+    public function setOssPrefix(?string $ossPrefix): void {
         $this->ossPrefix = $ossPrefix;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBufferInterval() {
+    public function getBufferInterval(): int {
         return $this->bufferInterval;
     }
 
-    /**
-     * @param mixed $bufferInterval
-     */
-    public function setBufferInterval($bufferInterval): void {
+    public function setBufferInterval(int $bufferInterval): void {
         $this->bufferInterval = $bufferInterval;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBufferSize() {
+    public function getBufferSize(): ?int {
         return $this->bufferSize;
     }
 
-    /**
-     * @param mixed $bufferSize
-     */
-    public function setBufferSize($bufferSize): void {
+    public function setBufferSize(int $bufferSize): void {
         if ($bufferSize > 256 || $bufferSize < 5) {
             throw new \Exception('buffSize is not valide, must between 5 and 256');
         }
         $this->bufferSize = $bufferSize;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCompressType() {
+    public function getCompressType(): ?string {
         return $this->compressType;
     }
 
-    /**
-     * @param mixed $compressType
-     */
-    public function setCompressType($compressType): void {
+    public function setCompressType(?string $compressType): void {
         $this->compressType = $compressType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTimeZone() {
+    public function getTimeZone(): ?string {
         return $this->timeZone;
     }
 
-    /**
-     * @param mixed $timeZone
-     */
-    public function setTimeZone($timeZone): void {
+    public function setTimeZone(?string $timeZone): void {
         $this->timeZone = $timeZone;
     }
 
-    public function to_json_object() {
+    /** @return array<string, mixed> */
+    public function to_json_object(): array {
         $json =  [
             'ossBucket' => $this->ossBucket,
             'ossPrefix' => $this->ossPrefix,

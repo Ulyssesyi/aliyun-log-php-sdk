@@ -14,10 +14,10 @@ class ProtobufMessage {
      * @param resource $fp
      * @param int $limit
      */
-    public function read($fp, &$limit = PHP_INT_MAX): void {
+    public function read(mixed $fp, int &$limit = PHP_INT_MAX): void {
     }
 
-    public function __construct($in = null, &$limit = PHP_INT_MAX) {
+    public function __construct(mixed $in = null, int &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
                 // If the input is a string, turn it into a stream and decode it

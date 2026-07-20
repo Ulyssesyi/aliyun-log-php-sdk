@@ -16,19 +16,19 @@ class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
     /**
      * @var string user defined query
      */
-    private $query;
+    private ?string $query;
 
     /**
      * @var bool if power sql is true, then the query will be run with powered instance, which can handle large amountof data
      */
-    private $powerSql;
+    private ?bool $powerSql;
 
     /**
      * ProjectSqlRequest Constructor
      * @param string $query
      *            user defined query
      */
-    public function __construct($project = null, $query = null, $powerSql = null) {
+    public function __construct(?string $project = null, ?string $query = null, ?bool $powerSql = null) {
         parent::__construct($project);
 
         $this->query = $query;
@@ -40,7 +40,7 @@ class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string user defined query
      */
-    public function getQuery() {
+    public function getQuery(): ?string {
         return $this->query;
     }
 
@@ -49,7 +49,7 @@ class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @reutnr bool powerSql flag
      */
-    public function getPowerSql() {
+    public function getPowerSql(): ?bool {
         return $this -> powerSql;
     }
 
@@ -60,7 +60,7 @@ class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
      *               powerSql flag
      *
      */
-    public function setPowerSql($powerSql): void {
+    public function setPowerSql(?bool $powerSql): void {
         $this -> powerSql = $powerSql;
     }
 }

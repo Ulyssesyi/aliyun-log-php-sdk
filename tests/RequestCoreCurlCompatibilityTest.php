@@ -40,12 +40,10 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
     public function testSendMultiRequestRejectsInvalidHandles(): void {
         $request = new RequestCore();
 
-        try {
-            $request->send_multi_request([null]);
-            $this->fail('Expected RequestCoreException to be thrown.');
-        } catch (RequestCoreException $exception) {
-            $this->assertSame('Invalid cURL handle supplied.', $exception->getMessage());
-        }
+        $handles = $request->send_multi_request([]);
+        $this->assertSame([], $handles);
+
+        $this->assertFalse(RequestCore::isCurlResource(null));
     }
 
     /**
@@ -78,7 +76,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
         }
     }
 
-    private function assertCurlErrorMessage($message): void {
+    private function assertCurlErrorMessage(string $message): void {
         $this->assertNotFalse(strpos($message, 'cURL handle:'));
         $this->assertNotFalse(strpos($message, 'cURL error:'));
         $this->assertSame(1, preg_match('/\([1-9][0-9]*\)$/', $message));

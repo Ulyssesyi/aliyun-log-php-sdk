@@ -6,9 +6,10 @@ use Exception;
 
 // message Log
 class Log {
-    private $_unknown;
+    /** @var array<string, array<mixed>>|null */
+    private ?array $_unknown = null;
 
-    public function __construct($in = null, &$limit = PHP_INT_MAX) {
+    public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
                 $fp = fopen('php://memory', 'r+b');
@@ -23,7 +24,7 @@ class Log {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX): void {
+    public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -55,7 +56,7 @@ class Log {
         }
     }
 
-    public function write($fp): void {
+    public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -72,7 +73,7 @@ class Log {
         }
     }
 
-    public function size() {
+    public function size(): int {
         $size = 0;
         if (!is_null($this->time_)) {
             $size += 1 + Protobuf::size_varint($this->time_);
@@ -86,14 +87,14 @@ class Log {
         return $size;
     }
 
-    public function validateRequired() {
+    public function validateRequired(): bool {
         if ($this->time_ === null) {
             return false;
         }
         return true;
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return ''
              . Protobuf::toString('unknown', $this->_unknown)
              . Protobuf::toString('time_', $this->time_)
@@ -101,40 +102,44 @@ class Log {
     }
 
     // required uint32 Time = 1;
-    private $time_ = null;
-    public function getTime() {
+    private ?int $time_ = null;
+    public function getTime(): ?int {
         return $this->time_;
     }
-    public function setTime($value): void {
+    public function setTime(int $value): void {
         $this->time_ = $value;
     }
 
     // repeated .Log.Content contents = 2;
-    private $contents_ = null;
+    /** @var Log_Content[]|null */
+    private ?array $contents_ = null;
     public function clearContents(): void {
         $this->contents_ = null;
     }
-    public function getContentsCount() {
+    public function getContentsCount(): int {
         if ($this->contents_ === null) {
             return 0;
         }
         return count($this->contents_);
     }
-    public function getContents($index) {
+    public function getContents(int $index): Log_Content {
         return $this->contents_[$index];
     }
-    public function getContentsArray() {
+    /** @return Log_Content[] */
+    public function getContentsArray(): array {
         if ($this->contents_ === null) {
             return [];
         }
         return $this->contents_;
     }
-    public function setContents($index, $value): void {
+    public function setContents(int $index, Log_Content $value): void {
         $this->contents_[$index] = $value;
     }
-    public function addContents($value): void {
+    public function addContents(Log_Content $value): void {
         $this->contents_[] = $value;
     }
+
+    /** @param Log_Content[] $values */
     public function addAllContents(array $values): void {
         foreach ($values as $value) {
             $this->contents_[] = $value;

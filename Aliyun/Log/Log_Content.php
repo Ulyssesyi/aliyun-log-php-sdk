@@ -6,9 +6,10 @@ use Exception;
 
 // message Log.Content
 class Log_Content {
-    private $_unknown;
+    /** @var array<string, array<mixed>>|null */
+    private ?array $_unknown = null;
 
-    public function __construct($in = null, &$limit = PHP_INT_MAX) {
+    public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
                 $fp = fopen('php://memory', 'r+b');
@@ -23,7 +24,7 @@ class Log_Content {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX): void {
+    public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -75,7 +76,7 @@ class Log_Content {
         }
     }
 
-    public function write($fp): void {
+    public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -91,7 +92,7 @@ class Log_Content {
         }
     }
 
-    public function size() {
+    public function size(): int {
         $size = 0;
         if (!is_null($this->key_)) {
             $l = strlen($this->key_);
@@ -104,11 +105,11 @@ class Log_Content {
         return $size;
     }
 
-    public function validateRequired() {
+    public function validateRequired(): bool {
         return true;
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return ''
              . Protobuf::toString('unknown', $this->_unknown)
              . Protobuf::toString('key_', $this->key_)
@@ -116,20 +117,20 @@ class Log_Content {
     }
 
     // required string Key = 1;
-    private $key_ = null;
-    public function getKey() {
+    private ?string $key_ = null;
+    public function getKey(): ?string {
         return $this->key_;
     }
-    public function setKey($value): void {
+    public function setKey(string $value): void {
         $this->key_ = $value;
     }
 
     // required string Value = 2;
-    private $value_ = null;
-    public function getValue() {
+    private ?string $value_ = null;
+    public function getValue(): ?string {
         return $this->value_;
     }
-    public function setValue($value): void {
+    public function setValue(string $value): void {
         $this->value_ = $value;
     }
 

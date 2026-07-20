@@ -18,34 +18,33 @@ class CompressedLogGroup {
      * @var integer uncompressed LogGroup size
      *
      */
-    protected $uncompressedSize;
+    protected ?int $uncompressedSize = null;
 
     /**
-     * @var integer uncompressed LogGroup size
+     * @var mixed uncompressed LogGroup size
      *
      */
-    protected $compressedData;
+    protected mixed $compressedData;
 
     /**
      * @var int|null
      */
-    protected $time;
+    protected ?int $time;
 
     /**
-     * @var array|null
+     * @var array<string, string>|null
      */
-    protected $contents;
+    protected ?array $contents;
 
-    public function __construct($time = null, $contents = null) {
+    /**
+     * @param array<string, string> $contents
+     */
+    public function __construct(?int $time = null, array $contents = []) {
         if (! $time) {
             $time = time();
         }
         $this->time = $time;
-        if ($contents) {
-            $this->contents = $contents;
-        } else {
-            $this->contents =  [];
-        }
+        $this->contents = $contents;
     }
 
 }

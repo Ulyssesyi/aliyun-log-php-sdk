@@ -8,23 +8,21 @@ namespace Aliyun\Log\Models;
  */
 
 class OssShipperParquetStorage extends OssShipperStorage {
-    private $columns;
+    /** @var string[]|null */
+    private ?array $columns = null;
 
-    /**
-     * @return mixed
-     */
-    public function getColumns() {
+    /** @return string[]|null */
+    public function getColumns(): ?array {
         return $this->columns;
     }
 
-    /**
-     * @param mixed $columns
-     */
-    public function setColumns($columns): void {
+    /** @param string[]|null $columns */
+    public function setColumns(?array $columns): void {
         $this->columns = $columns;
     }
 
-    public function to_json_object() {
+    /** @return array<string, mixed> */
+    public function to_json_object(): array {
         $detail = [
             'columns' => $this->columns,
         ];

@@ -8,23 +8,18 @@ namespace Aliyun\Log\Models;
  */
 
 class OssShipperJsonStorage extends OssShipperStorage {
-    private $enableTag = false;
+    private bool $enableTag = false;
 
-    /**
-     * @return bool
-     */
     public function isEnableTag(): bool {
         return $this->enableTag;
     }
 
-    /**
-     * @param bool $enableTag
-     */
     public function setEnableTag(bool $enableTag): void {
         $this->enableTag = $enableTag;
     }
 
-    public function to_json_object() {
+    /** @return array<string, mixed> */
+    public function to_json_object(): array {
         $detail =  [
             'enableTag' => $this->enableTag,
         ];

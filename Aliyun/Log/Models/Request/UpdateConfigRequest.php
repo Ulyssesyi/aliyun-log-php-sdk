@@ -13,20 +13,20 @@
 namespace Aliyun\Log\Models\Request;
 
 class UpdateConfigRequest extends \Aliyun\Log\Models\Request {
-    private $config;
+    private mixed $config;
     /**
      * UpdateConfigRequest Constructor
      *
      */
-    public function __construct($config) {
+    public function __construct(mixed $config) {
         $this->config = $config;
     }
 
-    public function getConfig() {
+    public function getConfig(): mixed {
         return $this->config;
     }
 
-    public function setConfig($config): void {
+    public function setConfig(mixed $config): void {
         $this->config = $config;
     }
 

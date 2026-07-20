@@ -6,9 +6,10 @@ use Exception;
 
 // message LogGroup
 class LogGroup {
-    private $_unknown;
+    /** @var array<string, array<mixed>>|null */
+    private ?array $_unknown = null;
 
-    public function __construct($in = null, &$limit = PHP_INT_MAX) {
+    public function __construct(mixed $in = null, int|null &$limit = PHP_INT_MAX) {
         if ($in !== null) {
             if (is_string($in)) {
                 $fp = fopen('php://memory', 'r+b');
@@ -23,7 +24,7 @@ class LogGroup {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX): void {
+    public function read(mixed $fp, int|null &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -102,7 +103,7 @@ class LogGroup {
         }
     }
 
-    public function write($fp): void {
+    public function write(mixed $fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -130,7 +131,7 @@ class LogGroup {
         }
     }
 
-    public function size() {
+    public function size(): int {
         $size = 0;
         if (!is_null($this->logs_)) {
             foreach ($this->logs_ as $v) {
@@ -153,11 +154,11 @@ class LogGroup {
         return $size;
     }
 
-    public function validateRequired() {
+    public function validateRequired(): bool {
         return true;
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return ''
              . Protobuf::toString('unknown', $this->_unknown)
              . Protobuf::toString('logs_', $this->logs_)
@@ -167,31 +168,35 @@ class LogGroup {
     }
 
     // repeated .Log logs = 1;
-    private $logs_ = null;
+    /** @var Log[]|null */
+    private ?array $logs_ = null;
     public function clearLogs(): void {
         $this->logs_ = null;
     }
-    public function getLogsCount() {
+    public function getLogsCount(): int {
         if ($this->logs_ === null) {
             return 0;
         }
         return count($this->logs_);
     }
-    public function getLogs($index) {
+    public function getLogs(int $index): Log {
         return $this->logs_[$index];
     }
-    public function getLogsArray() {
+    /** @return Log[] */
+    public function getLogsArray(): array {
         if ($this->logs_ === null) {
             return [];
         }
         return $this->logs_;
     }
-    public function setLogs($index, $value): void {
+    public function setLogs(int $index, Log $value): void {
         $this->logs_[$index] = $value;
     }
-    public function addLogs($value): void {
+    public function addLogs(Log $value): void {
         $this->logs_[] = $value;
     }
+
+    /** @param Log[] $values */
     public function addAllLogs(array $values): void {
         foreach ($values as $value) {
             $this->logs_[] = $value;
@@ -199,29 +204,29 @@ class LogGroup {
     }
 
     // optional string reserved = 2;
-    private $reserved_ = null;
-    public function getReserved() {
+    private ?string $reserved_ = null;
+    public function getReserved(): ?string {
         return $this->reserved_;
     }
-    public function setReserved($value): void {
+    public function setReserved(?string $value): void {
         $this->reserved_ = $value;
     }
 
     // optional string topic = 3;
-    private $topic_ = null;
-    public function getTopic() {
+    private ?string $topic_ = null;
+    public function getTopic(): ?string {
         return $this->topic_;
     }
-    public function setTopic($value): void {
+    public function setTopic(?string $value): void {
         $this->topic_ = $value;
     }
 
     // optional string source = 4;
-    private $source_ = null;
-    public function getSource() {
+    private ?string $source_ = null;
+    public function getSource(): ?string {
         return $this->source_;
     }
-    public function setSource($value): void {
+    public function setSource(?string $value): void {
         $this->source_ = $value;
     }
 

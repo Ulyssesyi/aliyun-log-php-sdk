@@ -18,7 +18,10 @@ class EndpointTest extends TestCase {
         $this->assertEquals($this->getUrl('cn-hangzhou.log.aliyuncs.com', null, '/', []), 'http://cn-hangzhou.log.aliyuncs.com/');
     }
 
-    public function getUrl($endpoint, $project, $resource, $params) {
+    /**
+     * @param array<string, string> $params
+     */
+    public function getUrl(string $endpoint, ?string $project, string $resource, array $params): string {
         $accessKeyId = 'testKey';
         $accessKey = 'testAccessKey';
         $client = new \Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey);

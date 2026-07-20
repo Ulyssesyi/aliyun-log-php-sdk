@@ -16,33 +16,33 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     /**
      * @var string logstore name
      */
-    private $logstore;
+    private ?string $logstore;
 
     /**
      * @var integer the begin time
      */
-    private $from;
+    private ?int $from;
 
     /**
      * @var integer the end time
      */
-    private $to;
+    private ?int $to;
 
     /**
      * @var string user defined query
      */
-    private $query;
+    private ?string $query;
 
     /**
      * @var string|null topic
      */
-    private $topic;
+    private ?string $topic;
 
     /**
      *
      * @var bool if power sql is true, then the query will be run with powered instance, which can handle large amountof data
      */
-    private $powerSql;
+    private ?bool $powerSql;
 
     /**
      * GetLogsRequest Constructor
@@ -60,7 +60,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param bool $powerSql
      *            whether use power sql to make sql faster
      */
-    public function __construct($project = null, $logstore = null, $from = null, $to = null, $topic = null, $query = null, $powerSql = null) {
+    public function __construct(?string $project = null, ?string $logstore = null, ?int $from = null, ?int $to = null, ?string $topic = null, ?string $query = null, ?bool $powerSql = null) {
         parent::__construct($project);
 
         $this->logstore = $logstore;
@@ -76,7 +76,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string logstore name
      */
-    public function getLogstore() {
+    public function getLogstore(): ?string {
         return $this->logstore;
     }
 
@@ -86,7 +86,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore): void {
+    public function setLogstore(?string $logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -95,7 +95,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string|null topic
      */
-    public function getTopic() {
+    public function getTopic(): ?string {
         return $this->topic;
     }
 
@@ -104,7 +104,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @return integer begin time
      */
-    public function getFrom() {
+    public function getFrom(): ?int {
         return $this->from;
     }
 
@@ -114,7 +114,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param integer $from
      *            begin time
      */
-    public function setFrom($from): void {
+    public function setFrom(?int $from): void {
         $this->from = $from;
     }
 
@@ -123,7 +123,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @return integer end time
      */
-    public function getTo() {
+    public function getTo(): ?int {
         return $this->to;
     }
 
@@ -133,7 +133,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param integer $to
      *            end time
      */
-    public function setTo($to): void {
+    public function setTo(?int $to): void {
         $this->to = $to;
     }
 
@@ -142,7 +142,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @return string user defined query
      */
-    public function getQuery() {
+    public function getQuery(): ?string {
         return $this->query;
     }
 
@@ -152,7 +152,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param string $query
      *            user defined query
      */
-    public function setQuery($query): void {
+    public function setQuery(?string $query): void {
         $this->query = $query;
     }
 
@@ -161,7 +161,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *
      * @reutnr bool powerSql flag
      */
-    public function getPowerSql() {
+    public function getPowerSql(): ?bool {
         return $this -> powerSql;
     }
 
@@ -172,7 +172,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *               powerSql flag
      *
      */
-    public function setPowerSql($powerSql): void {
+    public function setPowerSql(?bool $powerSql): void {
         $this -> powerSql = $powerSql;
     }
 }

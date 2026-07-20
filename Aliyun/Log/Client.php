@@ -106,37 +106,37 @@ class Client {
     /**
      *@var CredentialsProvider credentialsProvider
      */
-    protected $credentialsProvider;
+    protected CredentialsProvider $credentialsProvider;
 
     /**
      * @var string LOG endpoint
      */
-    protected $endpoint;
+    protected string $endpoint;
 
     /**
      * @var bool Check if the host if row ip.
      */
-    protected $isRowIp;
+    protected bool $isRowIp;
 
     /**
      * @var integer Http send port. The dafault value is 80.
      */
-    protected $port;
+    protected int $port;
 
     /**
      * @var string log sever host.
      */
-    protected $logHost;
+    protected string $logHost;
 
     /**
      * @var string the local machine ip address.
      */
-    protected $source;
+    protected string $source;
 
     /**
      * @var bool use https or use http.
      */
-    protected $useHttps;
+    protected bool $useHttps;
 
     /**
      * self constructor.
@@ -158,7 +158,7 @@ class Client {
         string $accessKeyId = '',
         string $accessKey = '',
         string $token = '',
-        CredentialsProvider $credentialsProvider = null,
+        ?CredentialsProvider $credentialsProvider = null,
     ) {
         $this->setEndpoint($endpoint); // set $this->logHost
         if (!is_null($credentialsProvider)) {
@@ -210,7 +210,7 @@ class Client {
      * Decodes a JSON string to a JSON Object.
      * Unsuccessful decode will cause an Exception.
      *
-     * @return array
+     * @return array<mixed>
      * @throws Exception
      */
     protected function parseToJson(?string $resBody, string $requestId): array {
@@ -226,7 +226,8 @@ class Client {
     }
 
     /**
-     * @return array
+     * @param array<string, mixed> $headers
+     * @return array{0: int, 1: array<string, mixed>, 2: string}
      */
     protected function getHttpResponse(string $method, string $url, string $body, array $headers): array {
         $request = new RequestCore($url);
@@ -247,13 +248,14 @@ class Client {
     }
 
     /**
-     * @return array
+     * @param array<string, mixed> $headers
+     * @return array{0: ?string, 1: array<string, mixed>}
      * @throws Exception
      */
-    private function sendRequest($method, $url, $body, $headers) {
+    private function sendRequest(string $method, string $url, ?string $body, array $headers): array {
         try {
             [$responseCode, $header, $resBody] =
-                    $this->getHttpResponse($method, $url, $body, $headers);
+                    $this->getHttpResponse($method, $url, $body ?? '', $headers);
         } catch (\Exception $ex) {
             throw new Exception($ex->getMessage(), $ex->__toString());
         }
@@ -286,10 +288,12 @@ class Client {
     }
 
     /**
-     * @return array
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $headers
+     * @return array{0: ?string, 1: array<string, mixed>}
      * @throws Exception
      */
-    private function send($method, $project, $body, $resource, $params, $headers) {
+    private function send(string $method, ?string $project, ?string $body, string $resource, array $params, array $headers): array {
         $credentials = null;
         try {
             $credentials = $this->credentialsProvider->getCredentials();
@@ -331,7 +335,10 @@ class Client {
         return $this->sendRequest($method, $url, $body, $headers);
     }
 
-    private function buildUrl($project, $resource, $params) {
+    /**
+     * @param array<string, mixed> $params
+     */
+    private function buildUrl(?string $project, string $resource, array $params): string {
         $url = $resource;
         $schema = $this->useHttps ? 'https://' : 'http://';
         if ($params) {
@@ -354,7 +361,7 @@ class Client {
      * @throws Exception
      * @return PutLogsResponse
      */
-    public function putLogs(PutLogsRequest $request) {
+    public function putLogs(PutLogsRequest $request): PutLogsResponse {
         if (count($request->getLogitems()) > 4096) {
             throw new Exception('InvalidLogSize', "logItems' length exceeds maximum limitation: 4096 lines.");
         }
@@ -415,7 +422,7 @@ class Client {
      * @param CreateShipperRequest $request
      * return CreateShipperResponse
      */
-    public function createShipper(CreateShipperRequest $request) {
+    public function createShipper(CreateShipperRequest $request): CreateShipperResponse {
         $headers = [];
         $params = [];
         $resource = '/logstores/'.$request->getLogStore().'/shipper';
@@ -440,7 +447,7 @@ class Client {
      * @param UpdateShipperRequest $request
      * return UpdateShipperResponse
      */
-    public function updateShipper(UpdateShipperRequest $request) {
+    public function updateShipper(UpdateShipperRequest $request): UpdateShipperResponse {
         $headers = [];
         $params = [];
         $resource = '/logstores/'.$request->getLogStore().'/shipper/'.$request->getShipperName();
@@ -465,7 +472,7 @@ class Client {
      * @param GetShipperTasksRequest $request
      * return GetShipperTasksResponse
      */
-    public function getShipperTasks(GetShipperTasksRequest $request) {
+    public function getShipperTasks(GetShipperTasksRequest $request): GetShipperTasksResponse {
         $headers = [];
         $params = [
             'from' => $request->getStartTime(),
@@ -490,7 +497,7 @@ class Client {
      * @param RetryShipperTasksRequest $request
      * return RetryShipperTasksResponse
      */
-    public function retryShipperTasks(RetryShipperTasksRequest $request) {
+    public function retryShipperTasks(RetryShipperTasksRequest $request): RetryShipperTasksResponse {
         $headers = [];
         $params = [];
         $resource = '/logstores/'.$request->getLogStore().'/shipper/'.$request->getShipperName().'/tasks';
@@ -511,7 +518,7 @@ class Client {
      * @param DeleteShipperRequest $request
      * return DeleteShipperResponse
      */
-    public function deleteShipper(DeleteShipperRequest $request) {
+    public function deleteShipper(DeleteShipperRequest $request): DeleteShipperResponse {
         $headers = [];
         $params = [];
         $resource = '/logstores/'.$request->getLogStore().'/shipper/'.$request->getShipperName();
@@ -530,7 +537,7 @@ class Client {
      * @param GetShipperConfigRequest $request
      * return GetShipperConfigResponse
      */
-    public function getShipperConfig(GetShipperConfigRequest $request) {
+    public function getShipperConfig(GetShipperConfigRequest $request): GetShipperConfigResponse {
         $headers = [];
         $params = [];
         $resource = '/logstores/'.$request->getLogStore().'/shipper/'.$request->getShipperName();
@@ -549,7 +556,7 @@ class Client {
      * @param ListShipperRequest $request
      * return ListShipperResponse
      */
-    public function listShipper(ListShipperRequest $request) {
+    public function listShipper(ListShipperRequest $request): ListShipperResponse {
         $headers = [];
         $params = [];
         $resource = '/logstores/'.$request->getLogStore().'/shipper';
@@ -571,7 +578,7 @@ class Client {
      * @throws Exception
      * return CreateLogstoreResponse
      */
-    public function createLogstore(CreateLogstoreRequest $request) {
+    public function createLogstore(CreateLogstoreRequest $request): CreateLogstoreResponse {
         $headers =  [];
         $params =  [];
         $resource = '/logstores';
@@ -598,7 +605,7 @@ class Client {
      * @throws Exception
      * return UpdateLogstoreResponse
      */
-    public function updateLogstore(UpdateLogstoreRequest $request) {
+    public function updateLogstore(UpdateLogstoreRequest $request): UpdateLogstoreResponse {
         $headers =  [];
         $params =  [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -624,7 +631,7 @@ class Client {
      * @throws Exception
      * @return ListLogstoresResponse
      */
-    public function listLogstores(ListLogstoresRequest $request) {
+    public function listLogstores(ListLogstoresRequest $request): ListLogstoresResponse {
         $headers =  [];
         $params =  [];
         $resource = '/logstores';
@@ -643,7 +650,7 @@ class Client {
      * @throws Exception
      * @return DeleteLogstoreResponse
      */
-    public function deleteLogstore(DeleteLogstoreRequest $request) {
+    public function deleteLogstore(DeleteLogstoreRequest $request): DeleteLogstoreResponse {
         $headers =  [];
         $params =  [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -663,7 +670,7 @@ class Client {
      * @throws Exception
      * @return ListTopicsResponse
      */
-    public function listTopics(ListTopicsRequest $request) {
+    public function listTopics(ListTopicsRequest $request): ListTopicsResponse {
         $headers =  [];
         $params =  [];
         if ($request->getToken() !== null) {
@@ -688,9 +695,9 @@ class Client {
      *
      * @param GetHistogramsRequest $request the GetHistograms request parameters class.
      * @throws Exception
-     * @return array
+     * @return array{0: array<mixed>, 1: array<string, string>}
      */
-    public function getHistogramsJson(GetHistogramsRequest $request) {
+    public function getHistogramsJson(GetHistogramsRequest $request): array {
         $headers =  [];
         $params =  [];
         if ($request->getTopic() !== null) {
@@ -723,7 +730,7 @@ class Client {
      * @throws Exception
      * @return GetHistogramsResponse
      */
-    public function getHistograms(GetHistogramsRequest $request) {
+    public function getHistograms(GetHistogramsRequest $request): GetHistogramsResponse {
         $ret = $this->getHistogramsJson($request);
         $resp = $ret[0];
         $header = $ret[1];
@@ -736,9 +743,9 @@ class Client {
      *
      * @param GetLogsRequest $request the GetLogs request parameters class.
      * @throws Exception
-     * @return array
+     * @return array{0: array<mixed>, 1: array<string, string>}
      */
-    public function getLogsJson(GetLogsRequest $request) {
+    public function getLogsJson(GetLogsRequest $request): array {
         $headers =  [];
         $params =  [];
         if ($request->getTopic() !== null) {
@@ -764,7 +771,7 @@ class Client {
             $params['reverse'] = $request->getReverse() ? 'true' : 'false';
         }
         if ($request -> getPowerSql() != null) {
-            $params['powerSql'] = $request -> getPowerSql() ? 'true' : 'false';
+            $params['powerSql'] = 'true';
         }
         $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -784,7 +791,7 @@ class Client {
      * @throws Exception
      * @return GetLogsResponse
      */
-    public function getLogs(GetLogsRequest $request) {
+    public function getLogs(GetLogsRequest $request): GetLogsResponse {
         $ret = $this->getLogsJson($request);
         $resp = $ret[0];
         $header = $ret[1];
@@ -797,16 +804,16 @@ class Client {
      *
      * @param GetProjectLogsRequest $request the GetLogs request parameters class.
      * @throws Exception
-     * @return array
+     * @return array{0: array<mixed>, 1: array<string, string>}
      */
-    public function getProjectLogsJson(GetProjectLogsRequest $request) {
+    public function getProjectLogsJson(GetProjectLogsRequest $request): array {
         $headers =  [];
         $params =  [];
         if ($request->getQuery() !== null) {
             $params['query'] = $request->getQuery();
         }
         if ($request -> getPowerSql() != null) {
-            $params['powerSql'] = $request -> getPowerSql() ? 'true' : 'false';
+            $params['powerSql'] = 'true';
         }
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $resource = '/logs';
@@ -824,7 +831,7 @@ class Client {
     * @throws Exception
     * @return GetLogsResponse
     */
-    public function getProjectLogs(GetProjectLogsRequest $request) {
+    public function getProjectLogs(GetProjectLogsRequest $request): GetLogsResponse {
         $ret = $this->getProjectLogsJson($request);
         $resp = $ret[0];
         $header = $ret[1];
@@ -837,7 +844,7 @@ class Client {
      * @throws Exception
      * @return LogStoreSqlResponse
      */
-    public function executeLogStoreSql(LogStoreSqlRequest $request) {
+    public function executeLogStoreSql(LogStoreSqlRequest $request): LogStoreSqlResponse {
         $headers =  [];
         $params =  [];
         if ($request->getFrom() !== null) {
@@ -851,7 +858,7 @@ class Client {
         }
         $params['type'] = 'log';
         if ($request -> getPowerSql() != null) {
-            $params['powerSql'] = $request -> getPowerSql() ? 'true' : 'false';
+            $params['powerSql'] = 'true';
         }
         $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -867,16 +874,16 @@ class Client {
      *
      * @param ProjectSqlRequest $request the GetLogs request parameters class.
      * @throws Exception
-     * @return array
+     * @return array{0: array<mixed>, 1: array<string, string>}
      */
-    public function executeProjectSqlJson(ProjectSqlRequest $request) {
+    public function executeProjectSqlJson(ProjectSqlRequest $request): array {
         $headers =  [];
         $params =  [];
         if ($request->getQuery() !== null) {
             $params['query'] = $request->getQuery();
         }
         if ($request -> getPowerSql() != null) {
-            $params['powerSql'] = $request -> getPowerSql() ? 'true' : 'false';
+            $params['powerSql'] = 'true';
         }
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $resource = '/logs';
@@ -894,7 +901,7 @@ class Client {
     * @throws Exception
     * @return ProjectSqlResponse
     */
-    public function executeProjectSql(ProjectSqlRequest $request) {
+    public function executeProjectSql(ProjectSqlRequest $request): ProjectSqlResponse {
         $ret = $this->executeProjectSqlJson($request);
         $resp = $ret[0];
         $header = $ret[1];
@@ -908,7 +915,7 @@ class Client {
      * @throws Exception
      * @return CreateSqlInstanceResponse
      */
-    public function createSqlInstance($project, $cu) {
+    public function createSqlInstance(string $project, int $cu): CreateSqlInstanceResponse {
         $headers = [];
         $params = [];
         $resource = '/sqlinstance';
@@ -932,7 +939,7 @@ class Client {
      * @throws Exception
      * @return UpdateSqlInstanceResponse
      */
-    public function updateSqlInstance($project, $cu) {
+    public function updateSqlInstance(string $project, int $cu): UpdateSqlInstanceResponse {
         $headers = [];
         $params = [];
         $resource = '/sqlinstance';
@@ -954,7 +961,7 @@ class Client {
      * @throws Exception
      * @return ListSqlInstanceResponse
      */
-    public function listSqlInstance($project) {
+    public function listSqlInstance(string $project): ListSqlInstanceResponse {
         $headers = [];
         $headers['Content-Type'] = 'application/x-protobuf';
         $hangzhou['Content-Length'] = '0';
@@ -975,7 +982,7 @@ class Client {
      * @throws Exception
      * @return BatchGetLogsResponse
      */
-    public function batchGetLogs(BatchGetLogsRequest $request) {
+    public function batchGetLogs(BatchGetLogsRequest $request): BatchGetLogsResponse {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -1014,7 +1021,7 @@ class Client {
      * @throws Exception
      * @return ListShardsResponse
      */
-    public function listShards(ListShardsRequest $request) {
+    public function listShards(ListShardsRequest $request): ListShardsResponse {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -1035,7 +1042,7 @@ class Client {
      * @throws Exception
      * @return ListShardsResponse
      */
-    public function splitShard(SplitShardRequest $request) {
+    public function splitShard(SplitShardRequest $request): ListShardsResponse {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -1059,7 +1066,7 @@ class Client {
      * @throws Exception
      * @return ListShardsResponse
      */
-    public function MergeShards(MergeShardsRequest $request) {
+    public function MergeShards(MergeShardsRequest $request): ListShardsResponse {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -1081,7 +1088,7 @@ class Client {
      * @throws Exception
      * @return DeleteShardResponse
      */
-    public function DeleteShard(DeleteShardRequest $request) {
+    public function DeleteShard(DeleteShardRequest $request): DeleteShardResponse {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -1102,7 +1109,7 @@ class Client {
      * @throws Exception
      * @return GetCursorResponse
      */
-    public function getCursor(GetCursorRequest $request) {
+    public function getCursor(GetCursorRequest $request): GetCursorResponse {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
@@ -1137,7 +1144,7 @@ class Client {
         return new GetCursorResponse($resp, $header);
     }
 
-    public function createConfig(CreateConfigRequest $request) {
+    public function createConfig(CreateConfigRequest $request): CreateConfigResponse {
         $params = [];
         $headers = [];
         $body = null;
@@ -1150,7 +1157,7 @@ class Client {
         return new CreateConfigResponse($header);
     }
 
-    public function updateConfig(UpdateConfigRequest $request) {
+    public function updateConfig(UpdateConfigRequest $request): UpdateConfigResponse {
         $params = [];
         $headers = [];
         $body = null;
@@ -1165,7 +1172,7 @@ class Client {
         return new UpdateConfigResponse($header);
     }
 
-    public function getConfig(GetConfigRequest $request) {
+    public function getConfig(GetConfigRequest $request): GetConfigResponse {
         $params = [];
         $headers = [];
 
@@ -1178,7 +1185,7 @@ class Client {
         return new GetConfigResponse($resp, $header);
     }
 
-    public function deleteConfig(DeleteConfigRequest $request) {
+    public function deleteConfig(DeleteConfigRequest $request): DeleteConfigResponse {
         $params = [];
         $headers = [];
         $configName = ($request->getConfigName() !== null) ? $request->getConfigName() : '';
@@ -1187,7 +1194,7 @@ class Client {
         return new DeleteConfigResponse($header);
     }
 
-    public function listConfigs(ListConfigsRequest $request) {
+    public function listConfigs(ListConfigsRequest $request): ListConfigsResponse {
         $params = [];
         $headers = [];
 
@@ -1208,7 +1215,7 @@ class Client {
         return new ListConfigsResponse($resp, $header);
     }
 
-    public function createMachineGroup(CreateMachineGroupRequest $request) {
+    public function createMachineGroup(CreateMachineGroupRequest $request): CreateMachineGroupResponse {
         $params = [];
         $headers = [];
         $body = null;
@@ -1222,7 +1229,7 @@ class Client {
         return new CreateMachineGroupResponse($header);
     }
 
-    public function updateMachineGroup(UpdateMachineGroupRequest $request) {
+    public function updateMachineGroup(UpdateMachineGroupRequest $request): UpdateMachineGroupResponse {
         $params = [];
         $headers = [];
         $body = null;
@@ -1237,7 +1244,7 @@ class Client {
         return new UpdateMachineGroupResponse($header);
     }
 
-    public function getMachineGroup(GetMachineGroupRequest $request) {
+    public function getMachineGroup(GetMachineGroupRequest $request): GetMachineGroupResponse {
         $params = [];
         $headers = [];
 
@@ -1250,7 +1257,7 @@ class Client {
         return new GetMachineGroupResponse($resp, $header);
     }
 
-    public function deleteMachineGroup(DeleteMachineGroupRequest $request) {
+    public function deleteMachineGroup(DeleteMachineGroupRequest $request): DeleteMachineGroupResponse {
         $params = [];
         $headers = [];
 
@@ -1260,7 +1267,7 @@ class Client {
         return new DeleteMachineGroupResponse($header);
     }
 
-    public function listMachineGroups(ListMachineGroupsRequest $request) {
+    public function listMachineGroups(ListMachineGroupsRequest $request): ListMachineGroupsResponse {
         $params = [];
         $headers = [];
 
@@ -1282,7 +1289,7 @@ class Client {
         return new ListMachineGroupsResponse($resp, $header);
     }
 
-    public function applyConfigToMachineGroup(ApplyConfigToMachineGroupRequest $request) {
+    public function applyConfigToMachineGroup(ApplyConfigToMachineGroupRequest $request): ApplyConfigToMachineGroupResponse {
         $params = [];
         $headers = [];
         $configName = $request->getConfigName();
@@ -1293,7 +1300,7 @@ class Client {
         return new ApplyConfigToMachineGroupResponse($header);
     }
 
-    public function removeConfigFromMachineGroup(RemoveConfigFromMachineGroupRequest $request) {
+    public function removeConfigFromMachineGroup(RemoveConfigFromMachineGroupRequest $request): RemoveConfigFromMachineGroupResponse {
         $params = [];
         $headers = [];
         $configName = $request->getConfigName();
@@ -1304,7 +1311,7 @@ class Client {
         return new RemoveConfigFromMachineGroupResponse($header);
     }
 
-    public function getMachine(GetMachineRequest $request) {
+    public function getMachine(GetMachineRequest $request): GetMachineResponse {
         $params = [];
         $headers = [];
 
@@ -1317,7 +1324,7 @@ class Client {
         return new GetMachineResponse($resp, $header);
     }
 
-    public function createACL(CreateACLRequest $request) {
+    public function createACL(CreateACLRequest $request): CreateACLResponse {
         $params = [];
         $headers = [];
         $body = null;
@@ -1332,7 +1339,7 @@ class Client {
         return new CreateACLResponse($resp, $header);
     }
 
-    public function updateACL(UpdateACLRequest $request) {
+    public function updateACL(UpdateACLRequest $request): UpdateACLResponse {
         $params = [];
         $headers = [];
         $body = null;
@@ -1347,7 +1354,7 @@ class Client {
         return new UpdateACLResponse($header);
     }
 
-    public function getACL(GetACLRequest $request) {
+    public function getACL(GetACLRequest $request): GetACLResponse {
         $params = [];
         $headers = [];
 
@@ -1361,7 +1368,7 @@ class Client {
         return new GetACLResponse($resp, $header);
     }
 
-    public function deleteACL(DeleteACLRequest $request) {
+    public function deleteACL(DeleteACLRequest $request): DeleteACLResponse {
         $params = [];
         $headers = [];
         $aclId = ($request->getAclId() !== null) ? $request->getAclId() : '';
@@ -1370,7 +1377,7 @@ class Client {
         return new DeleteACLResponse($header);
     }
 
-    public function listACLs(ListACLsRequest $request) {
+    public function listACLs(ListACLsRequest $request): ListACLsResponse {
         $params = [];
         $headers = [];
         if ($request->getPrincipleId() !== null) {

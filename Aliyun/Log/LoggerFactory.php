@@ -13,22 +13,23 @@ namespace Aliyun\Log;
  * Will flush current logger when the factory instance was recycled.
  */
 class LoggerFactory {
-    private static $loggerMap = [];
+    /** @var array<string, SimpleLogger> */
+    private static array $loggerMap = [];
 
     /**
      * Get logger instance
-     * @param $client valid log client
-     * @param $project which could be created in AliYun Logger Server configuration page
-     * @param $logstore which could be created in AliYun Logger Server configuration page
-     * @param null $topic used to specified the log by TOPIC field
-     * @return mixed return logger instance
-     * @throws Exception if the input parameter is invalid, throw exception
+     * @param Client $client valid log client
+     * @param string $project which could be created in AliYun Logger Server configuration page
+     * @param string $logstore which could be created in AliYun Logger Server configuration page
+     * @param string|null $topic used to specified the log by TOPIC field
+     * @return SimpleLogger return logger instance
+     * @throws \Exception if the input parameter is invalid, throw exception
      */
-    public static function getLogger($client, $project, $logstore, $topic = null) {
-        if ($project === null || $project == '') {
+    public static function getLogger(Client $client, string $project, string $logstore, ?string $topic = null): SimpleLogger {
+        if ($project == '') {
             throw new \Exception('project name is blank!');
         }
-        if ($logstore === null || $logstore == '') {
+        if ($logstore == '') {
             throw new \Exception('logstore name is blank!');
         }
         if ($topic === null) {

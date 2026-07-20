@@ -8,37 +8,40 @@ namespace Aliyun\Log\Models;
  */
 
 class Machine_Info {
-    public $ip;
-    public $os;
-    public $hostName;
+    public ?string $ip = null;
+    public ?string $os = null;
+    public ?string $hostName = null;
 
-    public function __construct($ip = null, $os = null, $hostName = null) {
+    public function __construct(?string $ip = null, ?string $os = null, ?string $hostName = null) {
         $this->ip = $ip;
         $this->os = $os;
         $this->hostName = $hostName;
     }
 
-    public function getIp() {
+    public function getIp(): ?string {
         return $this->ip;
     }
-    public function setIp($ip): void {
+    public function setIp(?string $ip): void {
         $this->ip = $ip;
     }
 
-    public function getOs() {
+    public function getOs(): ?string {
         return $this->os;
     }
-    public function setOs($os): void {
+    public function setOs(?string $os): void {
         $this->os = $os;
     }
 
-    public function getHostName() {
+    public function getHostName(): ?string {
         return $this->hostName;
     }
-    public function setHostName($hostname): void {
+    public function setHostName(?string $hostname): void {
         $this->hostName = $hostname;
     }
-    public function toArray() {
+    /**
+     * @return array<string, string>
+     */
+    public function toArray(): array {
         $resArr = [];
         if ($this->ip !== null) {
             $resArr['ip'] = $this->ip;
@@ -54,15 +57,18 @@ class Machine_Info {
 }
 
 class Machine_Status {
-    public $binaryCurVersion;
-    public $binaryDeployVersion;
+    public ?string $binaryCurVersion = null;
+    public ?string $binaryDeployVersion = null;
 
-    public function __construct($binaryCurVersion = null, $binaryDeployVersion = null) {
+    public function __construct(?string $binaryCurVersion = null, ?string $binaryDeployVersion = null) {
         $this->binaryCurVersion = $binaryCurVersion;
         $this->binaryDeployVersion = $binaryDeployVersion;
     }
 
-    public function toArray() {
+    /**
+     * @return array<string, string>
+     */
+    public function toArray(): array {
         $resArr = [];
         if ($this->binaryCurVersion !== null) {
             $resArr['binaryCurVersion'] = $this->binaryCurVersion;
@@ -75,21 +81,21 @@ class Machine_Status {
 }
 
 class Machine {
-    private $uuid;
-    private $lastHeartbeatTime;
-    private $info;
-    private $status;
+    private ?string $uuid = null;
+    private ?string $lastHeartbeatTime = null;
+    private ?Machine_Info $info = null;
+    private ?Machine_Status $status = null;
 
-    private $createTime;
-    private $lastModifyTime;
+    private ?string $createTime = null;
+    private ?string $lastModifyTime = null;
 
     public function __construct(
-        $uuid = null,
-        $lastHeartbeatTime = null,
-        $info = null,
-        $status = null,
-        $createTime = null,
-        $lastModifyTime = null,
+        ?string $uuid = null,
+        ?string $lastHeartbeatTime = null,
+        ?Machine_Info $info = null,
+        ?Machine_Status $status = null,
+        ?string $createTime = null,
+        ?string $lastModifyTime = null,
     ) {
         $this->uuid = $uuid;
         $this->lastHeartbeatTime = $lastHeartbeatTime;
@@ -100,45 +106,48 @@ class Machine {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function getUuid() {
+    public function getUuid(): ?string {
         return $this->uuid;
     }
-    public function setUuid($uuid): void {
+    public function setUuid(?string $uuid): void {
         $this->uuid = $uuid;
     }
-    public function getLastHeartbeatTime() {
+    public function getLastHeartbeatTime(): ?string {
         return $this->lastHeartbeatTime;
     }
-    public function setLastHeartbeatTime($lastHeartbeatTime): void {
+    public function setLastHeartbeatTime(?string $lastHeartbeatTime): void {
         $this->lastHeartbeatTime = $lastHeartbeatTime;
     }
-    public function getInfo() {
+    public function getInfo(): ?Machine_Info {
         return $this->info;
     }
-    public function setInfo($info): void {
+    public function setInfo(?Machine_Info $info): void {
         $this->info = $info;
     }
-    public function getStatus() {
+    public function getStatus(): ?Machine_Status {
         return $this->status;
     }
-    public function setStatus($status): void {
+    public function setStatus(?Machine_Status $status): void {
         $this->status = $status;
     }
 
-    public function getCreateTime() {
+    public function getCreateTime(): ?string {
         return $this->createTime;
     }
-    public function setCreateTime($createTime): void {
+    public function setCreateTime(?string $createTime): void {
         $this->createTime = $createTime;
     }
-    public function getLastModifyTime() {
+    public function getLastModifyTime(): ?string {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime): void {
+    public function setLastModifyTime(?string $lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function toArray() {
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array {
         $resArr = [];
         if ($this->uuid !== null) {
             $resArr['uuid'] = $this->uuid;
@@ -161,7 +170,10 @@ class Machine {
         return $resArr;
     }
 
-    public function setFromArray($resp): void {
+    /**
+     * @param array<string, mixed> $resp
+     */
+    public function setFromArray(array $resp): void {
         $info = null;
         if (isset($resp['info'])) {
             $ip = (isset($resp['info']['ip'])) ? $resp['info']['ip'] : null;

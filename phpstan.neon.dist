@@ -1,7 +1,6 @@
 parameters:
-    level: 5
+    level: 6
     paths:
         - Aliyun/Log
         - tests
-    tipsOfTheDay: false
     treatPhpDocTypesAsCertain: false

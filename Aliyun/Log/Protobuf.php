@@ -39,7 +39,7 @@ class Protobuf {
     /**
      * Returns a string representing this wiretype
      */
-    public static function get_wiretype($wire_type) {
+    public static function get_wiretype(int $wire_type): string {
         switch ($wire_type) {
             case 0: return 'varint';
             case 1: return '64-bit';
@@ -54,7 +54,7 @@ class Protobuf {
     /**
      * Returns how big (in bytes) this number would be as a varint
      */
-    public static function size_varint($i) {
+    public static function size_varint(int $i): int {
         if ($i < 0x80) {
             return 1;
         }
@@ -82,6 +82,8 @@ class Protobuf {
         if ($i < 0x8000000000000000) {
             return 9;
         }
+
+        return 10;
     }
 
     /**
@@ -89,7 +91,7 @@ class Protobuf {
      *
      * @return int|false the Varint from the stream, or false if the stream has reached eof.
      */
-    public static function read_varint($fp, &$limit = null) {
+    public static function read_varint(mixed $fp, int|null &$limit = null): int|false {
         $value = '';
         $len = 0;
         do { // Keep reading until we find the last byte
@@ -126,28 +128,28 @@ class Protobuf {
         return $i;
     }
 
-    public static function read_double($fp): void {
+    public static function read_double(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_float($fp): void {
+    public static function read_float(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_uint64($fp): void {
+    public static function read_uint64(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_int64($fp): void {
+    public static function read_int64(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_uint32($fp): void {
+    public static function read_uint32(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_int32($fp): void {
+    public static function read_int32(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_zint32($fp): void {
+    public static function read_zint32(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_zint64($fp): void {
+    public static function read_zint64(mixed $fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
 
@@ -157,7 +159,7 @@ class Protobuf {
      *
      * @return int The number of bytes written
      */
-    public static function write_varint($fp, $i) {
+    public static function write_varint(mixed $fp, int $i): int {
         $len = 0;
         do {
             $v = $i & 0x7F;
@@ -177,35 +179,35 @@ class Protobuf {
         return $len;
     }
 
-    public static function write_double($fp, $d): void {
+    public static function write_double(mixed $fp, float $d): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_float($fp, $f): void {
+    public static function write_float(mixed $fp, float $f): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_uint64($fp, $i): void {
+    public static function write_uint64(mixed $fp, int $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_int64($fp, $i): void {
+    public static function write_int64(mixed $fp, int $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_uint32($fp, $i): void {
+    public static function write_uint32(mixed $fp, int $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_int32($fp, $i): void {
+    public static function write_int32(mixed $fp, int $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_zint32($fp, $i): void {
+    public static function write_zint32(mixed $fp, int $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_zint64($fp, $i): void {
+    public static function write_zint64(mixed $fp, int $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
 
     /**
      * Seek past a varint
      */
-    public static function skip_varint($fp) {
+    public static function skip_varint(mixed $fp): int {
         $len = 0;
         do { // Keep reading until we find the last byte
             $b = fread($fp, 1);
@@ -220,7 +222,7 @@ class Protobuf {
     /**
      * Seek past the current field
      */
-    public static function skip_field($fp, $wire_type) {
+    public static function skip_field(mixed $fp, int $wire_type): int {
         switch ($wire_type) {
             case 0: // varint
                 return Protobuf::skip_varint($fp);
@@ -253,7 +255,7 @@ class Protobuf {
     /**
      * Read a unknown field from the stream and return its raw bytes
      */
-    public static function read_field($fp, $wire_type, &$limit = null) {
+    public static function read_field(mixed $fp, int $wire_type, int|null &$limit = null): int|string|false {
         switch ($wire_type) {
             case 0: // varint
                 return Protobuf::read_varint($fp, $limit);
@@ -279,13 +281,13 @@ class Protobuf {
     /**
      * Used to aid in pretty printing of Protobuf objects
      */
-    private static $print_depth = 0;
-    private static $indent_char = "\t";
-    private static $print_limit = 50;
+    private static int $print_depth = 0;
+    private static string $indent_char = "\t";
+    private static int $print_limit = 50;
 
-    public static function toString($key, $value) {
+    public static function toString(string|int $key, mixed $value): ?string {
         if (is_null($value)) {
-            return;
+            return null;
         }
         $ret = str_repeat(self::$indent_char, self::$print_depth) . "$key=>";
         if (is_array($value)) {

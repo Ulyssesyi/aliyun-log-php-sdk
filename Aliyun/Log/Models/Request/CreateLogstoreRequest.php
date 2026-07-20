@@ -13,27 +13,27 @@
 namespace Aliyun\Log\Models\Request;
 
 class CreateLogstoreRequest extends \Aliyun\Log\Models\Request {
-    private $logstore;
-    private $ttl;
-    private $shardCount;
+    private ?string $logstore;
+    private ?int $ttl;
+    private ?int $shardCount;
     /**
      * CreateLogstoreRequest constructor
      *
      * @param string $project project name
      */
-    public function __construct($project = null, $logstore = null, $ttl = null, $shardCount = null) {
+    public function __construct(?string $project = null, ?string $logstore = null, ?int $ttl = null, ?int $shardCount = null) {
         parent::__construct($project);
         $this -> logstore = $logstore;
         $this -> ttl = $ttl;
         $this -> shardCount = $shardCount;
     }
-    public function getLogstore() {
+    public function getLogstore(): ?string {
         return $this -> logstore;
     }
-    public function getTtl() {
+    public function getTtl(): ?int {
         return $this -> ttl;
     }
-    public function getShardCount() {
+    public function getShardCount(): ?int {
         return $this -> shardCount;
     }
 }

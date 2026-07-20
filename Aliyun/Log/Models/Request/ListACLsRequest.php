@@ -13,38 +13,38 @@
 namespace Aliyun\Log\Models\Request;
 
 class ListACLsRequest extends \Aliyun\Log\Models\Request {
-    private $offset;
-    private $size;
-    private $principleId;
+    private ?int $offset;
+    private ?int $size;
+    private ?string $principleId;
 
     /**
      * ListACLsRequest Constructor
      *
      */
-    public function __construct($principleId = null, $offset = null, $size = null) {
+    public function __construct(?string $principleId = null, ?int $offset = null, ?int $size = null) {
         $this->offset = $offset;
         $this->size = $size;
         $this->principleId = $principleId;
     }
 
-    public function getOffset() {
+    public function getOffset(): ?int {
         return $this->offset;
     }
-    public function setOffset($offset): void {
+    public function setOffset(?int $offset): void {
         $this->offset = $offset;
     }
 
-    public function getSize() {
+    public function getSize(): ?int {
         return $this->size;
     }
-    public function setSize($size): void {
+    public function setSize(?int $size): void {
         $this->size = $size;
     }
 
-    public function getPrincipleId() {
+    public function getPrincipleId(): ?string {
         return $this->principleId;
     }
-    public function setPrincipleId($principleId): void {
+    public function setPrincipleId(?string $principleId): void {
         $this->principleId = $principleId;
     }
 
