@@ -13,6 +13,9 @@ class Log {
         if ($in !== null) {
             if (is_string($in)) {
                 $fp = fopen('php://memory', 'r+b');
+                if ($fp === false) {
+                    throw new Exception('Failed to open memory stream');
+                }
                 fwrite($fp, $in);
                 rewind($fp);
             } elseif (is_resource($in)) {
@@ -35,7 +38,11 @@ class Log {
             switch ($field) {
                 case 1:
                     assert($wire === 0);
-                    $this->time_ = Protobuf::read_varint($fp, $limit);
+                    $time = Protobuf::read_varint($fp, $limit);
+                    if ($time === false) {
+                        throw new Exception('Protobuf::read_varint returned false');
+                    }
+                    $this->time_ = $time;
                     break;
                 case 2:
                     assert($wire === 2);

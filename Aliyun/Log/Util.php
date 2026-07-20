@@ -13,8 +13,11 @@ class Util {
      */
     public static function getLocalIp(): string {
         $local_ip = gethostbyname(php_uname('n'));
-        if (strlen($local_ip) == 0) {
-            $local_ip = gethostbyname(gethostname());
+        if ($local_ip == '') {
+            $host = gethostname();
+            if ($host !== false) {
+                $local_ip = gethostbyname($host);
+            }
         }
         return $local_ip;
     }
@@ -52,12 +55,18 @@ class Util {
      */
     public static function toBytes(LogGroup $logGroup): string {
         $mem = fopen('php://memory', 'rwb');
+        if ($mem === false) {
+            return '';
+        }
         $logGroup->write($mem);
         rewind($mem);
         $bytes = '';
 
         if (feof($mem) === false) {
-            $bytes = fread($mem, 10 * 1024 * 1024);
+            $read = fread($mem, 10 * 1024 * 1024);
+            if ($read !== false) {
+                $bytes = $read;
+            }
         }
         fclose($mem);
 

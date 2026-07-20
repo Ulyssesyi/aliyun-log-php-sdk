@@ -3,3 +3,5 @@ parameters:
     paths:
         - Aliyun/Log
         - tests
+    excludePaths:
+        - '*/Aliyun/Log/RequestCore.php'

@@ -17,7 +17,7 @@ use Aliyun\Log\Models\Request;
 class BatchGetLogsRequest extends Request {
     public function __construct(
         ?string $project = null,
-        private ?string $logstore = null,
+        private ?string $logStore = null,
         private ?string $shardId = null,
         private ?int $count = null,
         private ?string $cursor = null,
@@ -26,12 +26,12 @@ class BatchGetLogsRequest extends Request {
         parent::__construct($project);
     }
 
-    public function getLogstore(): ?string {
-        return $this->logstore;
+    public function getLogStore(): ?string {
+        return $this->logStore;
     }
 
-    public function setLogstore(?string $logstore): void {
-        $this->logstore = $logstore;
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
     }
 
     public function getShardId(): ?string {

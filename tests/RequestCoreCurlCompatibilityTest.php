@@ -2,6 +2,7 @@
 
 use Aliyun\Log\RequestCore;
 use Aliyun\Log\RequestCoreException;
+use Aliyun\Log\ResponseCore;
 use PHPUnit\Framework\TestCase;
 
 class RequestCoreCurlCompatibilityTest extends TestCase {
@@ -68,6 +69,8 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
             ]);
 
             $this->assertCount(2, $responses);
+            $this->assertInstanceOf(ResponseCore::class, $responses[0]);
+            $this->assertInstanceOf(ResponseCore::class, $responses[1]);
             $this->assertSame('one', $responses[0]->body);
             $this->assertSame('two', $responses[1]->body);
         } finally {

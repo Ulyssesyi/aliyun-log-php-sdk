@@ -25,6 +25,9 @@ class ProtobufMessage {
                 // If the input is a string, turn it into a stream and decode it
                 $str = $in;
                 $fp = fopen('php://memory', 'r+b');
+                if ($fp === false) {
+                    throw new Exception('Failed to open memory stream');
+                }
                 fwrite($fp, $str);
                 rewind($fp);
             } elseif (is_resource($in)) {

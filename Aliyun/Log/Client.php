@@ -243,8 +243,10 @@ class Client {
         $request->send_request();
         $response =  [];
         $response[] = (int) $request->get_response_code();
-        $response[] = $request->get_response_header();
-        $response[] = $request->get_response_body();
+        $respHeader = $request->get_response_header();
+        $response[] = is_array($respHeader) ? $respHeader : [];
+        $respBody = $request->get_response_body();
+        $response[] = is_string($respBody) ? $respBody : '';
         return $response;
     }
 
@@ -355,6 +357,31 @@ class Client {
     }
 
     /**
+     * Execute API call and parse JSON response.
+     *
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $headers
+     * @return array{0: array<mixed>, 1: array<string, mixed>}
+     */
+    private function executeApi(string $method, ?string $project, ?string $body, string $resource, array $params, array $headers): array {
+        [$resp, $header] = $this->send($method, $project, $body, $resource, $params, $headers);
+        $requestId = $header['x-log-requestid'] ?? '';
+        $resp = $this->parseToJson($resp, $requestId);
+        return [$resp, $header];
+    }
+
+    /**
+     * Encode a value as JSON, throwing an exception on failure.
+     */
+    private function jsonEncode(mixed $value): string {
+        $encoded = json_encode($value);
+        if ($encoded === false) {
+            throw new Exception('EncodingError', 'Failed to encode request body as JSON');
+        }
+        return $encoded;
+    }
+
+    /**
      * Put logs to Log Service.
      * Unsuccessful opertaion will cause an Exception.
      *
@@ -392,6 +419,7 @@ class Client {
         }
 
         $body = Util::toBytes($logGroup);
+        unset($logGroup);
 
         $bodySize = strlen($body);
         if ($bodySize > 3 * 1024 * 1024) { // 3 MB
@@ -402,12 +430,16 @@ class Client {
         $headers['x-log-bodyrawsize'] = $bodySize;
         $headers['x-log-compresstype'] = 'deflate';
         $headers['Content-Type'] = 'application/x-protobuf';
-        $body = gzcompress($body, 6);
+        $compressed = gzcompress($body, 6);
+        if ($compressed === false) {
+            throw new Exception('EncodingError', 'Failed to compress log body');
+        }
+        $body = $compressed;
 
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $shardKey = $request->getShardKey();
-        $resource = '/logstores/' . $logStore.($shardKey === null ? '/shards/lb' : '/shards/route');
+        $resource = '/logstores/' . $logstore.($shardKey == null ? '/shards/lb' : '/shards/route');
         if ($shardKey) {
             $params['key'] = $shardKey;
         }
@@ -434,11 +466,9 @@ class Client {
             'targetType' => $request->getTargetType(),
             'targetConfiguration' => $request->getTargetConfigration(),
         ];
-        $body_str = json_encode($body);
+        $body_str = $this->jsonEncode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header] = $this->send('POST', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->executeApi('POST', $project, $body_str, $resource, $params, $headers);
         return new CreateShipperResponse($header);
     }
 
@@ -459,11 +489,9 @@ class Client {
             'targetType' => $request->getTargetType(),
             'targetConfiguration' => $request->getTargetConfigration(),
         ];
-        $body_str = json_encode($body);
+        $body_str = $this->jsonEncode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header] = $this->send('PUT', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->executeApi('PUT', $project, $body_str, $resource, $params, $headers);
         return new UpdateShipperResponse($header);
     }
 
@@ -486,9 +514,7 @@ class Client {
         $headers['x-log-bodyrawsize'] = 0;
         $headers['Content-Type'] = 'application/json';
 
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new GetShipperTasksResponse($resp, $header);
     }
 
@@ -505,11 +531,9 @@ class Client {
 
         $headers['Content-Type'] = 'application/json';
         $body = $request->getTaskLists();
-        $body_str = json_encode($body);
+        $body_str = $this->jsonEncode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header] = $this->send('PUT', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->executeApi('PUT', $project, $body_str, $resource, $params, $headers);
         return new RetryShipperTasksResponse($header);
     }
 
@@ -526,9 +550,7 @@ class Client {
         $headers['x-log-bodyrawsize'] = 0;
         $headers['Content-Type'] = 'application/json';
 
-        [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->executeApi('DELETE', $project, null, $resource, $params, $headers);
         return new DeleteShipperResponse($header);
     }
 
@@ -545,9 +567,7 @@ class Client {
         $headers['x-log-bodyrawsize'] = 0;
         $headers['Content-Type'] = 'application/json';
 
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new GetShipperConfigResponse($resp, $header);
     }
 
@@ -564,9 +584,7 @@ class Client {
         $headers['x-log-bodyrawsize'] = 0;
         $headers['Content-Type'] = 'application/json';
 
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new ListShipperResponse($resp, $header);
     }
 
@@ -585,15 +603,13 @@ class Client {
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $headers['Content-Type'] = 'application/json';
         $body = [
-            'logstoreName' => $request->getLogStore(),
+            'logstoreName' => $request->getLogstore(),
             'ttl' => (int) ($request->getTtl()),
             'shardCount' => (int) ($request->getShardCount()),
         ];
-        $body_str =  json_encode($body);
+        $body_str = $this->jsonEncode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header]  = $this->send('POST', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->executeApi('POST', $project, $body_str, $resource, $params, $headers);
         return new CreateLogstoreResponse($header);
     }
     /**
@@ -610,16 +626,14 @@ class Client {
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $headers['Content-Type'] = 'application/json';
         $body = [
-            'logstoreName' => $request->getLogStore(),
+            'logstoreName' => $request->getLogstore(),
             'ttl' => (int) ($request->getTtl()),
             'shardCount' => (int) ($request->getShardCount()),
         ];
-        $resource = '/logstores/'.$request->getLogStore();
-        $body_str =  json_encode($body);
+        $resource = '/logstores/'.$request->getLogstore();
+        $body_str = $this->jsonEncode($body);
         $headers['x-log-bodyrawsize'] = strlen($body_str);
-        [$resp, $header]  = $this->send('PUT', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [, $header] = $this->executeApi('PUT', $project, $body_str, $resource, $params, $headers);
         return new UpdateLogstoreResponse($header);
     }
     /**
@@ -635,9 +649,7 @@ class Client {
         $params =  [];
         $resource = '/logstores';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new ListLogstoresResponse($resp, $header);
     }
 
@@ -653,11 +665,9 @@ class Client {
         $headers =  [];
         $params =  [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
-        $resource = "/logstores/$logStore";
-        [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $logstore = $request->getLogstore() != null ? $request->getLogstore() : '';
+        $resource = "/logstores/$logstore";
+        [, $header] = $this->executeApi('DELETE', $project, null, $resource, $params, $headers);
         return new DeleteLogstoreResponse($header);
     }
 
@@ -679,12 +689,10 @@ class Client {
             $params['line'] = $request->getLine();
         }
         $params['type'] = 'topic';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logStore";
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $resource = "/logstores/$logstore";
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new ListTopicsResponse($resp, $header);
     }
 
@@ -712,13 +720,10 @@ class Client {
             $params['query'] = $request->getQuery();
         }
         $params['type'] = 'histogram';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logStore";
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
-        return [$resp, $header];
+        $resource = "/logstores/$logstore";
+        return $this->executeApi('GET', $project, null, $resource, $params, $headers);
     }
 
     /**
@@ -766,20 +771,16 @@ class Client {
         if ($request->getOffset() !== null) {
             $params['offset'] = $request->getOffset();
         }
-        if ($request->getReverse() !== null) {
+        if ($request->getOffset() !== null) {
             $params['reverse'] = $request->getReverse() ? 'true' : 'false';
         }
-        if ($request->getPowerSql() !== null) {
+        if ($request->getPowerSql() != null) {
             $params['powerSql'] = 'true';
         }
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logStore";
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
-        return [$resp, $header];
-        //return new GetLogsResponse ( $resp, $header );
+        $resource = "/logstores/$logstore";
+        return $this->executeApi('GET', $project, null, $resource, $params, $headers);
     }
 
     /**
@@ -811,15 +812,12 @@ class Client {
         if ($request->getQuery() !== null) {
             $params['query'] = $request->getQuery();
         }
-        if ($request->getPowerSql() !== null) {
+        if ($request->getPowerSql() != null) {
             $params['powerSql'] = 'true';
         }
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $resource = '/logs';
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
-        return [$resp, $header];
+        return $this->executeApi('GET', $project, null, $resource, $params, $headers);
     }
     /**
     * Get logs from Log service.
@@ -855,15 +853,13 @@ class Client {
             $params['query'] = $request->getQuery();
         }
         $params['type'] = 'log';
-        if ($request->getPowerSql() !== null) {
+        if ($request->getPowerSql() != null) {
             $params['powerSql'] = 'true';
         }
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $resource = "/logstores/$logStore";
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $resource = "/logstores/$logstore";
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new LogStoreSqlResponse($resp, $header);
     }
     /**
@@ -880,15 +876,12 @@ class Client {
         if ($request->getQuery() !== null) {
             $params['query'] = $request->getQuery();
         }
-        if ($request->getPowerSql() !== null) {
+        if ($request->getPowerSql() != null) {
             $params['powerSql'] = 'true';
         }
         $project = $request->getProject() !== null ? $request->getProject() : '';
         $resource = '/logs';
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
-        return [$resp, $header];
+        return $this->executeApi('GET', $project, null, $resource, $params, $headers);
     }
     /**
     * Get logs from Log service.
@@ -921,10 +914,8 @@ class Client {
         $body = [
             'cu' => $cu,
         ];
-        $body_str = json_encode($body);
-        [$resp, $header]  = $this->send('POST', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $body_str = $this->jsonEncode($body);
+        [, $header] = $this->executeApi('POST', $project, $body_str, $resource, $params, $headers);
         return new CreateSqlInstanceResponse($header);
     }
 
@@ -945,10 +936,8 @@ class Client {
         $body = [
             'cu' => $cu,
         ];
-        $body_str = json_encode($body);
-        [$resp, $header]  = $this->send('PUT', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $body_str = $this->jsonEncode($body);
+        [, $header] = $this->executeApi('PUT', $project, $body_str, $resource, $params, $headers);
         return new UpdateSqlInstanceResponse($header);
     }
     /**
@@ -961,13 +950,11 @@ class Client {
     public function listSqlInstance(string $project): ListSqlInstanceResponse {
         $headers = [];
         $headers['Content-Type'] = 'application/x-protobuf';
-        $headers['Content-Length'] = '0';
+        $hangzhou['Content-Length'] = '0';
         $params = [];
         $resource = '/sqlinstance';
         $body_str = '';
-        [$resp, $header]  = $this->send('GET', $project, $body_str, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header]  = $this->executeApi('GET', $project, $body_str, $resource, $params, $headers);
         return new ListSqlInstanceResponse($resp, $header);
     }
 
@@ -983,7 +970,7 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $shardId = $request->getShardId() !== null ? $request->getShardId() : '';
         if ($request->getCount() !== null) {
             $params['count'] = $request->getCount();
@@ -998,7 +985,7 @@ class Client {
         $headers['Accept-Encoding'] = 'gzip';
         $headers['accept'] = 'application/x-protobuf';
 
-        $resource = "/logstores/$logStore/shards/$shardId";
+        $resource = "/logstores/$logstore/shards/$shardId";
         [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
         //$resp is a byteArray
         $resp =  gzuncompress($resp);
@@ -1022,12 +1009,10 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
 
-        $resource = '/logstores/'.$logStore.'/shards';
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $resource = '/logstores/'.$logstore.'/shards';
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new ListShardsResponse($resp, $header);
     }
 
@@ -1043,16 +1028,14 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $shardId = $request->getShardId();
         $midHash = $request->getMidHash();
 
-        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
         $params['action'] = 'split';
         $params['key'] = $midHash;
-        [$resp, $header] = $this->send('POST', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('POST', $project, null, $resource, $params, $headers);
         return new ListShardsResponse($resp, $header);
     }
     /**
@@ -1066,15 +1049,13 @@ class Client {
     public function MergeShards(MergeShardsRequest $request): ListShardsResponse {
         $params = [];
         $headers = [];
-        $project = $request->getProject();
-        $logStore = $request->getLogStore();
-        $shardId = $request->getShardId();
+        $project = $request->getProject() !== null ? $request->getProject() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $shardId = $request->getShardId() != null ? $request->getShardId() : -1;
 
-        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
         $params['action'] = 'merge';
-        [$resp, $header] = $this->send('POST', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('POST', $project, null, $resource, $params, $headers);
         return new ListShardsResponse($resp, $header);
     }
     /**
@@ -1088,11 +1069,11 @@ class Client {
     public function DeleteShard(DeleteShardRequest $request): DeleteShardResponse {
         $params = [];
         $headers = [];
-        $project = $request->getProject();
-        $logStore = $request->getLogStore();
-        $shardId = $request->getShardId();
+        $project = $request->getProject() !== null ? $request->getProject() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
+        $shardId = $request->getShardId() != null ? $request->getShardId() : -1;
 
-        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
+        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
         [$resp, $header] = $this->send('DELETE', $project, null, $resource, $params, $headers);
         $requestId = $header['x-log-requestid'] ?? '';
         return new DeleteShardResponse($header);
@@ -1110,7 +1091,7 @@ class Client {
         $params = [];
         $headers = [];
         $project = $request->getProject() !== null ? $request->getProject() : '';
-        $logStore = $request->getLogStore() !== null ? $request->getLogStore() : '';
+        $logstore = $request->getLogstore() !== null ? $request->getLogstore() : '';
         $shardId = $request->getShardId() !== null ? $request->getShardId() : '';
         $mode = $request->getMode() !== null ? $request->getMode() : '';
         $fromTime = $request->getFromTime() !== null ? $request->getFromTime() : -1;
@@ -1134,10 +1115,8 @@ class Client {
         } else {
             $params['mode'] = $mode;
         }
-        $resource = '/logstores/'.$logStore.'/shards/'.$shardId;
-        [$resp, $header] = $this->send('GET', $project, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        $resource = '/logstores/'.$logstore.'/shards/'.$shardId;
+        [$resp, $header] = $this->executeApi('GET', $project, null, $resource, $params, $headers);
         return new GetCursorResponse($resp, $header);
     }
 
@@ -1146,7 +1125,7 @@ class Client {
         $headers = [];
         $body = null;
         if ($request->getConfig() !== null) {
-            $body = json_encode($request->getConfig()->toArray());
+            $body = $this->jsonEncode($request->getConfig()->toArray());
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/configs';
@@ -1160,7 +1139,7 @@ class Client {
         $body = null;
         $configName = '';
         if ($request->getConfig() !== null) {
-            $body = json_encode($request->getConfig()->toArray());
+            $body = $this->jsonEncode($request->getConfig()->toArray());
             $configName = ($request->getConfig()->getConfigName() !== null) ? $request->getConfig()->getConfigName() : '';
         }
         $headers['Content-Type'] = 'application/json';
@@ -1176,9 +1155,7 @@ class Client {
         $configName = ($request->getConfigName() !== null) ? $request->getConfigName() : '';
 
         $resource = '/configs/'.$configName;
-        [$resp, $header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new GetConfigResponse($resp, $header);
     }
 
@@ -1206,9 +1183,7 @@ class Client {
         }
 
         $resource = '/configs';
-        [$resp, $header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new ListConfigsResponse($resp, $header);
     }
 
@@ -1217,7 +1192,7 @@ class Client {
         $headers = [];
         $body = null;
         if ($request->getMachineGroup() !== null) {
-            $body = json_encode($request->getMachineGroup()->toArray());
+            $body = $this->jsonEncode($request->getMachineGroup()->toArray());
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/machinegroups';
@@ -1232,7 +1207,7 @@ class Client {
         $body = null;
         $groupName = '';
         if ($request->getMachineGroup() !== null) {
-            $body = json_encode($request->getMachineGroup()->toArray());
+            $body = $this->jsonEncode($request->getMachineGroup()->toArray());
             $groupName = ($request->getMachineGroup()->getGroupName() !== null) ? $request->getMachineGroup()->getGroupName() : '';
         }
         $headers['Content-Type'] = 'application/json';
@@ -1248,9 +1223,7 @@ class Client {
         $groupName = ($request->getGroupName() !== null) ? $request->getGroupName() : '';
 
         $resource = '/machinegroups/'.$groupName;
-        [$resp, $header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new GetMachineGroupResponse($resp, $header);
     }
 
@@ -1279,10 +1252,7 @@ class Client {
         }
 
         $resource = '/machinegroups';
-        [$resp, $header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
-
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new ListMachineGroupsResponse($resp, $header);
     }
 
@@ -1315,9 +1285,7 @@ class Client {
         $uuid = ($request->getUuid() !== null) ? $request->getUuid() : '';
 
         $resource = '/machines/'.$uuid;
-        [$resp, $header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new GetMachineResponse($resp, $header);
     }
 
@@ -1326,13 +1294,11 @@ class Client {
         $headers = [];
         $body = null;
         if ($request->getAcl() !== null) {
-            $body = json_encode($request->getAcl()->toArray());
+            $body = $this->jsonEncode($request->getAcl()->toArray());
         }
         $headers['Content-Type'] = 'application/json';
         $resource = '/acls';
-        [$resp, $header] = $this->send('POST', null, $body, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('POST', null, $body, $resource, $params, $headers);
         return new CreateACLResponse($resp, $header);
     }
 
@@ -1342,7 +1308,7 @@ class Client {
         $body = null;
         $aclId = '';
         if ($request->getAcl() !== null) {
-            $body = json_encode($request->getAcl()->toArray());
+            $body = $this->jsonEncode($request->getAcl()->toArray());
             $aclId = ($request->getAcl()->getAclId() !== null) ? $request->getAcl()->getAclId() : '';
         }
         $headers['Content-Type'] = 'application/json';
@@ -1358,10 +1324,7 @@ class Client {
         $aclId = ($request->getAclId() !== null) ? $request->getAclId() : '';
 
         $resource = '/acls/'.$aclId;
-        [$resp, $header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
-
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new GetACLResponse($resp, $header);
     }
 
@@ -1388,9 +1351,7 @@ class Client {
         }
 
         $resource = '/acls';
-        [$resp,$header] = $this->send('GET', null, null, $resource, $params, $headers);
-        $requestId = $header['x-log-requestid'] ?? '';
-        $resp = $this->parseToJson($resp, $requestId);
+        [$resp, $header] = $this->executeApi('GET', null, null, $resource, $params, $headers);
         return new ListACLsResponse($resp, $header);
     }
 

@@ -186,6 +186,9 @@ class Protobuf {
             case 2: // length delimited
                 $varlen = 0;
                 $len = Protobuf::read_varint($fp, $varlen);
+                if ($len === false) {
+                    throw new Exception('skip(length delimited): Error reading varint');
+                }
                 if (fseek($fp, $len, SEEK_CUR) === -1) {
                     throw new Exception('skip(' . Protobuf::get_wiretype(2) . '): Error seeking');
                 }
@@ -216,7 +219,13 @@ class Protobuf {
 
             case 2: // length delimited
                 $len = Protobuf::read_varint($fp, $limit);
+                if ($len === false) {
+                    throw new Exception('read_field(length delimited): Error reading varint');
+                }
                 $limit -= $len;
+                if ($len <= 0) {
+                    return '';
+                }
                 return fread($fp, $len);
 
             case 5: // 32bit
@@ -252,7 +261,7 @@ class Protobuf {
             if (is_object($value)) {
                 self::$print_depth++;
                 $ret .= $value::class . "(\n";
-                $ret .= $value->__toString() . "\n";
+                $ret .= method_exists($value, '__toString') ? $value->__toString() . "\n" : '';
                 self::$print_depth--;
                 $ret .= str_repeat(self::$indent_char, self::$print_depth) . ")\n";
             } elseif (is_string($value)) {
