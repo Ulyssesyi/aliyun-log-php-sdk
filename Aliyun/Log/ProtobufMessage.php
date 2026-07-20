@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log;
 
+use Exception;
+
 /**
  * Base class for protocol buffer messages.
  * Subclasses implement read(), write(), size(), validateRequired(), and __toString().
@@ -28,7 +30,7 @@ class ProtobufMessage {
             } elseif (is_resource($in)) {
                 $fp = $in;
             } else {
-                throw new \Exception('Invalid in parameter');
+                throw new Exception('Invalid in parameter');
             }
             $this->read($fp, $limit);
             if (isset($str)) {

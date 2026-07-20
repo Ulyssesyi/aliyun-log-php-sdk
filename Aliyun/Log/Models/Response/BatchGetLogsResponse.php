@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models\Response;
 
+use OutOfBoundsException;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -72,13 +74,13 @@ class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
      *
      * @param int $index the index
      * @return mixed log package at index
-     * @throws \OutOfBoundsException if index is out of bounds
+     * @throws OutOfBoundsException if index is out of bounds
      */
     public function getLogPackage($index) {
         if ($index < $this->getCount()) {
             return $this->logPackageList[$index];
         } else {
-            throw new \OutOfBoundsException('Index must less than size of logPackageList');
+            throw new OutOfBoundsException('Index must less than size of logPackageList');
         }
     }
 
@@ -96,13 +98,13 @@ class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
      *
      * @param int $index the index
      * @return mixed log group at index
-     * @throws \OutOfBoundsException if index is out of bounds
+     * @throws OutOfBoundsException if index is out of bounds
      */
     public function getLogGroup($index) {
         if ($index < $this->getCount()) {
             return $this->logPackageList[$index];
         } else {
-            throw new \OutOfBoundsException('Index must less than size of logPackageList');
+            throw new OutOfBoundsException('Index must less than size of logPackageList');
         }
     }
 }

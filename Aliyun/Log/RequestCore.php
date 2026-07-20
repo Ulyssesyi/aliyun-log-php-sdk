@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log;
 
+use CurlHandle;
+
 /**
  * Handles all HTTP requests using cURL and manages the responses.
  *
@@ -60,7 +62,7 @@ class RequestCore {
     /**
      * The handle for the cURL object.
      */
-    public ?\CurlHandle $curl_handle = null;
+    public ?CurlHandle $curl_handle = null;
 
     /**
      * The method by which the request is being made.
@@ -537,13 +539,13 @@ class RequestCore {
     /**
      * A callback function that is invoked by cURL for streaming up.
      *
-     * @param \CurlHandle $curl_handle (Required) The cURL handle for the request.
+     * @param CurlHandle $curl_handle (Required) The cURL handle for the request.
      * @param resource    $file_handle (Required) The open file handle resource.
      * @param int         $length      (Required) The maximum number of bytes to read.
      *
      * @return string Binary data from a stream.
      */
-    public function streaming_read_callback(\CurlHandle $curl_handle, mixed $file_handle, int $length): string {
+    public function streaming_read_callback(CurlHandle $curl_handle, mixed $file_handle, int $length): string {
         // Once we've sent as much as we're supposed to send...
         if ($this->read_stream_read >= $this->read_stream_size) {
             // Send EOF
@@ -573,12 +575,12 @@ class RequestCore {
     /**
      * A callback function that is invoked by cURL for streaming down.
      *
-     * @param \CurlHandle $curl_handle (Required) The cURL handle for the request.
+     * @param CurlHandle $curl_handle (Required) The cURL handle for the request.
      * @param string      $data        (Required) The data to write.
      *
      * @return int The number of bytes written.
      */
-    public function streaming_write_callback(\CurlHandle $curl_handle, string $data): int {
+    public function streaming_write_callback(CurlHandle $curl_handle, string $data): int {
         $length = strlen($data);
         $written_total = 0;
         $written_last = 0;
@@ -605,9 +607,9 @@ class RequestCore {
      * Prepares and adds the details of the cURL request. This can be passed along to a <php:curl_multi_exec()>
      * function.
      *
-     * @return \CurlHandle The handle for the cURL request.
+     * @return CurlHandle The handle for the cURL request.
      */
-    public function prep_request(): \CurlHandle {
+    public function prep_request(): CurlHandle {
         $curl_handle = curl_init();
         if ($curl_handle === false) {
             throw new RequestCoreException('Unable to initialize cURL.');
@@ -740,12 +742,12 @@ class RequestCore {
      * data stored in the `curl_handle` and `response` properties unless replacement data is passed in via
      * parameters.
      *
-     * @param \CurlHandle|null $curl_handle (Optional) The reference to the already executed cURL request.
+     * @param CurlHandle|null $curl_handle (Optional) The reference to the already executed cURL request.
      * @param string|null      $response    (Optional) The actual response content itself that needs to be parsed.
      *
      * @return ResponseCore|false A <ResponseCore> object containing a parsed HTTP response.
      */
-    public function process_response(?\CurlHandle $curl_handle = null, ?string $response = null): ResponseCore|false {
+    public function process_response(?CurlHandle $curl_handle = null, ?string $response = null): ResponseCore|false {
         if ($response) {
             $this->response = $response;
         }
@@ -792,7 +794,7 @@ class RequestCore {
      * @return bool
      */
     public static function isCurlResource(mixed $curlHandle): bool {
-        return $curlHandle instanceof \CurlHandle;
+        return $curlHandle instanceof CurlHandle;
     }
 
     /**
@@ -836,12 +838,12 @@ class RequestCore {
     /**
      * Builds a useful transport error while the cURL handle is still valid.
      *
-     * @param \CurlHandle $curl_handle
+     * @param CurlHandle $curl_handle
      * @param int|null    $error_code
      *
      * @return string
      */
-    private static function get_curl_error_message(\CurlHandle $curl_handle, ?int $error_code = null): string {
+    private static function get_curl_error_message(CurlHandle $curl_handle, ?int $error_code = null): string {
         if ($error_code === null) {
             $error_code = curl_errno($curl_handle);
         }
@@ -908,7 +910,7 @@ class RequestCore {
     /**
      * Sends the request using <php:curl_multi_exec()>, enabling parallel requests. Uses the "rolling" method.
      *
-     * @param \CurlHandle[]                                                  $handles (Required) An indexed array of cURL handles to process simultaneously.
+     * @param CurlHandle[]                                                  $handles (Required) An indexed array of cURL handles to process simultaneously.
      * @param array{callback?: callable, limit?: int}|null                   $opt     (Optional) An associative array of parameters that can have the following keys: <ul>
      *                                                                                 <li><code>callback</code> - <code>string|array|callable</code> - Optional - The string name of a function to pass the response data to. If this is a method, pass an array where the <code>[0]</code> index is the class and the <code>[1]</code> index is the method name.</li>
      *                                                                                 <li><code>limit</code> - <code>integer</code> - Optional - The number of simultaneous requests to make. This can be useful for scaling around slow server responses. Defaults to trusting cURLs judgement as to how many to use.</li></ul>

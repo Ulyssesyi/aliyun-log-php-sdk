@@ -9,23 +9,23 @@ $token = '';
 $project = 'test';
 $logstore = 'test';
 
-$credentialsProvider = new \Aliyun\Log\Models\StaticCredentialsProvider($accessKeyId, $accessKey, $token);
-$client = new \Aliyun\Log\Client($endpoint, '', '', '', $credentialsProvider);
+$credentialsProvider = new Aliyun\Log\Models\StaticCredentialsProvider($accessKeyId, $accessKey, $token);
+$client = new Aliyun\Log\Client($endpoint, '', '', '', $credentialsProvider);
 
-$req = new \Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, 1698740109, 1698744321, '', '*', null, null, null, null);
+$req = new Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, 1698740109, 1698744321, '', '*', null, null, null, null);
 
-function putLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
+function putLogs(Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
 
     $contents = [ // key-value pair
         'TestKey' => 'TestContent',
         'kv_json' => '{"a": "b", "c": 19021}',
     ];
-    $logItem = new \Aliyun\Log\Models\LogItem();
+    $logItem = new Aliyun\Log\Models\LogItem();
     $logItem->setTime(time());
     $logItem->setContents($contents);
     $logitems = [$logItem];
-    $request = new \Aliyun\Log\Models\Request\PutLogsRequest(
+    $request = new Aliyun\Log\Models\Request\PutLogsRequest(
         $project,
         $logstore,
         $topic,
@@ -35,7 +35,7 @@ function putLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
 
     try {
         $response = $client->putLogs($request);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         var_dump($ex);
     } catch (Exception $ex) {
         var_dump($ex);

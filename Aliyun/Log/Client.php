@@ -101,6 +101,7 @@ use Aliyun\Log\Models\Response\UpdateMachineGroupResponse;
 use Aliyun\Log\Models\Response\UpdateShipperResponse;
 use Aliyun\Log\Models\Response\UpdateSqlInstanceResponse;
 use Aliyun\Log\Models\StaticCredentialsProvider;
+use InvalidArgumentException;
 
 class Client {
     /**
@@ -181,7 +182,7 @@ class Client {
         }
         $urlComponents = parse_url($endpoint);
         if ($urlComponents === false || !isset($urlComponents['host'])) {
-            throw new \InvalidArgumentException("Invalid endpoint: $endpoint");
+            throw new InvalidArgumentException("Invalid endpoint: $endpoint");
         }
 
         $this->useHttps = isset($urlComponents['scheme']) && $urlComponents['scheme'] === 'https';

@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log;
 
+use Exception;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -23,14 +25,14 @@ class LoggerFactory {
      * @param string $logstore which could be created in AliYun Logger Server configuration page
      * @param string|null $topic used to specified the log by TOPIC field
      * @return SimpleLogger return logger instance
-     * @throws \Exception if the input parameter is invalid, throw exception
+     * @throws Exception if the input parameter is invalid, throw exception
      */
     public static function getLogger(Client $client, string $project, string $logstore, ?string $topic = null): SimpleLogger {
         if ($project == '') {
-            throw new \Exception('project name is blank!');
+            throw new Exception('project name is blank!');
         }
         if ($logstore == '') {
-            throw new \Exception('logstore name is blank!');
+            throw new Exception('logstore name is blank!');
         }
         if ($topic === null) {
             $topic = '';

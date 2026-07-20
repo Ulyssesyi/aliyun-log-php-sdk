@@ -2,6 +2,8 @@
 
 namespace Aliyun\Log\Models;
 
+use Exception;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -72,7 +74,7 @@ class OssShipperConfig {
 
     public function setBufferSize(int $bufferSize): void {
         if ($bufferSize > 256 || $bufferSize < 5) {
-            throw new \Exception('buffSize is not valide, must between 5 and 256');
+            throw new Exception('buffSize is not valide, must between 5 and 256');
         }
         $this->bufferSize = $bufferSize;
     }
@@ -104,7 +106,7 @@ class OssShipperConfig {
             'roleArn' => $this->roleArn,
             'pathFormat' => $this->pathFormat,
             'timeZone' => $this->timeZone,
-            'storage' => $this->storage->to_json_object(),
+            'storage' => $this->storage?->to_json_object(),
         ];
         return $json;
     }

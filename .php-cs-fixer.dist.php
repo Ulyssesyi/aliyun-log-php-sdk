@@ -26,13 +26,26 @@ $rules = [
     'no_blank_lines_after_class_opening' => true,
 
     // Imports
-    'single_import_per_statement' => true,
+    // 1. 将代码中全路径的类名（FQN）自动提取到顶部的 use 语句中
+    'fully_qualified_strict_types' => true,
+
+    // 2. 自动删除没有用到的 use 导入（防止简化后引入了重复或无效的类）
     'no_unused_imports' => true,
-    'ordered_imports' => ['sort_algorithm' => 'alpha'],
+
+    // 3. （可选进阶）对顶部的 use 语句按照字母顺序进行排序，让代码更整洁
+    'ordered_imports' => [
+        'sort_algorithm' => 'alpha',
+        'imports_order' => ['class', 'function', 'const'],
+    ],
+
+    // 4. （可选进阶）确保每个 use 导入都单独占一行
+    'single_line_after_imports' => true,
+
+    'single_import_per_statement' => true,
     'global_namespace_import' => [
-        'import_classes' => null,
-        'import_constants' => null,
-        'import_functions' => null,
+        'import_classes' => true,
+        'import_constants' => true,
+        'import_functions' => true,
     ],
 
     // Casting, operators

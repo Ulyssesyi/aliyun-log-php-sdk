@@ -6,17 +6,17 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-function putLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
+function putLogs(Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
 
     $contents = [ // key-value pair
         'TestKey' => 'TestContent',
     ];
-    $logItem = new \Aliyun\Log\Models\LogItem();
+    $logItem = new Aliyun\Log\Models\LogItem();
     $logItem->setTime(time());
     $logItem->setContents($contents);
     $logitems = [$logItem];
-    $request = new \Aliyun\Log\Models\Request\PutLogsRequest(
+    $request = new Aliyun\Log\Models\Request\PutLogsRequest(
         $project,
         $logstore,
         $topic,
@@ -27,43 +27,43 @@ function putLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
     try {
         $response = $client->putLogs($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
 
-function listLogstores(\Aliyun\Log\Client $client, $project): void {
+function listLogstores(Aliyun\Log\Client $client, $project): void {
     try {
-        $request = new \Aliyun\Log\Models\Request\ListLogstoresRequest($project);
+        $request = new Aliyun\Log\Models\Request\ListLogstoresRequest($project);
         $response = $client->listLogstores($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
 
-function listTopics(\Aliyun\Log\Client $client, $project, $logstore): void {
-    $request = new \Aliyun\Log\Models\Request\ListTopicsRequest($project, $logstore);
+function listTopics(Aliyun\Log\Client $client, $project, $logstore): void {
+    $request = new Aliyun\Log\Models\Request\ListTopicsRequest($project, $logstore);
 
     try {
         $response = $client->listTopics($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
 
-function getLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
+function getLogs(Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
     $from = time() - 3600;
     $to = time();
-    $request = new \Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, $from, $to, $topic, '', 100, 0, false);
+    $request = new Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, $from, $to, $topic, '', 100, 0, false);
 
     try {
         $response = $client->getLogs($request);
@@ -75,19 +75,19 @@ function getLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
             print "\n";
         }
 
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
 
-function getLogsWithPowerSql(\Aliyun\Log\Client $client, $project, $logstore): void {
+function getLogsWithPowerSql(Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = '';
     $from = time() - 3600;
     $to = time();
     $query = '* | select count(method)';
-    $request = new \Aliyun\Log\Models\Request\LogStoreSqlRequest($project, $logstore, $from, $to, $query, true);
+    $request = new Aliyun\Log\Models\Request\LogStoreSqlRequest($project, $logstore, $from, $to, $query, true);
 
     try {
         $response = $client->executeLogStoreSql($request);
@@ -103,15 +103,15 @@ function getLogsWithPowerSql(\Aliyun\Log\Client $client, $project, $logstore): v
         print 'cpuSec:'.$response -> getCpuSec()."\n";
         print 'cpuCores:'.$response -> getCpuCores()."\n";
 
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
-function getProjectLogsWithPowerSql(\Aliyun\Log\Client $client, $project): void {
+function getProjectLogsWithPowerSql(Aliyun\Log\Client $client, $project): void {
     $query = ' select count(method) from sls_operation_log where __time__ > to_unixtime(now()) - 300 and __time__ < to_unixtime(now())';
-    $request = new \Aliyun\Log\Models\Request\GetProjectLogsRequest($project, $query, true);
+    $request = new Aliyun\Log\Models\Request\GetProjectLogsRequest($project, $query, true);
 
     try {
         $response = $client->getProjectLogs($request);
@@ -129,15 +129,15 @@ function getProjectLogsWithPowerSql(\Aliyun\Log\Client $client, $project): void 
         print 'cpuCores:'.$response -> getCpuCores()."\n";
         print 'requestId:'.$response ->getRequestId()."\n";
 
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
-function executeProjectSqlWithPowerSql(\Aliyun\Log\Client $client, $project): void {
+function executeProjectSqlWithPowerSql(Aliyun\Log\Client $client, $project): void {
     $query = ' select count(method) from sls_operation_log where __time__ > to_unixtime(now()) - 300 and __time__ < to_unixtime(now())';
-    $request = new \Aliyun\Log\Models\Request\ProjectSqlRequest($project, $query, true);
+    $request = new Aliyun\Log\Models\Request\ProjectSqlRequest($project, $query, true);
 
     try {
         $response = $client->executeProjectSql($request);
@@ -155,13 +155,13 @@ function executeProjectSqlWithPowerSql(\Aliyun\Log\Client $client, $project): vo
         print 'cpuCores:'.$response -> getCpuCores()."\n";
         print 'requestId:'.$response ->getRequestId()."\n";
 
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
-function crudSqlInstance(\Aliyun\Log\Client $client, $project): void {
+function crudSqlInstance(Aliyun\Log\Client $client, $project): void {
     $res = $client -> createSqlInstance($project, 1000);
     logVarDump($res);
     $res = $client -> updateSqlInstance($project, 999);
@@ -169,43 +169,43 @@ function crudSqlInstance(\Aliyun\Log\Client $client, $project): void {
     $res = $client -> listSqlInstance($project);
     logVarDump($res);
 }
-function getHistograms(\Aliyun\Log\Client $client, $project, $logstore): void {
+function getHistograms(Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
     $from = time() - 3600;
     $to = time();
-    $request = new \Aliyun\Log\Models\Request\GetHistogramsRequest($project, $logstore, $from, $to, $topic, '');
+    $request = new Aliyun\Log\Models\Request\GetHistogramsRequest($project, $logstore, $from, $to, $topic, '');
 
     try {
         $response = $client->getHistograms($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
-function listShard(\Aliyun\Log\Client $client, $project, $logstore): void {
-    $request = new \Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
+function listShard(Aliyun\Log\Client $client, $project, $logstore): void {
+    $request = new Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
     try {
         $response = $client -> listShards($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
 
-function batchGetLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
-    $listShardRequest = new \Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
+function batchGetLogs(Aliyun\Log\Client $client, $project, $logstore): void {
+    $listShardRequest = new Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
     $listShardResponse = $client -> listShards($listShardRequest);
     foreach ($listShardResponse-> getShardIds() as $shardId) {
-        $getCursorRequest = new \Aliyun\Log\Models\Request\GetCursorRequest($project, $logstore, $shardId, null, time() - 60);
+        $getCursorRequest = new Aliyun\Log\Models\Request\GetCursorRequest($project, $logstore, $shardId, null, time() - 60);
         $response = $client -> getCursor($getCursorRequest);
         $cursor = $response-> getCursor();
         $count = 100;
         while (true) {
-            $batchGetDataRequest = new \Aliyun\Log\Models\Request\BatchGetLogsRequest($project, $logstore, $shardId, $count, $cursor);
+            $batchGetDataRequest = new Aliyun\Log\Models\Request\BatchGetLogsRequest($project, $logstore, $shardId, $count, $cursor);
             logVarDump($batchGetDataRequest);
             $response = $client -> batchGetLogs($batchGetDataRequest);
             if ($cursor == $response -> getNextCursor()) {
@@ -227,21 +227,21 @@ function batchGetLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
     }
 }
 
-function batchGetLogsWithRange(\Aliyun\Log\Client $client, $project, $logstore): void {
-    $listShardRequest = new \Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
+function batchGetLogsWithRange(Aliyun\Log\Client $client, $project, $logstore): void {
+    $listShardRequest = new Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
     $listShardResponse = $client -> listShards($listShardRequest);
     foreach ($listShardResponse-> getShardIds() as $shardId) {
         //pull data which reached server at time range [now - 60s, now) for every shard
         $curTime = time();
-        $beginCursorResponse = $client->getCursor(new \Aliyun\Log\Models\Request\GetCursorRequest($project, $logstore, $shardId, null, $curTime - 60));
+        $beginCursorResponse = $client->getCursor(new Aliyun\Log\Models\Request\GetCursorRequest($project, $logstore, $shardId, null, $curTime - 60));
         $beginCursor = $beginCursorResponse-> getCursor();
-        $endCursorResponse = $client -> getCursor(new \Aliyun\Log\Models\Request\GetCursorRequest($project, $logstore, $shardId, null, $curTime));
+        $endCursorResponse = $client -> getCursor(new Aliyun\Log\Models\Request\GetCursorRequest($project, $logstore, $shardId, null, $curTime));
         $endCursor = $endCursorResponse-> getCursor();
         $cursor = $beginCursor;
         print("-----------------------------------------\nbatchGetLogs for shard: ".$shardId.', cursor range: ['.$beginCursor.', '.$endCursor.")\n");
         $count = 100;
         while (true) {
-            $batchGetDataRequest = new \Aliyun\Log\Models\Request\BatchGetLogsRequest($project, $logstore, $shardId, $count, $cursor, $endCursor);
+            $batchGetDataRequest = new Aliyun\Log\Models\Request\BatchGetLogsRequest($project, $logstore, $shardId, $count, $cursor, $endCursor);
             $response = $client -> batchGetLogs($batchGetDataRequest);
             $logGroupList = $response -> getLogGroupList();
             $logGroupCount = 0;
@@ -267,23 +267,23 @@ function batchGetLogsWithRange(\Aliyun\Log\Client $client, $project, $logstore):
     }
 }
 
-function mergeShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId): void {
-    $request = new \Aliyun\Log\Models\Request\MergeShardsRequest($project, $logstore, $shardId);
+function mergeShard(Aliyun\Log\Client $client, $project, $logstore, $shardId): void {
+    $request = new Aliyun\Log\Models\Request\MergeShardsRequest($project, $logstore, $shardId);
     try {
         $response = $client -> mergeShards($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
     }
 }
-function splitShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId, $midHash): void {
-    $request = new \Aliyun\Log\Models\Request\SplitShardRequest($project, $logstore, $shardId, $midHash);
+function splitShard(Aliyun\Log\Client $client, $project, $logstore, $shardId, $midHash): void {
+    $request = new Aliyun\Log\Models\Request\SplitShardRequest($project, $logstore, $shardId, $midHash);
     try {
         $response = $client -> splitShard($request);
         logVarDump($response);
-    } catch (\Aliyun\Log\Exception $ex) {
+    } catch (Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -307,7 +307,7 @@ $project = 'ali-cn-yunlei-sls-admin';
 $logstore = 'sls_operation_log';
 $token = '';
 
-$client = new \Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey, $token);
+$client = new Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey, $token);
 #listShard($client,$project,$logstore);
 #mergeShard($client,$project,$logstore,2);
 #deleteShard($client,$project,$logstore,2);

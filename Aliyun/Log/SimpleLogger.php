@@ -5,6 +5,7 @@ namespace Aliyun\Log;
 use Aliyun\Log\Models\LogItem;
 use Aliyun\Log\Models\LogLevel\LogLevel;
 use Aliyun\Log\Models\Request\PutLogsRequest;
+use Exception;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
@@ -86,7 +87,7 @@ class SimpleLogger {
             $this->maxWaitTime = 5;
         }
         if ($client == null || $project == null || $logstore == null) {
-            throw new \Exception('the input parameter is invalid! create SimpleLogger failed!');
+            throw new Exception('the input parameter is invalid! create SimpleLogger failed!');
         }
         $this->client = $client;
         $this->project = $project;
@@ -256,7 +257,7 @@ class SimpleLogger {
             try {
                 $response = $this->client->putLogs($request);
                 return;
-            } catch (\Exception $ex) {
+            } catch (Exception $ex) {
                 $error_exception = $ex;
             }
         }
@@ -277,7 +278,7 @@ class SimpleLogger {
         }
     }
 
-    public function __destruct(): void {
+    public function __destruct() {
         if (count($this->logItems) > 0) {
             $this->logBatch($this->logItems, $this->topic);
         }

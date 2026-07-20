@@ -135,20 +135,25 @@ class ACL {
      * @param array<string, mixed> $resp
      */
     public function setFromArray(array $resp): void {
-        $principleType = ($resp['principleType'] !== null) ? $resp['principleType'] : null;
-        $principleId = ($resp['principleId'] !== null) ? $resp['principleId'] : null;
-        $object = ($resp['object'] !== null) ? $resp['object'] : null;
-        $privilege = ($resp['privilege'] !== null) ? $resp['privilege'] : [];
-        $aclId = ($resp['aclId'] !== null) ? $resp['aclId'] : null;
-        $createTime = ($resp['createTime'] !== null) ? $resp['createTime'] : null;
-        $lastModifyTime = ($resp['lastModifyTime'] !== null) ? $resp['lastModifyTime'] : null;
+        $rawPrincipleType = $resp['principleType'] ?? null;
+        $this->setPrincipleType(is_string($rawPrincipleType) ? $rawPrincipleType : null);
 
-        $this->setPrincipleType($principleType);
-        $this->setPrincipleId($principleId);
-        $this->setObject($object);
-        $this->setPrivilege($privilege);
-        $this->setAclId($aclId);
-        $this->setCreateTime($createTime);
-        $this->setLastModifyTime($lastModifyTime);
+        $rawPrincipleId = $resp['principleId'] ?? null;
+        $this->setPrincipleId(is_string($rawPrincipleId) ? $rawPrincipleId : null);
+
+        $rawObject = $resp['object'] ?? null;
+        $this->setObject(is_string($rawObject) ? $rawObject : null);
+
+        $rawPrivilege = $resp['privilege'] ?? null;
+        $this->setPrivilege(is_array($rawPrivilege) ? array_values(array_filter($rawPrivilege, 'is_string')) : []);
+
+        $rawAclId = $resp['aclId'] ?? null;
+        $this->setAclId(is_string($rawAclId) ? $rawAclId : null);
+
+        $rawCreateTime = $resp['createTime'] ?? null;
+        $this->setCreateTime(is_string($rawCreateTime) || is_int($rawCreateTime) ? $rawCreateTime : null);
+
+        $rawLastModifyTime = $resp['lastModifyTime'] ?? null;
+        $this->setLastModifyTime(is_string($rawLastModifyTime) || is_int($rawLastModifyTime) ? $rawLastModifyTime : null);
     }
 }
