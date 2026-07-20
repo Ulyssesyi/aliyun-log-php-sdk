@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -12,12 +13,11 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Request {
-
     /**
      * @var string project name
      */
     private $project;
-    
+
     /**
      * Request constructor
      *
@@ -27,7 +27,7 @@ class Request {
     public function __construct($project) {
         $this->project = $project;
     }
-    
+
     /**
      * Get project name
      *
@@ -36,7 +36,7 @@ class Request {
     public function getProject() {
         return $this->project;
     }
-    
+
     /**
      * Set project name
      *

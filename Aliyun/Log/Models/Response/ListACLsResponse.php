@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,38 +8,43 @@ namespace Aliyun\Log\Models\Response;
  */
 
 /**
- * The response of the GetLog API from log service.
+ * The response of the ListACLs API from log service.
  *
  * @author log service dev
  */
 class ListACLsResponse extends \Aliyun\Log\Models\Response {
-
-
-    private $acls; 
     /**
-     * Aliyun_Log_Models_ListACLsResponse constructor
-     *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @var \Aliyun\Log\Models\ACL[] ACL objects
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        $aclArr = array();
-        if(isset($resp['acls'])){
-            foreach($resp['acls'] as $value){
+    private $acls;
+
+    /**
+     * ListACLsResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
+     */
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $aclArr = [];
+        if (isset($resp['acls'])) {
+            foreach ($resp['acls'] as $value) {
                 $aclObj = new \Aliyun\Log\Models\ACL();
                 $aclObj->setFromArray($value);
-                $aclArr[]=$aclObj;
+                $aclArr[] = $aclObj;
             }
         }
         $this->acls = $aclArr;
     }
 
-    public function getAcls(){
+    /**
+     * Get ACLs from the response
+     *
+     * @return \Aliyun\Log\Models\ACL[] ACL objects
+     */
+    public function getAcls() {
         return $this->acls;
     }
-   
-
 }

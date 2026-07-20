@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,74 +8,60 @@ namespace Aliyun\Log\Models\Response;
  */
 
 class GetShipperConfigResponse extends \Aliyun\Log\Models\Response {
+    /**
+     * @var string shipper name
+     */
     private $shipperName;
 
+    /**
+     * @var string target type
+     */
     private $targetType;
 
+    /**
+     * @var string target configuration
+     */
     private $targetConfigration;
 
     /**
-     * @return mixed
+     * GetShipperConfigResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function getShipperName()
-    {
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $this->shipperName = $resp['shipperName'];
+        $this->targetConfigration = $resp['targetConfiguration'];
+        $this->targetType = $resp['targetType'];
+    }
+
+    /**
+     * Get shipper name
+     *
+     * @return string shipper name
+     */
+    public function getShipperName() {
         return $this->shipperName;
     }
 
     /**
-     * @param mixed $shipperName
+     * Get target type
+     *
+     * @return string target type
      */
-    public function setShipperName($shipperName)
-    {
-        $this->shipperName = $shipperName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTargetType()
-    {
+    public function getTargetType() {
         return $this->targetType;
     }
 
     /**
-     * @param mixed $targetType
-     */
-    public function setTargetType($targetType)
-    {
-        $this->targetType = $targetType;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTargetConfigration()
-    {
-        return $this->targetConfigration;
-    }
-
-    /**
-     * @param mixed $targetConfigration
-     */
-    public function setTargetConfigration($targetConfigration)
-    {
-        $this->targetConfigration = $targetConfigration;
-    }
-
-
-
-    /**
-     * Aliyun_Log_Models_GetShipperConfigResponse constructor
+     * Get target configuration
      *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @return string target configuration
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        $this->shipperName = $resp['shipperName'];
-        $this->targetConfigration = $resp['targetConfiguration'];
-        $this->targetType = $resp['targetType'];
+    public function getTargetConfigration() {
+        return $this->targetConfigration;
     }
 }

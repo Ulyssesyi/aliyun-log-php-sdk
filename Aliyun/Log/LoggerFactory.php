@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log;
 
 /**
@@ -11,9 +12,8 @@ namespace Aliyun\Log;
  * Factory for creating logger instance, with $client, $project, $logstore, $topic configurable.
  * Will flush current logger when the factory instance was recycled.
  */
-class LoggerFactory{
-
-    private static $loggerMap = array();
+class LoggerFactory {
+    private static $loggerMap = [];
 
     /**
      * Get logger instance
@@ -24,46 +24,44 @@ class LoggerFactory{
      * @return mixed return logger instance
      * @throws Exception if the input parameter is invalid, throw exception
      */
-    public static function getLogger($client, $project, $logstore, $topic = null){
-        if($project === null || $project == ''){
+    public static function getLogger($client, $project, $logstore, $topic = null) {
+        if ($project === null || $project == '') {
             throw new \Exception('project name is blank!');
         }
-        if($logstore === null || $logstore == ''){
+        if ($logstore === null || $logstore == '') {
             throw new \Exception('logstore name is blank!');
         }
-        if($topic === null){
+        if ($topic === null) {
             $topic = '';
         }
         $loggerKey = $project.'#'.$logstore.'#'.$topic;
-        if (!array_key_exists($loggerKey, static::$loggerMap))
-        {
-            $instanceSimpleLogger = new SimpleLogger($client,$project,$logstore,$topic);
-            static::$loggerMap[$loggerKey] = $instanceSimpleLogger;
+        if (!array_key_exists($loggerKey, self::$loggerMap)) {
+            $instanceSimpleLogger = new SimpleLogger($client, $project, $logstore, $topic);
+            self::$loggerMap[$loggerKey] = $instanceSimpleLogger;
         }
-        return static::$loggerMap[$loggerKey];
+        return self::$loggerMap[$loggerKey];
     }
 
     /**
      * set modifier to protected for singleton pattern
      * Aliyun_Log_LoggerFactory constructor.
      */
-    protected function __construct()
-    {
+    protected function __construct() {
 
     }
 
     /**
      * set clone function to private for singleton pattern
      */
-    private function __clone()
-    {}
+    private function __clone() {
+    }
 
     /**
      * flush current logger in destruct function
      */
-    function __destruct() {
-        if(static::$loggerMap != null){
-            foreach (static::$loggerMap as $innerLogger){
+    public function __destruct() {
+        if (self::$loggerMap != null) {
+            foreach (self::$loggerMap as $innerLogger) {
                 $innerLogger->logFlush();
             }
         }

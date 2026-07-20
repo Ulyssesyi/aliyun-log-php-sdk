@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -12,17 +13,14 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class UpdateSqlInstanceResponse extends \Aliyun\Log\Models\Response {
-    
     /**
-     * Aliyun_Log_Models_UpdateSqlInstanceResponse constructor
+     * UpdateSqlInstanceResponse constructor
      *
-     * @param array $resp
-     *            UpdateSqlInstance HTTP response body
-     * @param array $header
-     *            UpdateSqlInstance HTTP response header
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
+    public function __construct(array $header) {
+        parent::__construct($header);
     }
-    
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -6,32 +7,30 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-class OssShipperJsonStorage extends OssShipperStorage{
+class OssShipperJsonStorage extends OssShipperStorage {
     private $enableTag = false;
 
     /**
      * @return bool
      */
-    public function isEnableTag(): bool
-    {
+    public function isEnableTag(): bool {
         return $this->enableTag;
     }
 
     /**
      * @param bool $enableTag
      */
-    public function setEnableTag(bool $enableTag)
-    {
+    public function setEnableTag(bool $enableTag) {
         $this->enableTag = $enableTag;
     }
 
-    public function to_json_object(){
-        $detail =  array(
-            'enableTag' => $this->enableTag
-        );
-        return array(
+    public function to_json_object() {
+        $detail =  [
+            'enableTag' => $this->enableTag,
+        ];
+        return [
             'detail' => $detail,
-            'format' => 'json'
-        );
+            'format' => 'json',
+        ];
     }
 }

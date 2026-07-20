@@ -5,30 +5,40 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class UpdateMachineGroupRequest extends \Aliyun\Log\Models\Request {
+    /**
+     * @var \Aliyun\Log\Models\MachineGroup|null
+     */
+    private $machineGroup;
 
-    private $machineGroup; 
     /**
      * UpdateMachineGroupRequest Constructor
      *
+     * @param \Aliyun\Log\Models\MachineGroup|null $machineGroup
      */
-    public function __construct($machineGroup) {
+    public function __construct(?\Aliyun\Log\Models\MachineGroup $machineGroup) {
         $this->machineGroup = $machineGroup;
     }
 
-    public function getMachineGroup(){
+    /**
+     * @return \Aliyun\Log\Models\MachineGroup|null
+     */
+    public function getMachineGroup(): ?\Aliyun\Log\Models\MachineGroup {
         return $this->machineGroup;
     }
 
-    public function setMachineGroup($machineGroup){
+    /**
+     * @param \Aliyun\Log\Models\MachineGroup|null $machineGroup
+     */
+    public function setMachineGroup(?\Aliyun\Log\Models\MachineGroup $machineGroup): void {
         $this->machineGroup = $machineGroup;
     }
 
-    
 }

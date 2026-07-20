@@ -5,49 +5,81 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class ListMachineGroupsRequest extends \Aliyun\Log\Models\Request {
-
+    /**
+     * @var string|null
+     */
     private $groupName;
+
+    /**
+     * @var int|null
+     */
     private $offset;
+
+    /**
+     * @var int|null
+     */
     private $size;
 
     /**
      * ListMachineGroupsRequest Constructor
      *
+     * @param string|null $groupName
+     * @param int|null $offset
+     * @param int|null $size
      */
-    public function __construct($groupName=null,$offset=null,$size=null) {
+    public function __construct(?string $groupName = null, ?int $offset = null, ?int $size = null) {
         $this->groupName = $groupName;
         $this->offset = $offset;
         $this->size = $size;
     }
 
-    public function getGroupName(){
+    /**
+     * @return string|null
+     */
+    public function getGroupName(): ?string {
         return $this->groupName;
     }
 
-    public function setGroupName($groupName){
+    /**
+     * @param string|null $groupName
+     */
+    public function setGroupName(?string $groupName): void {
         $this->groupName = $groupName;
     }
-    
-    public function getOffset(){
+
+    /**
+     * @return int|null
+     */
+    public function getOffset(): ?int {
         return $this->offset;
     }
 
-    public function setOffset($offset){
+    /**
+     * @param int|null $offset
+     */
+    public function setOffset(?int $offset): void {
         $this->offset = $offset;
     }
 
-    public function getSize(){
+    /**
+     * @return int|null
+     */
+    public function getSize(): ?int {
         return $this->size;
     }
 
-    public function setSize($size){
+    /**
+     * @param int|null $size
+     */
+    public function setSize(?int $size): void {
         $this->size = $size;
     }
 }

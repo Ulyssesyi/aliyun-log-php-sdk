@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -6,46 +7,45 @@ namespace Aliyun\Log\Models\Response;
  * All rights reserved
  */
 
-
 /**
  * The response of the GetHistograms API from log service.
  *
  * @author log service dev
  */
 class GetHistogramsResponse extends \Aliyun\Log\Models\Response {
-    
     /**
      * @var string histogram query status(Complete or InComplete)
      */
     private $progress;
-    
+
     /**
-     * @var integer logs' count that current query hits
+     * @var int logs' count that current query hits
      */
     private $count;
-    
+
     /**
-     * @var array \Aliyun\Log\Models\Histogram array, histograms on the requested time range: [from, to)
+     * @var \Aliyun\Log\Models\Histogram[] histograms on the requested time range: [from, to)
      */
-    private $histograms; // List<\Aliyun\Log\Models\Histogram>
-    
+    private $histograms;
+
     /**
-     * Aliyun_Log_Models_GetHistogramsResponse constructor
+     * GetHistogramsResponse constructor
      *
-     * @param array $resp
-     *            GetHistogramsResponse HTTP response body
-     * @param array $header
-     *            GetHistogramsResponse HTTP response header
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        $this->progress = $header ['x-log-progress'];
-        $this->count = $header ['x-log-count'];
-        $this->histograms = array ();
-        foreach ( $resp  as $data )
-            $this->histograms [] = new \Aliyun\Log\Models\Histogram ( $data ['from'], $data ['to'], $data ['count'], $data ['progress'] );
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $this->progress = $header['x-log-progress'];
+        $this->count = (int) $header['x-log-count'];
+        $this->histograms = [];
+        foreach ($resp as $data) {
+            $this->histograms[] = new \Aliyun\Log\Models\Histogram($data['from'], $data['to'], $data['count'], $data['progress']);
+        }
     }
-    
+
     /**
      * Check if the histogram is completed
      *
@@ -54,20 +54,20 @@ class GetHistogramsResponse extends \Aliyun\Log\Models\Response {
     public function isCompleted() {
         return $this->progress == 'Complete';
     }
-    
+
     /**
      * Get total logs' count that current query hits
      *
-     * @return integer total logs' count that current query hits
+     * @return int total logs' count that current query hits
      */
     public function getTotalCount() {
         return $this->count;
     }
-    
+
     /**
      * Get histograms on the requested time range: [from, to)
      *
-     * @return array \Aliyun\Log\Models\Histogram array, histograms on the requested time range
+     * @return \Aliyun\Log\Models\Histogram[] histograms on the requested time range
      */
     public function getHistograms() {
         return $this->histograms;

@@ -5,35 +5,55 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class DeleteShardRequest extends \Aliyun\Log\Models\Request {
-
+    /**
+     * @var string|null
+     */
     private $logstore;
+
+    /**
+     * @var string|null
+     */
+    private $shardId;
 
     /**
      * DeleteShardRequest Constructor
      *
+     * @param string $project
+     * @param string $logstore
+     * @param string $shardId
      */
-    public function __construct($project,$logstore,$shardId) {
-        parent::__construct ( $project );
+    public function __construct(string $project, string $logstore, string $shardId) {
+        parent::__construct($project);
         $this->logstore = $logstore;
         $this->shardId = $shardId;
     }
 
-    public function getLogstore(){
-      return $this->logstore;
+    /**
+     * @return string|null
+     */
+    public function getLogstore(): ?string {
+        return $this->logstore;
     }
 
-    public function setLogstore($logstore){
-      $this->logstore = $logstore;
+    /**
+     * @param string|null $logstore
+     */
+    public function setLogstore(?string $logstore): void {
+        $this->logstore = $logstore;
     }
 
-    public function getShardId(){
+    /**
+     * @return string|null
+     */
+    public function getShardId(): ?string {
         return $this->shardId;
     }
 }

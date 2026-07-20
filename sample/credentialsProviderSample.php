@@ -1,32 +1,30 @@
 <?php
-echo "Hello, World!";
+echo 'Hello, World!';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $endpoint = 'cn-hangzhou.log.aliyuncs.com';
 $accessKeyId = '';
 $accessKey = '';
-$token = "";
+$token = '';
 $project = 'test';
 $logstore = 'test';
 
-
 $credentialsProvider = new \Aliyun\Log\Models\StaticCredentialsProvider($accessKeyId, $accessKey, $token);
-$client = new \Aliyun\Log\Client($endpoint, "", "", "", $credentialsProvider);
+$client = new \Aliyun\Log\Client($endpoint, '', '', '', $credentialsProvider);
 
 $req = new \Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, 1698740109, 1698744321, '', '*', null, null, null, null);
 
-function putLogs(\Aliyun\Log\Client $client, $project, $logstore)
-{
+function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
     $topic = 'TestTopic';
 
-    $contents = array( // key-value pair
+    $contents = [ // key-value pair
         'TestKey' => 'TestContent',
-        'kv_json' => '{"a": "b", "c": 19021}'
-    );
+        'kv_json' => '{"a": "b", "c": 19021}',
+    ];
     $logItem = new \Aliyun\Log\Models\LogItem();
     $logItem->setTime(time());
     $logItem->setContents($contents);
-    $logitems = array($logItem);
+    $logitems = [$logItem];
     $request = new \Aliyun\Log\Models\Request\PutLogsRequest(
         $project,
         $logstore,

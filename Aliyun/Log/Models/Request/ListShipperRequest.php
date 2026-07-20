@@ -6,32 +6,32 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class ListShipperRequest extends \Aliyun\Log\Models\Request{
+class ListShipperRequest extends \Aliyun\Log\Models\Request {
+    /**
+     * @var string|null
+     */
     private $logStore;
 
     /**
      * CreateShipperRequest Constructor
      *
+     * @param string $project
      */
-    public function __construct($project) {
-        parent::__construct ( $project );
+    public function __construct(string $project) {
+        parent::__construct($project);
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getLogStore()
-    {
+    public function getLogStore(): ?string {
         return $this->logStore;
     }
 
     /**
-     * @param mixed $logStore
+     * @param string|null $logStore
      */
-    public function setLogStore($logStore)
-    {
+    public function setLogStore(?string $logStore): void {
         $this->logStore = $logStore;
     }
-
-
 }

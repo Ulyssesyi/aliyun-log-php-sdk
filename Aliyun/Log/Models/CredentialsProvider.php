@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -6,9 +7,7 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-
-class Credentials
-{
+class Credentials {
     /**
      * @var string
      */
@@ -22,8 +21,7 @@ class Credentials
      */
     private $securityToken;
 
-    public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '')
-    {
+    public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '') {
         $this->accessKeyId = $accessKeyId;
         $this->accessKeySecret = $accessKeySecret;
         $this->securityToken = $securityToken;
@@ -32,53 +30,44 @@ class Credentials
     /**
      * @return string accessKeyId
      */
-    public function getAccessKeyId()
-    {
+    public function getAccessKeyId() {
         return $this->accessKeyId;
     }
     /**
      * @param string $accessKeyId
      */
-    public function setAccessKeyId(string $accessKeyId)
-    {
+    public function setAccessKeyId(string $accessKeyId) {
         $this->accessKeyId = $accessKeyId;
     }
     /**
      * @return string accessKeySecret
      */
-    public function getAccessKeySecret()
-    {
+    public function getAccessKeySecret() {
         return $this->accessKeySecret;
     }
     /**
      * @param string $accessKeySecret
      */
-    public function setAccessKeySecret(string $accessKeySecret)
-    {
+    public function setAccessKeySecret(string $accessKeySecret) {
         $this->accessKeySecret = $accessKeySecret;
     }
     /**
      * @return string securityToken
      */
-    public function getSecurityToken()
-    {
+    public function getSecurityToken() {
         return $this->securityToken;
     }
     /**
      * @param string $securityToken
      */
-    public function setSecurityToken(string $securityToken)
-    {
+    public function setSecurityToken(string $securityToken) {
         $this->securityToken = $securityToken;
     }
 }
 
-interface CredentialsProvider
-{
+interface CredentialsProvider {
     /**
      * @return Credentials
-     * @throws Exception
      */
     public function getCredentials(): Credentials;
 }
-

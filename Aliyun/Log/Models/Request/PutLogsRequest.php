@@ -10,10 +10,10 @@
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class PutLogsRequest extends \Aliyun\Log\Models\Request {
-
     /**
      * @var string logstore name
      */
@@ -38,7 +38,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @var string shardKey putlogs shard hash key
      */
     private $shardKey;
-    
+
     /**
      * PutLogsRequest cnstructor
      *
@@ -53,15 +53,15 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param array $logitems
      *            LogItem array,log data
      */
-    public function __construct($project = null, $logstore = null, $topic = null, $source = null, $logitems = null,$shardKey=null) {
-        parent::__construct ( $project );
+    public function __construct($project = null, $logstore = null, $topic = null, $source = null, $logitems = null, $shardKey = null) {
+        parent::__construct($project);
         $this->logstore = $logstore;
         $this->topic = $topic;
         $this->source = $source;
         $this->logitems = $logitems;
         $this->shardKey = $shardKey;
     }
-    
+
     /**
      * Get logstroe name
      *
@@ -70,7 +70,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     public function getLogstore() {
         return $this->logstore;
     }
-    
+
     /**
      * Set logstore name
      *
@@ -80,7 +80,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     public function setLogstore($logstore) {
         $this->logstore = $logstore;
     }
-    
+
     /**
      * Get topic name
      *
@@ -89,7 +89,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     public function getTopic() {
         return $this->topic;
     }
-    
+
     /**
      * Set topic name
      *
@@ -99,26 +99,26 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     public function setTopic($topic) {
         $this->topic = $topic;
     }
-    
+
     /**
      * Get all the log data
-     * 
+     *
      * @return array LogItem array, log data
      */
     public function getLogItems() {
         return $this->logitems;
     }
-    
+
     /**
      * Set the log data
-     * 
+     *
      * @param array $logitems
      *            LogItem array, log data
      */
     public function setLogItems($logitems) {
         $this->logitems = $logitems;
     }
-    
+
     /**
      * Get log source
      *
@@ -127,7 +127,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     public function getSource() {
         return $this->source;
     }
-    
+
     /**
      * set log source
      *
@@ -140,17 +140,17 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
     /**
      * set shard key
      *
-     * @param string shardkey
+     * @param string $key
      */
-    public function setShardKey($key){
-        $this -> shardKey=$key;
+    public function setShardKey($key) {
+        $this -> shardKey = $key;
     }
     /**
      * get shard key
      *
      * @return string shardKey
      */
-    public function getShardKey(){
+    public function getShardKey() {
         return $this ->shardKey;
     }
 }

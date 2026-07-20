@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -16,8 +17,15 @@ class ACL {
     private $createTime;
     private $lastModifyTime;
 
-    public function __construct($principleType='',$principleId='',$object='',
-            $privilege=array(),$aclId=null,$createTime=null,$lastModifyTime=null) {
+    public function __construct(
+        $principleType = '',
+        $principleId = '',
+        $object = '',
+        $privilege = [],
+        $aclId = null,
+        $createTime = null,
+        $lastModifyTime = null
+    ) {
         $this->principleType = $principleType;
         $this->principleId = $principleId;
         $this->object = $object;
@@ -27,79 +35,86 @@ class ACL {
         $this->createTime = $createTime;
         $this->lastModifyTime = $lastModifyTime;
     }
-     
-    public function getPrincipleType(){
+
+    public function getPrincipleType() {
         return $this->principleType;
     }
-    public function setPrincipleType($principleType){
+    public function setPrincipleType($principleType) {
         $this->principleType = $principleType;
     }
-    
-    public function getPrincipleId(){
+
+    public function getPrincipleId() {
         return $this->principleId;
     }
-    public function setPrincipleId($principleId){
+    public function setPrincipleId($principleId) {
         $this->principleId = $principleId;
     }
 
-    public function getObject(){
+    public function getObject() {
         return $this->object;
     }
-    public function setObject($object){
+    public function setObject($object) {
         $this->object = $object;
     }
-    public function getPrivilege(){
+    public function getPrivilege() {
         return $this->privilege;
     }
-    public function setPrivilege($privilege){
+    public function setPrivilege($privilege) {
         $this->privilege = $privilege;
     }
-    public function getAclId(){
+    public function getAclId() {
         return $this->aclId;
     }
-    public function setAclId($aclId){
+    public function setAclId($aclId) {
         $this->aclId = $aclId;
     }
-    public function getCreateTime(){
+    public function getCreateTime() {
         return $this->createTime;
     }
-    public function setCreateTime($createTime){
+    public function setCreateTime($createTime) {
         $this->createTime = $createTime;
     }
-    public function getLastModifyTime(){
+    public function getLastModifyTime() {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime){
+    public function setLastModifyTime($lastModifyTime) {
         $this->lastModifyTime = $lastModifyTime;
     }
 
-    public function toArray(){
-      $format_array = array();
-      if($this->principleType!==null)
-        $format_array['principleType'] = $this->principleType;
-      if($this->principleId!==null)
-        $format_array['principleId'] = $this->principleId;
-      if($this->object!==null)
-        $format_array['object'] = $this->object;
-      if($this->privilege!==null)
-        $format_array['privilege'] = $this->privilege;
-      if($this->aclId!==null)
-        $format_array['aclId'] = $this->aclId;
-      if($this->createTime!==null)
-        $format_array['createTime'] = $this->createTime;
-      if($this->lastModifyTime!==null)
-        $format_array['lastModifyTime'] = $this->lastModifyTime;
-      return $format_array;
+    public function toArray() {
+        $format_array = [];
+        if ($this->principleType !== null) {
+            $format_array['principleType'] = $this->principleType;
+        }
+        if ($this->principleId !== null) {
+            $format_array['principleId'] = $this->principleId;
+        }
+        if ($this->object !== null) {
+            $format_array['object'] = $this->object;
+        }
+        if ($this->privilege !== null) {
+            $format_array['privilege'] = $this->privilege;
+        }
+        if ($this->aclId !== null) {
+            $format_array['aclId'] = $this->aclId;
+        }
+        if ($this->createTime !== null) {
+            $format_array['createTime'] = $this->createTime;
+        }
+        if ($this->lastModifyTime !== null) {
+            $format_array['lastModifyTime'] = $this->lastModifyTime;
+        }
+        return $format_array;
     }
 
-    public function setFromArray($resp){
-        $principleType = ($resp['principleType']!==null)?$resp['principleType']:null;
-        $principleId = ($resp['principleId']!==null)?$resp['principleId']:null;
-        $object = ($resp['object']!==null)?$resp['object']:null;
-        $privilege = ($resp['privilege']!==null)?$resp['privilege']:array();
-        $aclId = ($resp['aclId']!==null)?$resp['aclId']:null;
-        $createTime = ($resp['createTime']!==null)?$resp['createTime']:null;
-        $lastModifyTime = ($resp['lastModifyTime']!==null)?$resp['lastModifyTime']:null;
+    public function setFromArray($resp) {
+        $principleType = ($resp['principleType'] !== null) ? $resp['principleType'] : null;
+        $principleId = ($resp['principleId'] !== null) ? $resp['principleId'] : null;
+        $object = ($resp['object'] !== null) ? $resp['object'] : null;
+        $privilege = ($resp['privilege'] !== null) ? $resp['privilege'] : [];
+        $aclId = ($resp['aclId'] !== null) ? $resp['aclId'] : null;
+        $createTime = ($resp['createTime'] !== null) ? $resp['createTime'] : null;
+        $lastModifyTime = ($resp['lastModifyTime'] !== null) ? $resp['lastModifyTime'] : null;
 
         $this->setPrincipleType($principleType);
         $this->setPrincipleId($principleId);

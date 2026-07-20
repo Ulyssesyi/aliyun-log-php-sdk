@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,38 +8,59 @@ namespace Aliyun\Log\Models\Response;
  */
 
 /**
+ * The response of the ListConfigs API from log service.
  *
  * @author log service dev
  */
 class ListConfigsResponse extends \Aliyun\Log\Models\Response {
-    
-    private $total;
-    private $configs;
     /**
-     * Aliyun_Log_Models_ListConfigsResponse constructor
-     *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @var int total number of configs
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        $this->size = $resp['total'];
-        $this->configs = $resp['configs']; 
+    private $total;
+
+    /**
+     * @var string[] config names
+     */
+    private $configs;
+
+    /**
+     * ListConfigsResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
+     */
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $this->total = $resp['total'];
+        $this->configs = $resp['configs'];
     }
 
-    public function getSize(){
-      return count($this->configs);
+    /**
+     * Get the number of configs returned
+     *
+     * @return int number of configs
+     */
+    public function getSize() {
+        return count($this->configs);
     }
 
-    public function getTotal(){
-        return $this ->total;
+    /**
+     * Get total count of configs
+     *
+     * @return int total count
+     */
+    public function getTotal() {
+        return $this->total;
     }
 
-    public function getConfigs(){
-      return $this->configs;
+    /**
+     * Get configs from the response
+     *
+     * @return string[] config names
+     */
+    public function getConfigs() {
+        return $this->configs;
     }
-   
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -13,7 +14,6 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class LogItem {
-    
     /**
      * @var integer time of the log item, the default time if the now time.
      */
@@ -23,7 +23,7 @@ class LogItem {
      * @var array the data of the log item, including many key/value pairs.
      */
     private $contents;
-    
+
     /**
      * LogItem cnostructor
      *
@@ -33,15 +33,17 @@ class LogItem {
      *            time of the log item, the default time if the now time.
      */
     public function __construct($time = null, $contents = null) {
-        if (! $time)
-            $time = time ();
+        if (! $time) {
+            $time = time();
+        }
         $this->time = $time;
-        if ($contents)
+        if ($contents) {
             $this->contents = $contents;
-        else
-            $this->contents = array ();
+        } else {
+            $this->contents =  [];
+        }
     }
-    
+
     /**
      * Get log time
      *
@@ -50,7 +52,7 @@ class LogItem {
     public function getTime() {
         return $this->time;
     }
-    
+
     /**
      * Set log time
      *
@@ -60,7 +62,7 @@ class LogItem {
     public function setTime($time) {
         $this->time = $time;
     }
-    
+
     /**
      * Get log contents
      *
@@ -69,7 +71,7 @@ class LogItem {
     public function getContents() {
         return $this->contents;
     }
-    
+
     /**
      * Set log contents
      *
@@ -79,7 +81,7 @@ class LogItem {
     public function setContents($contents) {
         $this->contents = $contents;
     }
-    
+
     /**
      * Add a key/value pair as log content to the log
      *
@@ -89,6 +91,6 @@ class LogItem {
      *            log content value
      */
     public function pushBack($key, $value) {
-        $this->contents [$key] = $value;
+        $this->contents[$key] = $value;
     }
 }

@@ -5,32 +5,31 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class ListShardsRequest extends \Aliyun\Log\Models\Request {
-
     private $logstore;
 
     /**
      * ListShardsRequest Constructor
      *
      */
-    public function __construct($project,$logstore) {
-        parent::__construct ( $project );
+    public function __construct($project, $logstore) {
+        parent::__construct($project);
         $this->logstore = $logstore;
     }
 
-    public function getLogstore(){
-      return $this->logstore;
+    public function getLogstore() {
+        return $this->logstore;
     }
 
-    public function setLogstore($logstore){
-      $this->logstore = $logstore;
+    public function setLogstore($logstore) {
+        $this->logstore = $logstore;
     }
-    
-    
+
 }

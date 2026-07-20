@@ -5,36 +5,61 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class RemoveConfigFromMachineGroupRequest extends \Aliyun\Log\Models\Request {
+    /**
+     * @var string|null
+     */
     private $groupName;
-    private $configName; 
-   
+
+    /**
+     * @var string|null
+     */
+    private $configName;
+
     /**
      * RemoveConfigFromMachineGroupRequest Constructor
      *
+     * @param string|null $groupName
+     * @param string|null $configName
      */
-    public function __construct($groupName=null,$configName=null) {
+    public function __construct(?string $groupName = null, ?string $configName = null) {
         $this->groupName = $groupName;
         $this->configName = $configName;
     }
-    public function getGroupName(){
+
+    /**
+     * @return string|null
+     */
+    public function getGroupName(): ?string {
         return $this->groupName;
     }
-    public function setGroupName($groupName){
+
+    /**
+     * @param string|null $groupName
+     */
+    public function setGroupName(?string $groupName): void {
         $this->groupName = $groupName;
     }
 
-    public function getConfigName(){
+    /**
+     * @return string|null
+     */
+    public function getConfigName(): ?string {
         return $this->configName;
     }
-    public function setConfigName($configName){
+
+    /**
+     * @param string|null $configName
+     */
+    public function setConfigName(?string $configName): void {
         $this->configName = $configName;
     }
-    
+
 }

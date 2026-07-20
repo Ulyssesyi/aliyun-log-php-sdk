@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -6,8 +7,7 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-class StaticCredentialsProvider implements CredentialsProvider
-{
+class StaticCredentialsProvider implements CredentialsProvider {
     /**
      * @var Credentials
      */
@@ -18,15 +18,13 @@ class StaticCredentialsProvider implements CredentialsProvider
      * @param string $accessKeySecret
      * @param string $securityToken
      */
-    public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '')
-    {
+    public function __construct(string $accessKeyId, string $accessKeySecret, string $securityToken = '') {
         $this->credentials = new Credentials($accessKeyId, $accessKeySecret, $securityToken);
     }
     /**
      * @return Credentials
      */
-    public function getCredentials(): Credentials
-    {
+    public function getCredentials(): Credentials {
         return $this->credentials;
     }
 }

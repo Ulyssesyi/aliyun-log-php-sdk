@@ -1,22 +1,20 @@
 <?php
 
+use Aliyun\Log\RequestCore;
+use Aliyun\Log\RequestCoreException;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
-class RequestCoreCurlCompatibilityTest extends TestCase
-{
+class RequestCoreCurlCompatibilityTest extends TestCase {
     /**
      * @requires extension curl
      */
-    public function testSendRequestPreservesCurlError()
-    {
+    public function testSendRequestPreservesCurlError() {
         $request = new RequestCore('unsupported-sls-test://example');
 
         try {
             $request->send_request();
-            $this->fail('Expected RequestCore_Exception to be thrown.');
-        } catch (RequestCore_Exception $exception) {
+            $this->fail('Expected RequestCoreException to be thrown.');
+        } catch (RequestCoreException $exception) {
             $this->assertCurlErrorMessage($exception->getMessage());
         }
     }
@@ -24,15 +22,14 @@ class RequestCoreCurlCompatibilityTest extends TestCase
     /**
      * @requires extension curl
      */
-    public function testSendMultiRequestPreservesCurlError()
-    {
+    public function testSendMultiRequestPreservesCurlError() {
         $request = new RequestCore('unsupported-sls-test://example');
         $handle = $request->prep_request();
 
         try {
-            $request->send_multi_request(array($handle));
-            $this->fail('Expected RequestCore_Exception to be thrown.');
-        } catch (RequestCore_Exception $exception) {
+            $request->send_multi_request([$handle]);
+            $this->fail('Expected RequestCoreException to be thrown.');
+        } catch (RequestCoreException $exception) {
             $this->assertCurlErrorMessage($exception->getMessage());
         }
     }
@@ -40,14 +37,13 @@ class RequestCoreCurlCompatibilityTest extends TestCase
     /**
      * @requires extension curl
      */
-    public function testSendMultiRequestRejectsInvalidHandles()
-    {
+    public function testSendMultiRequestRejectsInvalidHandles() {
         $request = new RequestCore();
 
         try {
-            $request->send_multi_request(array(null));
-            $this->fail('Expected RequestCore_Exception to be thrown.');
-        } catch (RequestCore_Exception $exception) {
+            $request->send_multi_request([null]);
+            $this->fail('Expected RequestCoreException to be thrown.');
+        } catch (RequestCoreException $exception) {
             $this->assertSame('Invalid cURL handle supplied.', $exception->getMessage());
         }
     }
@@ -55,8 +51,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase
     /**
      * @requires extension curl
      */
-    public function testSendMultiRequestKeepsDistinctHandleResults()
-    {
+    public function testSendMultiRequestKeepsDistinctHandleResults() {
         $file_one = tempnam(sys_get_temp_dir(), 'request-core-curl-');
         $file_two = tempnam(sys_get_temp_dir(), 'request-core-curl-');
         file_put_contents($file_one, 'one');
@@ -64,15 +59,15 @@ class RequestCoreCurlCompatibilityTest extends TestCase
 
         $request_one = new RequestCore('file://' . $file_one);
         $request_two = new RequestCore('file://' . $file_two);
-        $request_one->set_curlopts(array(CURLOPT_HEADER => false));
-        $request_two->set_curlopts(array(CURLOPT_HEADER => false));
+        $request_one->set_curlopts([CURLOPT_HEADER => false]);
+        $request_two->set_curlopts([CURLOPT_HEADER => false]);
         $runner = new RequestCore();
 
         try {
-            $responses = $runner->send_multi_request(array(
+            $responses = $runner->send_multi_request([
                 $request_one->prep_request(),
                 $request_two->prep_request(),
-            ));
+            ]);
 
             $this->assertCount(2, $responses);
             $this->assertSame('one', $responses[0]->body);
@@ -83,8 +78,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase
         }
     }
 
-    private function assertCurlErrorMessage($message)
-    {
+    private function assertCurlErrorMessage($message) {
         $this->assertNotFalse(strpos($message, 'cURL handle:'));
         $this->assertNotFalse(strpos($message, 'cURL error:'));
         $this->assertSame(1, preg_match('/\([1-9][0-9]*\)$/', $message));

@@ -5,14 +5,14 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class UpdateConfigRequest extends \Aliyun\Log\Models\Request {
-
     private $config;
     /**
      * UpdateConfigRequest Constructor
@@ -22,12 +22,12 @@ class UpdateConfigRequest extends \Aliyun\Log\Models\Request {
         $this->config = $config;
     }
 
-    public function getConfig(){
+    public function getConfig() {
         return $this->config;
     }
 
-    public function setConfig($config){
+    public function setConfig($config) {
         $this->config = $config;
     }
-    
+
 }

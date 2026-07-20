@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -14,27 +15,26 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Histogram {
-    
     /**
      * @var integer the begin time
      */
     private $from;
-    
+
     /**
      * @var integer the end time
      */
     private $to;
-   
+
     /**
-     * @var integer log count of histogram that query hits 
+     * @var integer log count of histogram that query hits
      */
     private $count;
-    
+
     /**
      * @var string histogram query status(Complete or InComplete)
      */
     private $progress;
-    
+
     /**
      * Histogram constructor
      *
@@ -43,7 +43,7 @@ class Histogram {
      * @param integer $to
      *            the end time
      * @param integer $count
-     *            log count of histogram that query hits 
+     *            log count of histogram that query hits
      * @param string $progress
      *            histogram query status(Complete or InComplete)
      */
@@ -53,7 +53,7 @@ class Histogram {
         $this->count = $count;
         $this->progress = $progress;
     }
-    
+
     /**
      * Get begin time
      *
@@ -62,7 +62,7 @@ class Histogram {
     public function getFrom() {
         return $this->from;
     }
-    
+
     /**
      * Get the end time
      *
@@ -71,7 +71,7 @@ class Histogram {
     public function getTo() {
         return $this->to;
     }
-    
+
     /**
      * Get log count of histogram that query hits
      *
@@ -80,7 +80,7 @@ class Histogram {
     public function getCount() {
         return $this->count;
     }
-    
+
     /**
      * Check if the histogram is completed
      *

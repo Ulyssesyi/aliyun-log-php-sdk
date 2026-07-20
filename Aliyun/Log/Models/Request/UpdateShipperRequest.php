@@ -6,84 +6,89 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class UpdateShipperRequest extends \Aliyun\Log\Models\Request{
+class UpdateShipperRequest extends \Aliyun\Log\Models\Request {
+    /**
+     * @var string|null
+     */
     private $shipperName;
 
+    /**
+     * @var string|null
+     */
     private $targetType;
 
+    /**
+     * @var mixed|null
+     */
     private $targetConfigration;
 
+    /**
+     * @var string|null
+     */
     private $logStore;
-
-    /**
-     * @return mixed
-     */
-    public function getLogStore()
-    {
-        return $this->logStore;
-    }
-
-    /**
-     * @param mixed $logStore
-     */
-    public function setLogStore($logStore)
-    {
-        $this->logStore = $logStore;
-    }
 
     /**
      * CreateShipperRequest Constructor
      *
+     * @param string $project
      */
-    public function __construct($project) {
-        parent::__construct ( $project );
+    public function __construct(string $project) {
+        parent::__construct($project);
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getShipperName()
-    {
+    public function getLogStore(): ?string {
+        return $this->logStore;
+    }
+
+    /**
+     * @param string|null $logStore
+     */
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShipperName(): ?string {
         return $this->shipperName;
     }
 
     /**
-     * @param mixed $shipperName
+     * @param string|null $shipperName
      */
-    public function setShipperName($shipperName)
-    {
+    public function setShipperName(?string $shipperName): void {
         $this->shipperName = $shipperName;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getTargetType()
-    {
+    public function getTargetType(): ?string {
         return $this->targetType;
     }
 
     /**
-     * @param mixed $targetType
+     * @param string|null $targetType
      */
-    public function setTargetType($targetType)
-    {
+    public function setTargetType(?string $targetType): void {
         $this->targetType = $targetType;
     }
 
     /**
-     * @return mixed
+     * @return mixed|null
      */
-    public function getTargetConfigration()
-    {
+    public function getTargetConfigration() {
         return $this->targetConfigration;
     }
 
     /**
-     * @param mixed $targetConfigration
+     * @param mixed|null $targetConfigration
      */
-    public function setTargetConfigration($targetConfigration)
-    {
+    public function setTargetConfigration($targetConfigration): void {
         $this->targetConfigration = $targetConfigration;
     }
 }

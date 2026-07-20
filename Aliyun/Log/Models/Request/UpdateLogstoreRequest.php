@@ -9,34 +9,31 @@
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
-class UpdateLogstoreRequest extends \Aliyun\Log\Models\Request{
-
-    private  $logstore;
-    private  $ttl;
-    private  $shardCount;
+class UpdateLogstoreRequest extends \Aliyun\Log\Models\Request {
+    private $logstore;
+    private $ttl;
+    private $shardCount;
     /**
      * UpdateLogstoreRequest constructor
-     * 
+     *
      * @param string $project project name
      */
-    public function __construct($project=null,$logstore = null,$ttl = null,$shardCount = null) {
+    public function __construct($project = null, $logstore = null, $ttl = null, $shardCount = null) {
         parent::__construct($project);
         $this -> logstore = $logstore;
         $this -> ttl = $ttl;
         $this -> shardCount = $shardCount;
     }
-    public function getLogstore()
-    {
+    public function getLogstore() {
         return $this -> logstore;
     }
-    public function getTtl()
-    {
+    public function getTtl() {
         return $this -> ttl;
     }
-    public function getShardCount()
-    {
+    public function getShardCount() {
         return $this -> shardCount;
     }
 }

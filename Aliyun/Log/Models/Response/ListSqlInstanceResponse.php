@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -12,30 +13,39 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListSqlInstanceResponse extends \Aliyun\Log\Models\Response {
-
-    private $sqlInstances;
     /**
-     * Aliyun_Log_Models_ListSqlInstanceResponse constructor
-     *
-     * @param array $resp
-     *            ListSqlInstance HTTP response body
-     * @param array $header
-     *            ListSqlInstance HTTP response header
+     * @var SqlInstance[] SQL instances
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
+    private $sqlInstances;
+
+    /**
+     * ListSqlInstanceResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
+     */
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
         $arr = $resp;
-        if($arr != null)
-        {
-            foreach($arr as $data)
-            {
-                $name = $data["name"];
-                $cu = $data["cu"];
-                $createTime = $data["createTime"];
-                $updateTime = $data["updateTime"];
-                $this -> sqlInstances [] = new SqlInstance($name,$cu,$createTime,$updateTime);
+        if ($arr != null) {
+            foreach ($arr as $data) {
+                $name = $data['name'];
+                $cu = $data['cu'];
+                $createTime = $data['createTime'];
+                $updateTime = $data['updateTime'];
+                $this->sqlInstances[] = new SqlInstance($name, $cu, $createTime, $updateTime);
             }
         }
     }
-    
+
+    /**
+     * Get SQL instances
+     *
+     * @return SqlInstance[]|null SQL instances
+     */
+    public function getSqlInstances() {
+        return $this->sqlInstances;
+    }
 }

@@ -1,10 +1,6 @@
 <?php
-namespace Aliyun\Log\Models\Response;
 
-/**
- * Copyright (C) Alibaba Cloud Computing
- * All rights reserved
- */
+namespace Aliyun\Log\Models\Response;
 
 /**
  * The QueriedLog is a log of the Aliyun_Log_Models_GetLogsResponse which obtained from the log.
@@ -12,9 +8,8 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class QueriedLog {
-
     /**
-     * @var integer log timestamp
+     * @var int log timestamp
      */
     private $time;
 
@@ -24,19 +19,18 @@ class QueriedLog {
     private $source;
 
     /**
-     * @var array log contents, content many key/value pair
+     * @var array<string, string> log contents, content many key/value pair
      */
     private $contents;
-    
-    
+
     /**
      * QueriedLog constructor
      *
-     * @param integer $time
+     * @param int    $time
      *            log time stamp
      * @param string $source
      *            log source
-     * @param array $contents
+     * @param array<string, string> $contents
      *            log contents, content many key/value pair
      */
     public function __construct($time, $source, $contents) {
@@ -44,7 +38,7 @@ class QueriedLog {
         $this->source = $source;
         $this->contents = $contents; // deep copy
     }
-    
+
     /**
      * Get log source
      *
@@ -53,20 +47,20 @@ class QueriedLog {
     public function getSource() {
         return $this->source;
     }
-    
+
     /**
      * Get log time
      *
-     * @return integer log time
+     * @return int log time
      */
     public function getTime() {
         return $this->time;
     }
-    
+
     /**
      * Get log contents, content many key/value pair.
      *
-     * @return array log contents
+     * @return array<string, string> log contents
      */
     public function getContents() {
         return $this->contents;

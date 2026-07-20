@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -12,31 +13,30 @@ namespace Aliyun\Log\Models;
  * @author log service dev
  */
 class Response {
-
     /**
-     * @var array HTTP response header
+     * @var array<string, string> HTTP response header
      */
     private $headers;
-    
+
     /**
      * Response constructor
      *
-     * @param array $header
+     * @param array<string, string> $headers
      *            HTTP response header
      */
-    public function __construct($headers) {
+    public function __construct(array $headers) {
         $this->headers = $headers;
     }
-    
+
     /**
      * Get all http headers
      *
-     * @return array HTTP response header
+     * @return array<string, string> HTTP response header
      */
-    public function getAllHeaders() {
+    public function getAllHeaders(): array {
         return $this->headers;
     }
-    
+
     /**
      * Get specified http header
      *
@@ -45,16 +45,16 @@ class Response {
      *
      * @return string HTTP response header. '' will be return if not set.
      */
-    public function getHeader($key) {
-        return isset ($this->headers[$key]) ? $this->headers [$key] : '';
+    public function getHeader(string $key): string {
+        return $this->headers[$key] ?? '';
     }
-    
+
     /**
      * Get the request id of the response. '' will be return if not set.
      *
      * @return string request id
      */
-    public function getRequestId() {
-        return isset ( $this->headers ['x-log-requestid'] ) ? $this->headers ['x-log-requestid'] : '';
+    public function getRequestId(): string {
+        return $this->headers['x-log-requestid'] ?? '';
     }
 }

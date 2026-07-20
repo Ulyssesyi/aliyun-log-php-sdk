@@ -9,10 +9,10 @@
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
-    
     /**
      * @var string logstore name
      */
@@ -22,30 +22,34 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @var integer the begin time
      */
     private $from;
-    
+
     /**
      * @var integer the end time
      */
     private $to;
-    
+
     /**
      * @var string user defined query
      */
     private $query;
-    
+
+    /**
+     * @var string|null topic
+     */
+    private $topic;
+
     /**
      *
      * @var bool if power sql is true, then the query will be run with powered instance, which can handle large amountof data
      */
     private $powerSql;
 
-    
     /**
      * GetLogsRequest Constructor
      *
      * @param string $project
      *            project name
-     * @param string $logStore
+     * @param string $logstore
      *            logstore name
      * @param integer $from
      *            the begin time
@@ -56,9 +60,9 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param bool $powerSql
      *            whether use power sql to make sql faster
      */
-    public function __construct($project = null, $logstore = null, $from = null, $to = null, $topic = null, $query = null, $line = null, $offset = null, $reverse = null,$powerSql = null) {
-        parent::__construct ( $project );
-        
+    public function __construct($project = null, $logstore = null, $from = null, $to = null, $topic = null, $query = null, $powerSql = null) {
+        parent::__construct($project);
+
         $this->logstore = $logstore;
         $this->from = $from;
         $this->to = $to;
@@ -66,7 +70,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
         $this->query = $query;
         $this->powerSql = $powerSql;
     }
-    
+
     /**
      * Get logstore name
      *
@@ -75,7 +79,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function getLogstore() {
         return $this->logstore;
     }
-    
+
     /**
      * Set logstore name
      *
@@ -85,7 +89,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function setLogstore($logstore) {
         $this->logstore = $logstore;
     }
-    
+
     /**
      * Get begin time
      *
@@ -94,7 +98,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function getFrom() {
         return $this->from;
     }
-    
+
     /**
      * Set begin time
      *
@@ -104,7 +108,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function setFrom($from) {
         $this->from = $from;
     }
-    
+
     /**
      * Get end time
      *
@@ -113,7 +117,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function getTo() {
         return $this->to;
     }
-    
+
     /**
      * Set end time
      *
@@ -123,7 +127,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function setTo($to) {
         $this->to = $to;
     }
-    
+
     /**
      * Get user defined query
      *
@@ -132,7 +136,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function getQuery() {
         return $this->query;
     }
-    
+
     /**
      * Set user defined query
      *
@@ -142,7 +146,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     public function setQuery($query) {
         $this->query = $query;
     }
-    
+
     /**
      * Get request powerSql flag
      *
@@ -159,8 +163,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *               powerSql flag
      *
      */
-    public function setPowerSql($powerSql)
-    {
+    public function setPowerSql($powerSql) {
         $this -> powerSql = $powerSql;
     }
 }

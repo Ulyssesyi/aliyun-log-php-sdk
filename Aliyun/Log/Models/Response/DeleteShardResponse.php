@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -13,12 +14,12 @@ namespace Aliyun\Log\Models\Response;
  */
 class DeleteShardResponse extends \Aliyun\Log\Models\Response {
     /**
-     * Aliyun_Log_Models_DeleteShardResponse constructor
+     * DeleteShardResponse constructor
      *
-     * @param array $header
-     *            DeleteShard HTTP response header
+     * @param array<string, string> $headers
+     *            HTTP response header
      */
-    public function __construct($headers) {
-        parent::__construct ( $headers );
+    public function __construct(array $headers) {
+        parent::__construct($headers);
     }
 }

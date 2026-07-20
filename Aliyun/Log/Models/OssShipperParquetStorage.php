@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -6,32 +7,30 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-class OssShipperParquetStorage extends OssShipperStorage{
-    private  $columns;
+class OssShipperParquetStorage extends OssShipperStorage {
+    private $columns;
 
     /**
      * @return mixed
      */
-    public function getColumns()
-    {
+    public function getColumns() {
         return $this->columns;
     }
 
     /**
      * @param mixed $columns
      */
-    public function setColumns($columns)
-    {
+    public function setColumns($columns) {
         $this->columns = $columns;
     }
 
-    public function to_json_object(){
-        $detail = array(
-            'columns' => $this->columns
-        );
-        return array(
+    public function to_json_object() {
+        $detail = [
+            'columns' => $this->columns,
+        ];
+        return [
             'detail' => $detail,
-            'format' => 'parquet'
-        );
+            'format' => 'parquet',
+        ];
     }
 }

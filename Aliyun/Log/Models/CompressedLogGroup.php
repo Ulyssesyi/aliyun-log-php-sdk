@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -7,13 +8,12 @@ namespace Aliyun\Log\Models;
  */
 
 /**
- * CompressedLogGroup is compressed LogGroup, 
+ * CompressedLogGroup is compressed LogGroup,
  * LogGroup infomation please refer to LogGroup
  *
  * @author log service dev
  */
 class CompressedLogGroup {
-
     /**
      * @var integer uncompressed LogGroup size
      *
@@ -26,15 +26,26 @@ class CompressedLogGroup {
      */
     protected $compressedData;
 
+    /**
+     * @var int|null
+     */
+    protected $time;
+
+    /**
+     * @var array|null
+     */
+    protected $contents;
 
     public function __construct($time = null, $contents = null) {
-        if (! $time)
-            $time = time ();
+        if (! $time) {
+            $time = time();
+        }
         $this->time = $time;
-        if ($contents)
+        if ($contents) {
             $this->contents = $contents;
-        else
-            $this->contents = array ();
+        } else {
+            $this->contents =  [];
+        }
     }
-    
+
 }

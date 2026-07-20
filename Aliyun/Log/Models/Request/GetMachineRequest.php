@@ -5,30 +5,30 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class GetMachineRequest extends \Aliyun\Log\Models\Request {
-    
     private $uuid;
 
     /**
      * GetMachineRequest Constructor
      *
      */
-    public function __construct($uuid=null) {
+    public function __construct($uuid = null) {
         $this->uuid = $uuid;
     }
 
-    public function getUuid(){
+    public function getUuid() {
         return $this->uuid;
     }
 
-    public function setUuid($uuid){
+    public function setUuid($uuid) {
         $this->uuid = $uuid;
     }
-    
+
 }

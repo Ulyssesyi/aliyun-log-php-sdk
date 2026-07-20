@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -6,24 +7,21 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-class OssShipperStorage{
+class OssShipperStorage {
     private $format;
 
     /**
      * @return mixed
      */
-    public function getFormat()
-    {
+    public function getFormat() {
         return $this->format;
     }
 
     /**
      * @param mixed $format
      */
-    public function setFormat($format)
-    {
+    public function setFormat($format) {
         $this->format = $format;
     }
-
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -12,59 +13,58 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class ListTopicsResponse extends \Aliyun\Log\Models\Response {
-
     /**
-     * @var integer the number of all the topics from the response
+     * @var int the number of all the topics from the response
      */
     private $count;
 
     /**
-     * @var array topics list
+     * @var string[] topics list
      */
     private $topics;
 
     /**
-     * @var string/null the next token from the response. If there is no more topic to list, it will return None
+     * @var string|null the next token from the response. If there is no more topic to list, it will return null
      */
     private $nextToken;
-    
+
     /**
-     * Aliyun_Log_Models_ListTopicsResponse constructor
+     * ListTopicsResponse constructor
      *
-     * @param array $resp
-     *            ListTopics HTTP response body
-     * @param array $header
-     *            ListTopics HTTP response header
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        $this->count = $header['x-log-count'];
-        $this->topics = $resp ;
-        $this->nextToken = isset ( $header['x-log-nexttoken'] ) ? $header['x-log-nexttoken'] : NULL;
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $this->count = (int) $header['x-log-count'];
+        $this->topics = $resp;
+        $this->nextToken = $header['x-log-nexttoken'] ?? null;
     }
-    
+
     /**
      * Get the number of all the topics from the response
      *
-     * @return integer the number of all the topics from the response
+     * @return int the number of all the topics from the response
      */
     public function getCount() {
         return $this->count;
     }
-    
+
     /**
      * Get all the topics from the response
      *
-     * @return array topics list
+     * @return string[] topics list
      */
     public function getTopics() {
         return $this->topics;
     }
-    
+
     /**
-     * Return the next token from the response. If there is no more topic to list, it will return None
+     * Return the next token from the response. If there is no more topic to list, it will return null
      *
-     * @return string/null next token used to list more topics
+     * @return string|null next token used to list more topics
      */
     public function getNextToken() {
         return $this->nextToken;

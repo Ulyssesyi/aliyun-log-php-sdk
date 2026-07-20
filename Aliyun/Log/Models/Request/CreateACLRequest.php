@@ -5,28 +5,28 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class CreateACLRequest extends \Aliyun\Log\Models\Request {
-
     private $acl;
     /**
      * CreateACLRequest Constructor
      *
      */
-    public function __construct($acl=null) {
+    public function __construct($acl = null) {
         $this->acl = $acl;
     }
 
-    public function getAcl(){
+    public function getAcl() {
         return $this->acl;
     }
-    public function setAcl($acl){
+    public function setAcl($acl) {
         $this->acl = $acl;
     }
-    
+
 }

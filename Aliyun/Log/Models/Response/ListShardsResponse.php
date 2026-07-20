@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,35 +8,54 @@ namespace Aliyun\Log\Models\Response;
  */
 
 /**
- * The response of the GetLog API from log service.
+ * The response of the ListShards API from log service.
  *
  * @author log service dev
  */
 class ListShardsResponse extends \Aliyun\Log\Models\Response {
-
-    private $shardIds; 
     /**
-     * Aliyun_Log_Models_ListShardsResponse constructor
-     *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @var int[] shard IDs
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        foreach($resp as $key=>$value){
+    private $shardIds;
+
+    /**
+     * @var Shard[] shard objects
+     */
+    private $shards;
+
+    /**
+     * ListShardsResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
+     */
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $this->shardIds = [];
+        $this->shards = [];
+        foreach ($resp as $key => $value) {
             $this->shardIds[] = $value['shardID'];
-            $this->shards[] = new Shard($value['shardID'],$value["status"],$value["inclusiveBeginKey"],$value["exclusiveEndKey"],$value["createTime"]);
+            $this->shards[] = new Shard($value['shardID'], $value['status'], $value['inclusiveBeginKey'], $value['exclusiveEndKey'], $value['createTime']);
         }
     }
 
-    public function getShardIds(){
-      return $this-> shardIds;
+    /**
+     * Get shard IDs
+     *
+     * @return int[] shard IDs
+     */
+    public function getShardIds() {
+        return $this->shardIds;
     }
-    public function getShards()
-    {
-        return $this -> shards;
+
+    /**
+     * Get shard objects
+     *
+     * @return Shard[] shard objects
+     */
+    public function getShards() {
+        return $this->shards;
     }
-   
 }

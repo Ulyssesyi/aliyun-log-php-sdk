@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log;
 
 /**
@@ -11,12 +12,12 @@ namespace Aliyun\Log;
  *
  * @author log service dev
  */
-class Exception extends \Exception{
+class Exception extends \Exception {
     /**
      * @var string
      */
     private $requestId;
-    
+
     /**
      * Aliyun_Log_Exception constructor
      *
@@ -27,13 +28,13 @@ class Exception extends \Exception{
      * @param string $requestId
      *            the request id of the response, '' is set if client error.
      */
-    public function __construct($code, $message, $requestId='') {
+    public function __construct($code, $message, $requestId = '') {
         parent::__construct($message);
         $this->code = $code;
         $this->message = $message;
         $this->requestId = $requestId;
     }
-    
+
     /**
      * The __toString() method allows a class to decide how it will react when
      * it is treated like a string.
@@ -43,7 +44,7 @@ class Exception extends \Exception{
     public function __toString() {
         return "Aliyun\\Log\\Exception: \n{\n    ErrorCode: $this->code,\n    ErrorMessage: $this->message\n    RequestId: $this->requestId\n}\n";
     }
-    
+
     /**
      * Get Aliyun_Log_Exception error code.
      *
@@ -52,7 +53,7 @@ class Exception extends \Exception{
     public function getErrorCode() {
         return $this->code;
     }
-    
+
     /**
      * Get Aliyun_Log_Exception error message.
      *
@@ -61,7 +62,7 @@ class Exception extends \Exception{
     public function getErrorMessage() {
         return $this->message;
     }
-    
+
     /**
      * Get log service sever requestid, '' is set if client or Http error.
      *
@@ -71,4 +72,3 @@ class Exception extends \Exception{
         return $this->requestId;
     }
 }
-

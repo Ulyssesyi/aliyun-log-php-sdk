@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models;
 
 /**
@@ -6,7 +7,7 @@ namespace Aliyun\Log\Models;
  * All rights reserved
  */
 
-class OssShipperCsvStorage extends OssShipperStorage{
+class OssShipperCsvStorage extends OssShipperStorage {
     private $columns;
     private $delimiter = ',';
     private $quote = '';
@@ -17,111 +18,99 @@ class OssShipperCsvStorage extends OssShipperStorage{
     /**
      * @return mixed
      */
-    public function getColumns()
-    {
+    public function getColumns() {
         return $this->columns;
     }
 
     /**
      * @param mixed $columns
      */
-    public function setColumns($columns)
-    {
+    public function setColumns($columns) {
         $this->columns = $columns;
     }
 
     /**
      * @return string
      */
-    public function getDelimiter(): string
-    {
+    public function getDelimiter(): string {
         return $this->delimiter;
     }
 
     /**
      * @param string $delimiter
      */
-    public function setDelimiter(string $delimiter)
-    {
+    public function setDelimiter(string $delimiter) {
         $this->delimiter = $delimiter;
     }
 
     /**
      * @return string
      */
-    public function getQuote(): string
-    {
+    public function getQuote(): string {
         return $this->quote;
     }
 
     /**
      * @param string $quote
      */
-    public function setQuote(string $quote)
-    {
+    public function setQuote(string $quote) {
         $this->quote = $quote;
     }
 
     /**
      * @return string
      */
-    public function getNullIdentifier(): string
-    {
+    public function getNullIdentifier(): string {
         return $this->nullIdentifier;
     }
 
     /**
      * @param string $nullIdentifier
      */
-    public function setNullIdentifier(string $nullIdentifier)
-    {
+    public function setNullIdentifier(string $nullIdentifier) {
         $this->nullIdentifier = $nullIdentifier;
     }
 
     /**
      * @return bool
      */
-    public function isHeader(): bool
-    {
+    public function isHeader(): bool {
         return $this->header;
     }
 
     /**
      * @param bool $header
      */
-    public function setHeader(bool $header)
-    {
+    public function setHeader(bool $header) {
         $this->header = $header;
     }
 
     /**
      * @return string
      */
-    public function getLineFeed(): string
-    {
+    public function getLineFeed(): string {
         return $this->lineFeed;
     }
 
     /**
      * @param string $lineFeed
      */
-    public function setLineFeed(string $lineFeed)
-    {
+    public function setLineFeed(string $lineFeed) {
         $this->lineFeed = $lineFeed;
     }
 
-    public function to_json_object(){
-        $detail =  array(
+    public function to_json_object() {
+        $detail =  [
             'columns' => $this->columns,
             'delimiter' => $this->delimiter,
             'quote' => $this->quote,
             'lineFeed' => $this->lineFeed,
             'nullIdentifier' => $this->nullIdentifier,
-            'header' => $this->header
-        );
-        return array(
+            'header' => $this->header,
+        ];
+        return [
             'detail' => $detail,
-            'format' => 'csv'
-        );
+            'format' => 'csv',
+        ];
     }
 }

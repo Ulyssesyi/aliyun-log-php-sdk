@@ -1,61 +1,84 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
  * this class is used to represent the sql instance detail
  * for each sql instance, it contains name, cu, create time,update time
- * @author yunlei 
+ * @author yunlei
  */
 
-class SqlInstance{
-
+class SqlInstance {
     /**
      * @var string name
      */
     private $name;
 
     /**
-     * @var integer cu
+     * @var int cu
      */
     private $cu;
 
     /**
-     * @var integer createTime
+     * @var int createTime
      */
     private $createTime;
 
     /**
-     * @var integer updateTime
+     * @var int updateTime
      */
     private $updateTime;
     /**
      * SqlInstance constructor
      * @param string $name
      *                the name
-     * @param integer $cu
-     *                  cu 
-     * @param integer createTime
+     * @param int    $cu
+     *                  cu
+     * @param int    $createTime
      *                  create time
-     * @param integer updateTime
+     * @param int    $updateTime
      *                  update time
      */
-    public function __construct($name, $cu,$createTime, $updateTime)
-    {
-        $this -> name = $name;
-        $this -> cu = $cu;
-        $this -> createTime = $createTime;
-        $this -> updateTime = $updateTime;
+    public function __construct($name, $cu, $createTime, $updateTime) {
+        $this->name = $name;
+        $this->cu = $cu;
+        $this->createTime = $createTime;
+        $this->updateTime = $updateTime;
     }
-    public function getName(){
-        return $this -> name;
+
+    /**
+     * Get name
+     *
+     * @return string name
+     */
+    public function getName() {
+        return $this->name;
     }
-    public function getCu(){
-        return $this -> cu;
+
+    /**
+     * Get cu
+     *
+     * @return int cu
+     */
+    public function getCu() {
+        return $this->cu;
     }
-    public function getCreateTime(){
-        return $this -> createTime;
+
+    /**
+     * Get createTime
+     *
+     * @return int createTime
+     */
+    public function getCreateTime() {
+        return $this->createTime;
     }
-    public function getUpdateTime(){
-        return $this -> updateTime;
+
+    /**
+     * Get updateTime
+     *
+     * @return int updateTime
+     */
+    public function getUpdateTime() {
+        return $this->updateTime;
     }
 }

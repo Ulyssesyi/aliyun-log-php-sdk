@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,39 +8,65 @@ namespace Aliyun\Log\Models\Response;
  */
 
 /**
- * The response of the GetLog API from log service.
+ * The response of the ListMachineGroups API from log service.
  *
  * @author log service dev
  */
 class ListMachineGroupsResponse extends \Aliyun\Log\Models\Response {
-
-    private $offset;
-    private $size;
-    private $machineGroups;
     /**
-     * Aliyun_Log_Models_ListMachineGroupsResponse constructor
-     *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @var int offset
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
+    private $offset;
+
+    /**
+     * @var int size
+     */
+    private $size;
+
+    /**
+     * @var string[] machine group names
+     */
+    private $machineGroups;
+
+    /**
+     * ListMachineGroupsResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
+     */
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
         $this->offset = $resp['offset'];
         $this->size = $resp['size'];
         $this->machineGroups = $resp['machinegroups'];
     }
 
-    public function getOffset(){
+    /**
+     * Get offset
+     *
+     * @return int offset
+     */
+    public function getOffset() {
         return $this->offset;
     }
 
-    public function getSize(){
+    /**
+     * Get size
+     *
+     * @return int size
+     */
+    public function getSize() {
         return $this->size;
-    } 
-    
-    public function getMachineGroups(){
+    }
+
+    /**
+     * Get machine groups
+     *
+     * @return string[] machine group names
+     */
+    public function getMachineGroups() {
         return $this->machineGroups;
-    } 
+    }
 }

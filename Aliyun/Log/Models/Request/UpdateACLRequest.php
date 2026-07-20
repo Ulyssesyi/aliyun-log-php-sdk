@@ -5,14 +5,14 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class UpdateACLRequest extends \Aliyun\Log\Models\Request {
-
     private $acl;
     /**
      * UpdateACLRequest Constructor
@@ -22,10 +22,10 @@ class UpdateACLRequest extends \Aliyun\Log\Models\Request {
         $this->acl = $acl;
     }
 
-    public function getAcl(){
+    public function getAcl() {
         return $this->acl;
     }
-    public function setAcl($acl){
+    public function setAcl($acl) {
         $this->acl = $acl;
     }
 }

@@ -9,10 +9,14 @@
   ],
   "require": {
     "php": ">=7.1.7",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-zlib": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6 || ^10.5 || ^11.2"
+    "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6 || ^10.5 || ^11.2",
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "phpstan/phpstan": "^2.2"
   },
   "authors": [
     {
@@ -28,6 +32,17 @@
       "name": "Xin Zhang"
     }
   ],
+  "scripts": {
+    "cs-fix": "php-cs-fixer fix",
+    "cs-check": "php-cs-fixer fix --dry-run --diff",
+    "phpstan": "phpstan analyse -c phpstan.neon.dist",
+    "phpstan-print-config": "phpstan analyse --configuration phpstan.neon.dist --debug --print-config",
+    "check": [
+      "@cs-check",
+      "@phpstan"
+    ],
+    "fix": "@cs-fix"
+  },
   "autoload": {
     "psr-4": {
       "Aliyun\\Log\\": "Aliyun/Log/"

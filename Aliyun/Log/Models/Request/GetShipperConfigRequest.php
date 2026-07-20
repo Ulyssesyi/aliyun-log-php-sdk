@@ -7,47 +7,50 @@
 namespace Aliyun\Log\Models\Request;
 
 class GetShipperConfigRequest extends \Aliyun\Log\Models\Request {
+    /**
+     * @var string|null
+     */
     private $shipperName;
+
+    /**
+     * @var string|null
+     */
     private $logStore;
-
-    /**
-     * @return mixed
-     */
-    public function getLogStore()
-    {
-        return $this->logStore;
-    }
-
-    /**
-     * @param mixed $logStore
-     */
-    public function setLogStore($logStore)
-    {
-        $this->logStore = $logStore;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getShipperName()
-    {
-        return $this->shipperName;
-    }
-
-    /**
-     * @param mixed $shipperName
-     */
-    public function setShipperName($shipperName)
-    {
-        $this->shipperName = $shipperName;
-    }
 
     /**
      * CreateShipperRequest Constructor
      *
+     * @param string $project
      */
-    public function __construct($project) {
-        parent::__construct ( $project );
+    public function __construct(string $project) {
+        parent::__construct($project);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLogStore(): ?string {
+        return $this->logStore;
+    }
+
+    /**
+     * @param string|null $logStore
+     */
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShipperName(): ?string {
+        return $this->shipperName;
+    }
+
+    /**
+     * @param string|null $shipperName
+     */
+    public function setShipperName(?string $shipperName): void {
+        $this->shipperName = $shipperName;
     }
 }

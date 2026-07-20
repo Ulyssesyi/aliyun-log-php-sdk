@@ -5,29 +5,29 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class DeleteConfigRequest extends \Aliyun\Log\Models\Request {
-
     private $configName;
     /**
      * DeleteConfigRequest Constructor
      *
      */
-    public function __construct($configName=null) {
+    public function __construct($configName = null) {
         $this->configName = $configName;
     }
 
-    public function getConfigName(){
+    public function getConfigName() {
         return $this->configName;
     }
 
-    public function setConfigName($configName){
-        $this->configName=$configName;
+    public function setConfigName($configName) {
+        $this->configName = $configName;
     }
-    
+
 }

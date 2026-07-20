@@ -5,14 +5,14 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class ListACLsRequest extends \Aliyun\Log\Models\Request {
-
     private $offset;
     private $size;
     private $principleId;
@@ -21,30 +21,30 @@ class ListACLsRequest extends \Aliyun\Log\Models\Request {
      * ListACLsRequest Constructor
      *
      */
-    public function __construct($principleId=null,$offset=null,$size=null) {
+    public function __construct($principleId = null, $offset = null, $size = null) {
         $this->offset = $offset;
         $this->size = $size;
         $this->principleId = $principleId;
     }
 
-    public function getOffset(){
+    public function getOffset() {
         return $this->offset;
     }
-    public function setOffset($offset){
+    public function setOffset($offset) {
         $this->offset = $offset;
     }
 
-    public function getSize(){
+    public function getSize() {
         return $this->size;
     }
-    public function setSize($size){
+    public function setSize($size) {
         $this->size = $size;
     }
-    
-    public function getPrincipleId(){
+
+    public function getPrincipleId() {
         return $this->principleId;
     }
-    public function setPrincipleId($principleId){
+    public function setPrincipleId($principleId) {
         $this->principleId = $principleId;
     }
 

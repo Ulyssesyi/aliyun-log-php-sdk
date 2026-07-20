@@ -6,141 +6,146 @@
 
 namespace Aliyun\Log\Models\Request;
 
-class GetShipperTasksRequest extends \Aliyun\Log\Models\Request{
+class GetShipperTasksRequest extends \Aliyun\Log\Models\Request {
+    /**
+     * @var string|null
+     */
     private $shipperName;
+
+    /**
+     * @var string|null
+     */
     private $logStore;
 
+    /**
+     * @var int|null
+     */
     private $startTime;
 
-    private $endTime;
     /**
-     * @var support one of ['', 'fail', 'success', 'running'] , if the status_type = '' , return all kinds of status type
+     * @var int|null
+     */
+    private $endTime;
 
+    /**
+     * @var string|null support one of ['', 'fail', 'success', 'running'] , if the status_type = '' , return all kinds of status type
      */
     private $statusType;
 
+    /**
+     * @var int|null
+     */
     private $offset;
 
+    /**
+     * @var int|null
+     */
     private $size;
-
-    /**
-     * @return mixed
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param mixed $startTime
-     */
-    public function setStartTime($startTime)
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEndTime()
-    {
-        return $this->endTime;
-    }
-
-    /**
-     * @param mixed $endTime
-     */
-    public function setEndTime($endTime)
-    {
-        $this->endTime = $endTime;
-    }
-
-    /**
-     * @return
-     */
-    public function getStatusType()
-    {
-        return $this->statusType;
-    }
-
-    /**
-     * @param $statusType
-     */
-    public function setStatusType($statusType)
-    {
-        $this->statusType = $statusType;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOffset()
-    {
-        return $this->offset;
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function setOffset($offset)
-    {
-        $this->offset = $offset;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * @param mixed $size
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLogStore()
-    {
-        return $this->logStore;
-    }
-
-    /**
-     * @param mixed $logStore
-     */
-    public function setLogStore($logStore)
-    {
-        $this->logStore = $logStore;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getShipperName()
-    {
-        return $this->shipperName;
-    }
-
-    /**
-     * @param mixed $shipperName
-     */
-    public function setShipperName($shipperName)
-    {
-        $this->shipperName = $shipperName;
-    }
 
     /**
      * CreateShipperRequest Constructor
      *
+     * @param string $project
      */
-    public function __construct($project) {
-        parent::__construct ( $project );
+    public function __construct(string $project) {
+        parent::__construct($project);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLogStore(): ?string {
+        return $this->logStore;
+    }
+
+    /**
+     * @param string|null $logStore
+     */
+    public function setLogStore(?string $logStore): void {
+        $this->logStore = $logStore;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShipperName(): ?string {
+        return $this->shipperName;
+    }
+
+    /**
+     * @param string|null $shipperName
+     */
+    public function setShipperName(?string $shipperName): void {
+        $this->shipperName = $shipperName;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStartTime(): ?int {
+        return $this->startTime;
+    }
+
+    /**
+     * @param int|null $startTime
+     */
+    public function setStartTime(?int $startTime): void {
+        $this->startTime = $startTime;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEndTime(): ?int {
+        return $this->endTime;
+    }
+
+    /**
+     * @param int|null $endTime
+     */
+    public function setEndTime(?int $endTime): void {
+        $this->endTime = $endTime;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatusType(): ?string {
+        return $this->statusType;
+    }
+
+    /**
+     * @param string|null $statusType
+     */
+    public function setStatusType(?string $statusType): void {
+        $this->statusType = $statusType;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOffset(): ?int {
+        return $this->offset;
+    }
+
+    /**
+     * @param int|null $offset
+     */
+    public function setOffset(?int $offset): void {
+        $this->offset = $offset;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSize(): ?int {
+        return $this->size;
+    }
+
+    /**
+     * @param int|null $size
+     */
+    public function setSize(?int $size): void {
+        $this->size = $size;
     }
 }

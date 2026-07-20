@@ -5,14 +5,14 @@
  */
 
 /**
- * 
+ *
  *
  * @author log service dev
  */
+
 namespace Aliyun\Log\Models\Request;
 
 class GetConfigRequest extends \Aliyun\Log\Models\Request {
-
     private $configName;
 
     /**
@@ -23,12 +23,12 @@ class GetConfigRequest extends \Aliyun\Log\Models\Request {
         $this->configName = $configName;
     }
 
-    public function getConfigName(){
-      return $this->configName;
+    public function getConfigName() {
+        return $this->configName;
     }
 
-    public function setConfigName($configName){
-      $this->configName = $configName;
+    public function setConfigName($configName) {
+        $this->configName = $configName;
     }
-    
+
 }

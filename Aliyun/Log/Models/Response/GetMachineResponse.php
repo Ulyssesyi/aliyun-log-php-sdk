@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,32 +8,36 @@ namespace Aliyun\Log\Models\Response;
  */
 
 /**
- * The response of the GetLog API from log service.
+ * The response of the GetMachine API from log service.
  *
  * @author log service dev
  */
 class GetMachineResponse extends \Aliyun\Log\Models\Response {
-
+    /**
+     * @var \Aliyun\Log\Models\Machine Machine object
+     */
     private $machine;
 
     /**
-     * Aliyun_Log_Models_GetMachineResponse constructor
+     * GetMachineResponse constructor
      *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        //echo json_encode($resp);
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
         $this->machine = new \Aliyun\Log\Models\Machine();
         $this->machine->setFromArray($resp);
-        
     }
 
-    public function getMachine(){
+    /**
+     * Get Machine from the response
+     *
+     * @return \Aliyun\Log\Models\Machine Machine object
+     */
+    public function getMachine() {
         return $this->machine;
     }
-   
 }

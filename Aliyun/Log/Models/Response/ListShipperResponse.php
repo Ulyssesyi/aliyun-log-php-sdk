@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -7,71 +8,60 @@ namespace Aliyun\Log\Models\Response;
  */
 
 class ListShipperResponse extends \Aliyun\Log\Models\Response {
+    /**
+     * @var int count
+     */
     private $count;
+
+    /**
+     * @var int total
+     */
     private $total;
+
+    /**
+     * @var string[] shipper names
+     */
     private $shippers;
 
     /**
-     * @return mixed
+     * ListShipperResponse constructor
+     *
+     * @param array<string, mixed> $resp
+     *            HTTP response body
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function getCount()
-    {
+    public function __construct(array $resp, array $header) {
+        parent::__construct($header);
+        $this->count = $resp['count'];
+        $this->total = $resp['total'];
+        $this->shippers = $resp['shipper'];
+    }
+
+    /**
+     * Get count
+     *
+     * @return int count
+     */
+    public function getCount() {
         return $this->count;
     }
 
     /**
-     * @param mixed $count
+     * Get total
+     *
+     * @return int total
      */
-    public function setCount($count)
-    {
-        $this->count = $count;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotal()
-    {
+    public function getTotal() {
         return $this->total;
     }
 
     /**
-     * @param mixed $total
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getShippers()
-    {
-        return $this->shippers;
-    }
-
-    /**
-     * @param mixed $shippers
-     */
-    public function setShippers($shippers)
-    {
-        $this->shippers = $shippers;
-    }
-
-
-    /**
-     * Aliyun_Log_Models_ListShipperResponse constructor
+     * Get shipper names
      *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @return string[] shipper names
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
-        $this->count = $resp['count'];
-        $this->total = $resp['total'];
-        $this->shippers = $resp['shipper'];
+    public function getShippers() {
+        return $this->shippers;
     }
 }

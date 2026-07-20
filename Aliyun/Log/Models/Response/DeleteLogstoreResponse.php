@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -12,17 +13,14 @@ namespace Aliyun\Log\Models\Response;
  * @author log service dev
  */
 class DeleteLogstoreResponse extends \Aliyun\Log\Models\Response {
-    
     /**
-     * Aliyun_Log_Models_DeleteLogstoreResponse constructor
+     * DeleteLogstoreResponse constructor
      *
-     * @param array $resp
-     *            DeleteLogstore HTTP response body
-     * @param array $header
-     *            DeleteLogstore HTTP response header
+     * @param array<string, string> $header
+     *            HTTP response header
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
+    public function __construct(array $header) {
+        parent::__construct($header);
     }
-    
+
 }

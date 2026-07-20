@@ -1,4 +1,5 @@
 <?php
+
 namespace Aliyun\Log\Models\Response;
 
 /**
@@ -6,69 +7,102 @@ namespace Aliyun\Log\Models\Response;
  * All rights reserved
  */
 
-require_once realpath ( dirname ( __FILE__ ) . '/../../sls.proto.php' );
-require_once realpath ( dirname ( __FILE__ ) . '/../../protocolbuffers.inc.php' );
+require_once realpath(dirname(__FILE__) . '/../../sls.proto.php');
+require_once realpath(dirname(__FILE__) . '/../../protocolbuffers.inc.php');
+
 /**
- * The response of the GetLog API from log service.
+ * The response of the BatchGetLogs API from log service.
  *
  * @author log service dev
  */
 class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
-    
     /**
-     * @var array compressed Loggroup array
+     * @var array<int, mixed> compressed Loggroup array
      */
     private $logPackageList;
-    private $nextCursor;
-    
+
     /**
-     * Aliyun_Log_Models_BatchGetLogsResponse constructor
-     *
-     * @param array $resp
-     *            GetLogs HTTP response body
-     * @param array $header
-     *            GetLogs HTTP response header
+     * @var string|null next cursor
      */
-    public function __construct($resp, $header) {
-        parent::__construct ( $header );
+    private $nextCursor;
+
+    /**
+     * BatchGetLogsResponse constructor
+     *
+     * @param object $resp
+     *            HTTP response body (LogGroupList)
+     * @param array<string, string> $header
+     *            HTTP response header
+     */
+    public function __construct($resp, array $header) {
+        parent::__construct($header);
         $this->logPackageList = $resp->getLogGroupListArray();
-        $this->nextCursor = (isset($header['x-log-cursor']))?$header['x-log-cursor']:null;
-        
+        $this->nextCursor = $header['x-log-cursor'] ?? null;
     }
 
-    public function getLogPackageList(){
-      return $this->logPackageList;
+    /**
+     * Get log package list
+     *
+     * @return array<int, mixed> log package list
+     */
+    public function getLogPackageList() {
+        return $this->logPackageList;
     }
 
-    public function getNextCursor(){
+    /**
+     * Get next cursor
+     *
+     * @return string|null next cursor
+     */
+    public function getNextCursor() {
         return $this->nextCursor;
     }
 
+    /**
+     * Get count of log packages
+     *
+     * @return int count
+     */
     public function getCount() {
         return count($this->logPackageList);
     }
 
-    public function getLogPackage($index){
-        if($index<$this->getCount()){
+    /**
+     * Get log package at index
+     *
+     * @param int $index the index
+     * @return mixed log package at index
+     * @throws \OutOfBoundsException if index is out of bounds
+     */
+    public function getLogPackage($index) {
+        if ($index < $this->getCount()) {
             return $this->logPackageList[$index];
-        }
-        else{
-            throw new OutOfBoundsException('Index must less than size of logPackageList');
+        } else {
+            throw new \OutOfBoundsException('Index must less than size of logPackageList');
         }
     }
 
-    public function getLogGroupList(){
+    /**
+     * Get log group list
+     *
+     * @return array<int, mixed> log group list
+     */
+    public function getLogGroupList() {
         return $this->logPackageList;
     }
 
-    public function getLogGroup($index){
-        if($index<$this->getCount()){
-            return  $this->logPackageList[$index];
-        }
-        else{
-            throw new OutOfBoundsException('Index must less than size of logPackageList');
+    /**
+     * Get log group at index
+     *
+     * @param int $index the index
+     * @return mixed log group at index
+     * @throws \OutOfBoundsException if index is out of bounds
+     */
+    public function getLogGroup($index) {
+        if ($index < $this->getCount()) {
+            return $this->logPackageList[$index];
+        } else {
+            throw new \OutOfBoundsException('Index must less than size of logPackageList');
         }
     }
-
-
 }
