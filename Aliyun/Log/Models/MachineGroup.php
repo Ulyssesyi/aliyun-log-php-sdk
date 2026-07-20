@@ -1,10 +1,12 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-class Aliyun_Log_Models_MachineGroup_GroupAttribute {
+class MachineGroup_GroupAttribute {
     public $externalName;
     public $groupTopic;
     public function __construct($externalName=null,$groupTopic=null){
@@ -21,7 +23,7 @@ class Aliyun_Log_Models_MachineGroup_GroupAttribute {
     }
 }
 
-class Aliyun_Log_Models_MachineGroup {
+class MachineGroup {
     private $groupName;
     private $groupType;
     private $groupAttribute;
@@ -103,7 +105,7 @@ class Aliyun_Log_Models_MachineGroup {
         $groupAttribute = null;
         if(isset($resp['groupAttribute'])){
             $groupAttributeArr = $resp['groupAttribute'];
-            $groupAttribute = new Aliyun_Log_Models_MachineGroup_GroupAttribute();
+            $groupAttribute = new MachineGroup_GroupAttribute();
             if(isset($groupAttributeArr['externalName']))
               $groupAttribute->externalName = $groupAttributeArr['externalName'];
             if(isset($groupAttributeArr['groupTopic']))
@@ -114,7 +116,7 @@ class Aliyun_Log_Models_MachineGroup {
         $machineList = array();
         if(isset($resp['machineList']) && is_array($resp['machineList']) && count($resp['machineList'])>0){
           foreach($resp['machineList'] as $value){
-            $machine = new Aliyun_Log_Models_Machine();
+            $machine = new Machine();
             $machine->setFromArray($value);
             $machineList[] = $machine;
           }

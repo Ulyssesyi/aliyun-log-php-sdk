@@ -1,4 +1,6 @@
 <?php
+namespace Aliyun\Log;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,7 +11,7 @@
  *
  * @author log service dev
  */
-class Aliyun_Log_Exception extends Exception{
+class Exception extends \Exception{
     /**
      * @var string
      */
@@ -39,7 +41,7 @@ class Aliyun_Log_Exception extends Exception{
      * @return string
      */
     public function __toString() {
-        return "Aliyun_Log_Exception: \n{\n    ErrorCode: $this->code,\n    ErrorMessage: $this->message\n    RequestId: $this->requestId\n}\n";
+        return "Aliyun\\Log\\Exception: \n{\n    ErrorCode: $this->code,\n    ErrorMessage: $this->message\n    RequestId: $this->requestId\n}\n";
     }
     
     /**

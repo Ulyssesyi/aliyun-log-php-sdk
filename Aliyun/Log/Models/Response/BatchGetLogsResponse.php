@@ -1,10 +1,11 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Response.php');
 require_once realpath ( dirname ( __FILE__ ) . '/../../sls.proto.php' );
 require_once realpath ( dirname ( __FILE__ ) . '/../../protocolbuffers.inc.php' );
 /**
@@ -12,7 +13,7 @@ require_once realpath ( dirname ( __FILE__ ) . '/../../protocolbuffers.inc.php' 
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_BatchGetLogsResponse extends Aliyun_Log_Models_Response {
+class BatchGetLogsResponse extends \Aliyun\Log\Models\Response {
     
     /**
      * @var array compressed Loggroup array

@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to execute logstore sql by a query from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_LogStoreSqlRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
     
     /**
      * @var string logstore name
@@ -41,7 +41,7 @@ class Aliyun_Log_Models_LogStoreSqlRequest extends Aliyun_Log_Models_Request {
 
     
     /**
-     * Aliyun_Log_Models_GetLogsRequest Constructor
+     * GetLogsRequest Constructor
      *
      * @param string $project
      *            project name

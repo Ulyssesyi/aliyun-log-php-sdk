@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to get histograms of a query from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetHistogramsRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
 
     /**
      * @var string logstore name
@@ -40,7 +40,7 @@ class Aliyun_Log_Models_GetHistogramsRequest extends Aliyun_Log_Models_Request {
     
     
     /**
-     * Aliyun_Log_Models_GetHistogramsRequest constructor
+     * GetHistogramsRequest constructor
      *
      * @param string $project
      *            project name

@@ -1,10 +1,12 @@
 <?php
+namespace Aliyun\Log\Models\LogLevel;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-class Aliyun_Log_Models_LogLevel_LogLevel{
+class LogLevel{
     const debug = 'debug';
     const info = 'info';
     const warn = 'warn';
@@ -30,7 +32,7 @@ class Aliyun_Log_Models_LogLevel_LogLevel{
      * @return boolean
      */
     public function equals($other) {
-        if($other instanceof Aliyun_Log_Models_LogLevel_LogLevel) {
+        if($other instanceof LogLevel) {
             if($this->level == $other->level) {
                 return true;
             }
@@ -40,34 +42,34 @@ class Aliyun_Log_Models_LogLevel_LogLevel{
     }
 
     public static function getLevelDebug(){
-        if(!isset(self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::debug])){
-            self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::debug] = new Aliyun_Log_Models_LogLevel_LogLevel('debug');
+        if(!isset(self::$constCacheArray[LogLevel::debug])){
+            self::$constCacheArray[LogLevel::debug] = new LogLevel('debug');
         }
-        return self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::debug];
+        return self::$constCacheArray[LogLevel::debug];
     }
 
     public static function getLevelInfo(){
-        if(!isset(self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::info])){
-            self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::info] = new Aliyun_Log_Models_LogLevel_LogLevel('info');
+        if(!isset(self::$constCacheArray[LogLevel::info])){
+            self::$constCacheArray[LogLevel::info] = new LogLevel('info');
         }
-        return self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::info];
+        return self::$constCacheArray[LogLevel::info];
     }
 
     public static function getLevelWarn(){
-        if(!isset(self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::warn])){
-            self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::warn] = new Aliyun_Log_Models_LogLevel_LogLevel('warn');
+        if(!isset(self::$constCacheArray[LogLevel::warn])){
+            self::$constCacheArray[LogLevel::warn] = new LogLevel('warn');
         }
-        return self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::warn];
+        return self::$constCacheArray[LogLevel::warn];
     }
 
     public static function getLevelError(){
-        if(!isset(self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::error])){
-            self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::error] = new Aliyun_Log_Models_LogLevel_LogLevel('error');
+        if(!isset(self::$constCacheArray[LogLevel::error])){
+            self::$constCacheArray[LogLevel::error] = new LogLevel('error');
         }
-        return self::$constCacheArray[Aliyun_Log_Models_LogLevel_LogLevel::error];
+        return self::$constCacheArray[LogLevel::error];
     }
 
-    public static function getLevelStr(Aliyun_Log_Models_LogLevel_LogLevel $logLevel){
+    public static function getLevelStr(LogLevel $logLevel){
 
         $logLevelStr = '';
         if(null === $logLevel){

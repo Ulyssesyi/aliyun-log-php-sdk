@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  *
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_CreateShipperRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class CreateShipperRequest extends \Aliyun\Log\Models\Request {
     private $shipperName;
 
     private $targetType;
@@ -37,7 +37,7 @@ class Aliyun_Log_Models_CreateShipperRequest extends Aliyun_Log_Models_Request {
     }
 
     /**
-     * Aliyun_Log_Models_CreateShipperRequest Constructor
+     * CreateShipperRequest Constructor
      *
      */
     public function __construct($project) {

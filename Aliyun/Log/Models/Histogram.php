@@ -1,4 +1,6 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -11,7 +13,7 @@
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_Histogram {
+class Histogram {
     
     /**
      * @var integer the begin time
@@ -34,7 +36,7 @@ class Aliyun_Log_Models_Histogram {
     private $progress;
     
     /**
-     * Aliyun_Log_Models_Histogram constructor
+     * Histogram constructor
      *
      * @param integer $from
      *            the begin time

@@ -5,14 +5,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to send data to log server.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_PutLogsRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class PutLogsRequest extends \Aliyun\Log\Models\Request {
 
     /**
      * @var string logstore name
@@ -40,7 +40,7 @@ class Aliyun_Log_Models_PutLogsRequest extends Aliyun_Log_Models_Request {
     private $shardKey;
     
     /**
-     * Aliyun_Log_Models_PutLogsRequest cnstructor
+     * PutLogsRequest cnstructor
      *
      * @param string $project
      *            project name

@@ -29,11 +29,11 @@
     }
   ],
   "autoload": {
-    "files": [
-      "Log_Autoload.php"
-    ]
+    "psr-4": {
+      "Aliyun\\Log\\": "Aliyun/Log/"
+    }
   },
-  "name": "alibabacloud/aliyun-log-php-sdk",
+  "name": "sabao/aliyun-log-php-sdk",
   "license": "MIT",
   "version": "0.7.0"
 }

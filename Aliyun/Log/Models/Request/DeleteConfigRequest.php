@@ -4,18 +4,18 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * 
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_DeleteConfigRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class DeleteConfigRequest extends \Aliyun\Log\Models\Request {
 
     private $configName;
     /**
-     * Aliyun_Log_Models_DeleteConfigRequest Constructor
+     * DeleteConfigRequest Constructor
      *
      */
     public function __construct($configName=null) {

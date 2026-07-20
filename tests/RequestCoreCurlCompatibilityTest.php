@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once realpath(dirname(__FILE__) . '/../Aliyun/Log/requestcore.class.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class RequestCoreCurlCompatibilityTest extends TestCase
 {

@@ -1,4 +1,5 @@
 <?php
+namespace Aliyun\Log\Models\Response;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
@@ -6,15 +7,12 @@
  */
 
 
-require_once realpath(dirname(__FILE__) . '/Response.php');
-require_once realpath(dirname(__FILE__) . '/../Histogram.php');
-
 /**
  * The response of the GetHistograms API from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetHistogramsResponse extends Aliyun_Log_Models_Response {
+class GetHistogramsResponse extends \Aliyun\Log\Models\Response {
     
     /**
      * @var string histogram query status(Complete or InComplete)
@@ -27,9 +25,9 @@ class Aliyun_Log_Models_GetHistogramsResponse extends Aliyun_Log_Models_Response
     private $count;
     
     /**
-     * @var array Aliyun_Log_Models_Histogram array, histograms on the requested time range: [from, to)
+     * @var array \Aliyun\Log\Models\Histogram array, histograms on the requested time range: [from, to)
      */
-    private $histograms; // List<Aliyun_Log_Models_Histogram>
+    private $histograms; // List<\Aliyun\Log\Models\Histogram>
     
     /**
      * Aliyun_Log_Models_GetHistogramsResponse constructor
@@ -45,7 +43,7 @@ class Aliyun_Log_Models_GetHistogramsResponse extends Aliyun_Log_Models_Response
         $this->count = $header ['x-log-count'];
         $this->histograms = array ();
         foreach ( $resp  as $data )
-            $this->histograms [] = new Aliyun_Log_Models_Histogram ( $data ['from'], $data ['to'], $data ['count'], $data ['progress'] );
+            $this->histograms [] = new \Aliyun\Log\Models\Histogram ( $data ['from'], $data ['to'], $data ['count'], $data ['progress'] );
     }
     
     /**
@@ -69,7 +67,7 @@ class Aliyun_Log_Models_GetHistogramsResponse extends Aliyun_Log_Models_Response
     /**
      * Get histograms on the requested time range: [from, to)
      *
-     * @return array Aliyun_Log_Models_Histogram array, histograms on the requested time range
+     * @return array \Aliyun\Log\Models\Histogram array, histograms on the requested time range
      */
     public function getHistograms() {
         return $this->histograms;

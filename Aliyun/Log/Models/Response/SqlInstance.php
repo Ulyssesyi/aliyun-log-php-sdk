@@ -1,11 +1,13 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * this class is used to represent the sql instance detail
  * for each sql instance, it contains name, cu, create time,update time
  * @author yunlei 
  */
 
-class Aliyun_Log_Models_SqlInstance{
+class SqlInstance{
 
     /**
      * @var string name
@@ -27,7 +29,7 @@ class Aliyun_Log_Models_SqlInstance{
      */
     private $updateTime;
     /**
-     * Aliyun_Log_Models_SqlInstance constructor
+     * SqlInstance constructor
      * @param string $name
      *                the name
      * @param integer $cu

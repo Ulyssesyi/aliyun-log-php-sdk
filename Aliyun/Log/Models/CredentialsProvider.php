@@ -1,4 +1,5 @@
 <?php
+namespace Aliyun\Log\Models;
 
 /**
  * Copyright (C) Alibaba Cloud Computing
@@ -6,7 +7,7 @@
  */
 
 
-class Aliyun_Log_Models_Credentials
+class Credentials
 {
     /**
      * @var string
@@ -72,12 +73,12 @@ class Aliyun_Log_Models_Credentials
     }
 }
 
-interface Aliyun_Log_Models_CredentialsProvider
+interface CredentialsProvider
 {
     /**
-     * @return Aliyun_Log_Models_Credentials
+     * @return Credentials
      * @throws Exception
      */
-    public function getCredentials(): Aliyun_Log_Models_Credentials;
+    public function getCredentials(): Credentials;
 }
 

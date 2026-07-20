@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The Request used to list topics from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_ListTopicsRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class ListTopicsRequest extends \Aliyun\Log\Models\Request {
     
     /**
      * @var string $logstore logstore name
@@ -29,7 +29,7 @@ class Aliyun_Log_Models_ListTopicsRequest extends Aliyun_Log_Models_Request {
     private $line;
     
     /**
-     * Aliyun_Log_Models_ListTopicsRequest constructor
+     * ListTopicsRequest constructor
      * 
      * @param string $project project name
      * @param string $logstore logstore name

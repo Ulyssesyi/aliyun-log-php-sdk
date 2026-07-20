@@ -1,10 +1,12 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-class Aliyun_Log_Models_OssShipperCsvStorage extends Aliyun_Log_Models_OssShipperStorage{
+class OssShipperCsvStorage extends OssShipperStorage{
     private $columns;
     private $delimiter = ',';
     private $quote = '';

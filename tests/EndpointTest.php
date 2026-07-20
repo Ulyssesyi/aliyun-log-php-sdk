@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once realpath(dirname(__FILE__) . '/../Log_Autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class EndpointTest extends TestCase {
     public function testBuildUrl() {
@@ -21,7 +21,7 @@ class EndpointTest extends TestCase {
     public function getUrl($endpoint, $project, $resource, $params) {
         $accessKeyId = 'testKey';
         $accessKey = 'testAccessKey';
-        $client = new Aliyun_Log_Client($endpoint, $accessKeyId, $accessKey);
+        $client = new \Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey);
         $reflection = new ReflectionClass($client);
         $method = $reflection->getMethod('buildUrl');
         $method->setAccessible(true);

@@ -4,19 +4,19 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * 
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_RemoveConfigFromMachineGroupRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class RemoveConfigFromMachineGroupRequest extends \Aliyun\Log\Models\Request {
     private $groupName;
     private $configName; 
    
     /**
-     * Aliyun_Log_Models_RemoveConfigFromMachineGroupRequest Constructor
+     * RemoveConfigFromMachineGroupRequest Constructor
      *
      */
     public function __construct($groupName=null,$configName=null) {

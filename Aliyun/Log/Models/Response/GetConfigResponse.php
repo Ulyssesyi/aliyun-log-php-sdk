@@ -1,17 +1,17 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Response.php');
-require_once realpath(dirname(__FILE__) . '/Config.php');
 /**
  * The response of the GetLog API from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetConfigResponse extends Aliyun_Log_Models_Response {
+class GetConfigResponse extends \Aliyun\Log\Models\Response {
 
 
     private $config;
@@ -26,7 +26,7 @@ class Aliyun_Log_Models_GetConfigResponse extends Aliyun_Log_Models_Response {
      */
     public function __construct($resp, $header) {
         parent::__construct ( $header );
-        $this->config = new Aliyun_Log_Models_Config();
+        $this->config = new \Aliyun\Log\Models\Config();
         $this->config->setFromArray($resp);
     }
 

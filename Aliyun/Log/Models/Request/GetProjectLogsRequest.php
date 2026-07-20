@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to get logs by a query from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetProjectLogsRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class GetProjectLogsRequest extends \Aliyun\Log\Models\Request {
     
     /**
      * @var string user defined query
@@ -24,7 +24,7 @@ class Aliyun_Log_Models_GetProjectLogsRequest extends Aliyun_Log_Models_Request 
        
     
     /**
-     * Aliyun_Log_Models_GetProjectLogsRequest Constructor
+     * GetProjectLogsRequest Constructor
      * @param string $query
      *            user defined query
      */

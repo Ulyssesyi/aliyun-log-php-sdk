@@ -1,10 +1,12 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-class Aliyun_Log_Models_Machine_Info{
+class Machine_Info{
     public $ip;
     public $os;
     public $hostName;
@@ -48,7 +50,7 @@ class Aliyun_Log_Models_Machine_Info{
     }
 }
 
-class Aliyun_Log_Models_Machine_Status{
+class Machine_Status{
       public $binaryCurVersion;
       public $binaryDeployVersion;
       
@@ -68,7 +70,7 @@ class Aliyun_Log_Models_Machine_Status{
 }
 
 
-class Aliyun_Log_Models_Machine {
+class Machine {
     private $uuid;
     private $lastHeartbeatTime;
     private $info;
@@ -149,13 +151,13 @@ class Aliyun_Log_Models_Machine {
             $ip=(isset($resp['info']['ip']))?$resp['info']['ip']:null;
             $os=(isset($resp['info']['os']))?$resp['info']['os']:null;
             $hostName=(isset($resp['info']['hostName']))?$resp['info']['hostName']:null;
-            $info = new Aliyun_Log_Models_Machine_Info($ip,$os,$hostName);
+            $info = new Machine_Info($ip,$os,$hostName);
         }
         $status = null;
         if(isset($resp['status'])){
             $binaryCurVersion=(isset($resp['status']['binaryCurVersion']))?$resp['status']['binaryCurVersion']:null;
             $binaryDeployVersion=(isset($resp['status']['binaryDeployVersion']))?$resp['status']['binaryDeployVersion']:null;
-            $status = new Aliyun_Log_Models_Machine_Status($binaryCurVersion,$binaryDeployVersion);
+            $status = new Machine_Status($binaryCurVersion,$binaryDeployVersion);
         }
         $uuid=(isset($resp['uuid']))?$resp['uuid']:null;
         $lastHeartbeatTime=(isset($resp['lastHeartbeatTime']))?$resp['lastHeartbeatTime']:null;

@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to get cursor by fromTime or begin/end mode 
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetCursorRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class GetCursorRequest extends \Aliyun\Log\Models\Request {
     
     /**
      * @var string logstore name
@@ -39,7 +39,7 @@ class Aliyun_Log_Models_GetCursorRequest extends Aliyun_Log_Models_Request {
     private $fromTime;
 
     /**
-     * Aliyun_Log_Models_GetCursorRequest Constructor
+     * GetCursorRequest Constructor
      * @param string $project
      *            project name
      * @param string $logstore

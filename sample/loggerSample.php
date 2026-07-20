@@ -4,7 +4,7 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/../Log_Autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 
 
@@ -20,21 +20,21 @@ $token = "";
  * client and logger usage
  */
  // create a log client
-$client = new Aliyun_Log_Client($endpoint, $accessKeyId, $accessKey,$token);
+$client = new \Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey,$token);
 listShard($client,$project,$logstore);
 
 // create a logger instance by calling factory method
-$logger = Aliyun_Log_LoggerFactory::getLogger($client, $project, $logstore);
+$logger = \Aliyun\Log\LoggerFactory::getLogger($client, $project, $logstore);
 $logMap = array(
     'message' => 'tet',
     'haha' => 'hehe'
 );
 
 //create same logger instance by calling factory method with same parameters
-$anotherLogger = Aliyun_Log_LoggerFactory::getLogger($client, $project, $logstore);
+$anotherLogger = \Aliyun\Log\LoggerFactory::getLogger($client, $project, $logstore);
 
 //create different logger instance by calling factory method with topic parameter defined
-$batchLogger = Aliyun_Log_LoggerFactory::getLogger($client, $project, $logstore,'helloworld');
+$batchLogger = \Aliyun\Log\LoggerFactory::getLogger($client, $project, $logstore,'helloworld');
 
 // batch submit single string message, with default cache size 100
 for($i = 1; $i <= 129; $i++){
@@ -89,7 +89,7 @@ var_dump(updateShipper($client, $project, $logstore, $listShppers->getShippers()
 
 function updateShipper($client, $project, $logstore, $shipperName){
 
-    $updateShipper = new Aliyun_Log_Models_UpdateShipperRequest($project);
+    $updateShipper = new \Aliyun\Log\Models\Request\UpdateShipperRequest($project);
     $updateShipper->setShipperName($shipperName);
     $updateShipper->setTargetType('oss');
     $updateShipper->setLogStore($logstore);
@@ -104,8 +104,8 @@ function updateShipper($client, $project, $logstore, $shipperName){
     return $updateShipperResp;
 }
 
-function getAndRetryShipperTasks(Aliyun_Log_Client $client, $project, $logstore,$shipperName){
-    $getShipperTasks = new Aliyun_Log_Models_GetShipperTasksRequest($project);
+function getAndRetryShipperTasks(\Aliyun\Log\Client $client, $project, $logstore,$shipperName){
+    $getShipperTasks = new \Aliyun\Log\Models\Request\GetShipperTasksRequest($project);
     $getShipperTasks->setShipperName($shipperName);
     $getShipperTasks->setLogStore($logstore);
     $getShipperTasks->setStartTime(time()-10000);
@@ -124,16 +124,16 @@ function getAndRetryShipperTasks(Aliyun_Log_Client $client, $project, $logstore,
         array_push($taskIdList, $taskId);
     }
 
-    $retryShipperTask = new Aliyun_Log_Models_RetryShipperTasksRequest($project);
+    $retryShipperTask = new \Aliyun\Log\Models\Request\RetryShipperTasksRequest($project);
     $retryShipperTask->setShipperName($shipperName);
     $retryShipperTask->setLogStore($logstore);
     $retryShipperTask->setTaskLists($taskIdList);
     $client->retryShipperTasks($retryShipperTask);
 }
 
-function deleteShipper(Aliyun_Log_Client $client, $project, $logstore, $shipperName){
+function deleteShipper(\Aliyun\Log\Client $client, $project, $logstore, $shipperName){
     //try delete the existing shipper
-    $deleteShipper = new Aliyun_Log_Models_DeleteShipperRequest($project);
+    $deleteShipper = new \Aliyun\Log\Models\Request\DeleteShipperRequest($project);
     $deleteShipper->setShipperName($shipperName);
     $deleteShipper->setLogStore($logstore);
     try{
@@ -141,8 +141,8 @@ function deleteShipper(Aliyun_Log_Client $client, $project, $logstore, $shipperN
     }catch (Exception $ex){}
 }
 
-function getShipperCommonConfig(Aliyun_Log_Models_OssShipperStorage $ossShipperStorage){
-    $ossConfig = new Aliyun_Log_Models_OssShipperConfig();
+function getShipperCommonConfig(\Aliyun\Log\Models\OssShipperStorage $ossShipperStorage){
+    $ossConfig = new \Aliyun\Log\Models\OssShipperConfig();
     $ossConfig->setOssBucket('sls-test-oss-shipper');
     $ossConfig->setOssPrefix('logtailalarm');
     $ossConfig->setBufferInterval(300);
@@ -157,17 +157,17 @@ function getShipperCommonConfig(Aliyun_Log_Models_OssShipperStorage $ossShipperS
 
 function createCommonShipper($project, $logstore, $shipperName){
     //create shipper with csv storage
-    $shipper = new Aliyun_Log_Models_CreateShipperRequest($project);
+    $shipper = new \Aliyun\Log\Models\Request\CreateShipperRequest($project);
     $shipper->setShipperName($shipperName);
     $shipper->setTargetType('oss');
     $shipper->setLogStore($logstore);
     return $shipper;
 }
 
-function createCsvShipper(Aliyun_Log_Client $client, $project, $logstore){
+function createCsvShipper(\Aliyun\Log\Client $client, $project, $logstore){
     $shipper = createCommonShipper($project, $logstore, 'testcsvshipper');
 
-    $ossCsvStorage = new Aliyun_Log_Models_OssShipperCsvStorage();
+    $ossCsvStorage = new \Aliyun\Log\Models\OssShipperCsvStorage();
     $ossCsvStorage->setColumns(array('__topic__',
         'alarm_count',
         'alarm_message',
@@ -191,12 +191,12 @@ function createCsvShipper(Aliyun_Log_Client $client, $project, $logstore){
 
 /**
  * List all shards in current log configuration
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
  */
-function listShard(Aliyun_Log_Client $client,$project,$logstore){
-    $request = new Aliyun_Log_Models_ListShardsRequest($project,$logstore);
+function listShard(\Aliyun\Log\Client $client,$project,$logstore){
+    $request = new \Aliyun\Log\Models\Request\ListShardsRequest($project,$logstore);
     try
     {
         $response = $client -> listShards($request);
@@ -212,28 +212,28 @@ function listShard(Aliyun_Log_Client $client,$project,$logstore){
 
 /**
  * sumit log by client directly
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
  */
-function putLogs(Aliyun_Log_Client $client, $project, $logstore) {
+function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
     $topic = 'TestTopic';
 
     $contents = array( // key-value pair
         'TestKey'=>'TestContent',
         'message'=>'test log from '.' at '.date('m/d/Y h:i:s a', time())
     );
-    $logItem = new Aliyun_Log_Models_LogItem();
+    $logItem = new \Aliyun\Log\Models\LogItem();
     $logItem->setTime(time());
     $logItem->setContents($contents);
     $logitems = array($logItem);
-    $request = new Aliyun_Log_Models_PutLogsRequest($project, $logstore,
+    $request = new \Aliyun\Log\Models\Request\PutLogsRequest($project, $logstore,
         $topic, "", $logitems);
 
     try {
         $response = $client->putLogs($request);
         print($response ->getRequestId());
-    } catch (Aliyun_Log_Exception $ex) {
+    } catch (\Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -242,15 +242,15 @@ function putLogs(Aliyun_Log_Client $client, $project, $logstore) {
 
 /**
  * query log by client directly
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
  */
-function getLogs(Aliyun_Log_Client $client, $project, $logstore) {
+function getLogs(\Aliyun\Log\Client $client, $project, $logstore) {
     $topic = 'MainFlow';
     $from = time()-3600;
     $to = time();
-    $request = new Aliyun_Log_Models_GetLogsRequest($project, $logstore, $from, $to, $topic, '', 100, 0, False);
+    $request = new \Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, $from, $to, $topic, '', 100, 0, False);
 
     try {
         $response = $client->getLogs($request);
@@ -263,7 +263,7 @@ function getLogs(Aliyun_Log_Client $client, $project, $logstore) {
             print "\n";
         }
 
-    } catch (Aliyun_Log_Exception $ex) {
+    } catch (\Aliyun\Log\Exception $ex) {
         logVarDump($ex);
     } catch (Exception $ex) {
         logVarDump($ex);
@@ -272,15 +272,15 @@ function getLogs(Aliyun_Log_Client $client, $project, $logstore) {
 
 /**
  * Query existing shipper configuration from log server
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
  * @param $shipperName
- * @return Aliyun_Log_Models_GetShipperConfigRequest
+ * @return \Aliyun\Log\Models\Request\GetShipperConfigRequest
  */
-function getShipperConfig(Aliyun_Log_Client $client, $project, $logstore, $shipperName){
+function getShipperConfig(\Aliyun\Log\Client $client, $project, $logstore, $shipperName){
 
-    $getShipperConfig = new Aliyun_Log_Models_GetShipperConfigRequest($project);
+    $getShipperConfig = new \Aliyun\Log\Models\Request\GetShipperConfigRequest($project);
     $getShipperConfig->setShipperName($shipperName);
     $getShipperConfig->setLogStore($logstore);
     $getconfigResp = $client->getShipperConfig($getShipperConfig);
@@ -289,13 +289,13 @@ function getShipperConfig(Aliyun_Log_Client $client, $project, $logstore, $shipp
 
 /**
  * get the list of existing shippers
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
- * @return Aliyun_Log_Models_ListShipperResponse
+ * @return \Aliyun\Log\Models\ListShipperResponse
  */
-function listShipper(Aliyun_Log_Client $client, $project, $logstore){
-    $listShipper = new Aliyun_Log_Models_ListShipperRequest($project);
+function listShipper(\Aliyun\Log\Client $client, $project, $logstore){
+    $listShipper = new \Aliyun\Log\Models\Request\ListShipperRequest($project);
     $listShipper->setLogStore($logstore);
     $listShpperResp = $client->listShipper($listShipper);
     return $listShpperResp;
@@ -303,15 +303,15 @@ function listShipper(Aliyun_Log_Client $client, $project, $logstore){
 
 /**
  * create a parquet shipper
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
  */
-function createParquetShipper(Aliyun_Log_Client $client, $project, $logstore){
+function createParquetShipper(\Aliyun\Log\Client $client, $project, $logstore){
     //create shipper with json storage
     $shipper = createCommonShipper($project, $logstore, 'testparquetshipper');
 
-    $ossParquetStorage = new Aliyun_Log_Models_OssShipperParquetStorage();
+    $ossParquetStorage = new \Aliyun\Log\Models\OssShipperParquetStorage();
     $ossParquetStorage->setColumns(array(
         array(
             'name' => '__topic__',
@@ -352,13 +352,13 @@ function createParquetShipper(Aliyun_Log_Client $client, $project, $logstore){
 
 /**
  * create a json shipper
- * @param Aliyun_Log_Client $client
+ * @param \Aliyun\Log\Client $client
  * @param $project
  * @param $logstore
  */
-function createJsonShipper(Aliyun_Log_Client $client, $project, $logstore){
+function createJsonShipper(\Aliyun\Log\Client $client, $project, $logstore){
     // create a json shipper
-    $ossJsonStorage = new Aliyun_Log_Models_OssShipperJsonStorage();
+    $ossJsonStorage = new \Aliyun\Log\Models\OssShipperJsonStorage();
     $ossJsonStorage->setEnableTag(true);
 
     //create shipper with json storage

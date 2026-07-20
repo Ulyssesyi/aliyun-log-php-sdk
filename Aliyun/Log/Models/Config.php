@@ -1,10 +1,12 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-class Aliyun_Log_Models_Config_InputDetail {
+class Config_InputDetail {
   public $filePattern;
   public $key;
   public $localStorage;
@@ -61,7 +63,7 @@ class Aliyun_Log_Models_Config_InputDetail {
   }
 }
 
-class Aliyun_Log_Models_Config_OutputDetail {
+class Config_OutputDetail {
     public $projectName;
     public $logstoreName;
 
@@ -79,7 +81,7 @@ class Aliyun_Log_Models_Config_OutputDetail {
     }
 }
 
-class Aliyun_Log_Models_Config {
+class Config {
 
     private $configName;
     private $inputType;
@@ -166,7 +168,7 @@ class Aliyun_Log_Models_Config {
     }
 
     public function setFromArray($resp){
-        $inputDetail = new Aliyun_Log_Models_Config_InputDetail();
+        $inputDetail = new Config_InputDetail();
         $inputDetail->filePattern = $resp['inputDetail']['filePattern'];
         $inputDetail->key = $resp['inputDetail']['key'];
         $inputDetail->localStorage = $resp['inputDetail']['localStorage'];
@@ -179,7 +181,7 @@ class Aliyun_Log_Models_Config {
         $inputDetail->filterKey = $resp['inputDetail']['filterKey'];
         $inputDetail->topicFormat = $resp['inputDetail']['topicFormat'];
 
-        $outputDetail = new Aliyun_Log_Models_Config_OutputDetail();
+        $outputDetail = new Config_OutputDetail();
         $outputDetail->projectName = $resp['outputDetail']['projectName'];
         $outputDetail->logstoreName = $resp['outputDetail']['logstoreName'];
 

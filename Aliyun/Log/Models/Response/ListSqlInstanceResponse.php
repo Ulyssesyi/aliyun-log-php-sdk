@@ -1,18 +1,17 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-
-require_once realpath(dirname(__FILE__) . '/Response.php');
-require_once realpath(dirname(__FILE__) . '/SqlInstance.php');
 
 /**
  * The response of the ListSqlInstance API from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_ListSqlInstanceResponse extends Aliyun_Log_Models_Response {
+class ListSqlInstanceResponse extends \Aliyun\Log\Models\Response {
 
     private $sqlInstances;
     /**
@@ -34,7 +33,7 @@ class Aliyun_Log_Models_ListSqlInstanceResponse extends Aliyun_Log_Models_Respon
                 $cu = $data["cu"];
                 $createTime = $data["createTime"];
                 $updateTime = $data["updateTime"];
-                $this -> sqlInstances [] = new Aliyun_Log_Models_SqlInstance($name,$cu,$createTime,$updateTime);
+                $this -> sqlInstances [] = new SqlInstance($name,$cu,$createTime,$updateTime);
             }
         }
     }

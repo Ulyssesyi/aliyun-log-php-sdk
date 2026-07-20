@@ -1,4 +1,6 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,7 +11,7 @@
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_Response {
+class Response {
 
     /**
      * @var array HTTP response header
@@ -17,7 +19,7 @@ class Aliyun_Log_Models_Response {
     private $headers;
     
     /**
-     * Aliyun_Log_Models_Response constructor
+     * Response constructor
      *
      * @param array $header
      *            HTTP response header

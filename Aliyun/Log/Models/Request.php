@@ -1,4 +1,6 @@
 <?php
+namespace Aliyun\Log\Models;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,7 +11,7 @@
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_Request {
+class Request {
 
     /**
      * @var string project name
@@ -17,7 +19,7 @@ class Aliyun_Log_Models_Request {
     private $project;
     
     /**
-     * Aliyun_Log_Models_Request constructor
+     * Request constructor
      *
      * @param string $project
      *            project name

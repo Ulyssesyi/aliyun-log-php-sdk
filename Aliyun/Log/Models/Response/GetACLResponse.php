@@ -1,17 +1,17 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-
-require_once realpath(dirname(__FILE__) . '/Response.php');
 
 /**
  * The response of the GetLog API from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetACLResponse extends Aliyun_Log_Models_Response {
+class GetACLResponse extends \Aliyun\Log\Models\Response {
     
 
     private $acl;
@@ -27,7 +27,7 @@ class Aliyun_Log_Models_GetACLResponse extends Aliyun_Log_Models_Response {
         parent::__construct ( $header );
         $this->acl = null;
         if($resp!==null){
-            $this->acl = new Aliyun_Log_Models_ACL();
+            $this->acl = new \Aliyun\Log\Models\ACL();
             $this->acl->setFromArray($resp); 
         }
     }

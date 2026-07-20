@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to execute power sql  by a query from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_ProjectSqlRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class ProjectSqlRequest extends \Aliyun\Log\Models\Request {
     
     /**
      * @var string user defined query
@@ -24,7 +24,7 @@ class Aliyun_Log_Models_ProjectSqlRequest extends Aliyun_Log_Models_Request {
     private $powerSql;
     
     /**
-     * Aliyun_Log_Models_ProjectSqlRequest Constructor
+     * ProjectSqlRequest Constructor
      * @param string $query
      *            user defined query
      */

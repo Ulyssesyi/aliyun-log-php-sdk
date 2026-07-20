@@ -1,13 +1,12 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Response.php');
-
-
-class Aliyun_Log_Models_ListShipperResponse extends Aliyun_Log_Models_Response {
+class ListShipperResponse extends \Aliyun\Log\Models\Response {
     private $count;
     private $total;
     private $shippers;

@@ -4,19 +4,19 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * 
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_MergeShardsRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class MergeShardsRequest extends \Aliyun\Log\Models\Request {
 
     private $logstore;
 
     /**
-     * Aliyun_Log_Models_MergeShardsRequest Constructor
+     * MergeShardsRequest Constructor
      *
      */
     public function __construct($project,$logstore,$shardId) {

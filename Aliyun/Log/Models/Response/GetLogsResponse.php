@@ -1,18 +1,17 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-
-require_once realpath(dirname(__FILE__) . '/Response.php');
-require_once realpath(dirname(__FILE__) . '/QueriedLog.php');
 
 /**
  * The response of the GetLog API from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_GetLogsResponse extends Aliyun_Log_Models_Response {
+class GetLogsResponse extends \Aliyun\Log\Models\Response {
     
     /**
      * @var integer log number
@@ -25,7 +24,7 @@ class Aliyun_Log_Models_GetLogsResponse extends Aliyun_Log_Models_Response {
     private $progress;
 
     /**
-     * @var array Aliyun_Log_Models_QueriedLog array, all log data
+     * @var array QueriedLog array, all log data
      */
     private $logs;
 
@@ -73,7 +72,7 @@ class Aliyun_Log_Models_GetLogsResponse extends Aliyun_Log_Models_Response {
             $source = $data ['__source__'];
             unset ( $contents ['__time__'] );
             unset ( $contents ['__source__'] );
-            $this->logs [] = new Aliyun_Log_Models_QueriedLog ( $time, $source, $contents );
+            $this->logs [] = new QueriedLog ( $time, $source, $contents );
         }
     }
     
@@ -98,7 +97,7 @@ class Aliyun_Log_Models_GetLogsResponse extends Aliyun_Log_Models_Response {
     /**
      * Get all logs from the response
      *
-     * @return array Aliyun_Log_Models_QueriedLog array, all log data
+     * @return array QueriedLog array, all log data
      */
     public function getLogs() {
         return $this->logs;

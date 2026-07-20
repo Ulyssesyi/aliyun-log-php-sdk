@@ -1,4 +1,6 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
@@ -9,7 +11,7 @@
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_QueriedLog {
+class QueriedLog {
 
     /**
      * @var integer log timestamp
@@ -28,7 +30,7 @@ class Aliyun_Log_Models_QueriedLog {
     
     
     /**
-     * Aliyun_Log_Models_QueriedLog constructor
+     * QueriedLog constructor
      *
      * @param integer $time
      *            log time stamp

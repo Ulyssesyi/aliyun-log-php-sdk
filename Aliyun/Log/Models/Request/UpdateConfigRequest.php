@@ -4,18 +4,18 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * 
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_UpdateConfigRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class UpdateConfigRequest extends \Aliyun\Log\Models\Request {
 
     private $config;
     /**
-     * Aliyun_Log_Models_UpdateConfigRequest Constructor
+     * UpdateConfigRequest Constructor
      *
      */
     public function __construct($config) {

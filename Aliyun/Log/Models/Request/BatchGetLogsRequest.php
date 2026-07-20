@@ -4,14 +4,14 @@
  * All rights reserved
  */
 
-require_once realpath(dirname(__FILE__) . '/Request.php');
-
 /**
  * The request used to get logs by logstore and shardId from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_BatchGetLogsRequest extends Aliyun_Log_Models_Request {
+namespace Aliyun\Log\Models\Request;
+
+class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
     
     /**
      * @var string logstore name
@@ -39,7 +39,7 @@ class Aliyun_Log_Models_BatchGetLogsRequest extends Aliyun_Log_Models_Request {
     private $endCursor;
     
     /**
-     * Aliyun_Log_Models_BatchGetLogsRequest Constructor
+     * BatchGetLogsRequest Constructor
      *
      * @param string $project
      *            project name

@@ -1,17 +1,17 @@
 <?php
+namespace Aliyun\Log\Models\Response;
+
 /**
  * Copyright (C) Alibaba Cloud Computing
  * All rights reserved
  */
-
-require_once realpath(dirname(__FILE__) . '/Response.php');
 
 /**
  * The response of the PutLogs API from log service.
  *
  * @author log service dev
  */
-class Aliyun_Log_Models_PutLogsResponse extends Aliyun_Log_Models_Response {
+class PutLogsResponse extends \Aliyun\Log\Models\Response {
     /**
      * Aliyun_Log_Models_PutLogsResponse constructor
      *
