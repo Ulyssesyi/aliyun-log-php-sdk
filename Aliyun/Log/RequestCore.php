@@ -609,7 +609,7 @@ class RequestCore {
             curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, 2);
         } else {
             curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, 0);
         }
 
         // chmod the file as 0755
@@ -687,7 +687,7 @@ class RequestCore {
 
             case self::HTTP_HEAD:
                 curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, self::HTTP_HEAD);
-                curl_setopt($curl_handle, CURLOPT_NOBODY, 1);
+                curl_setopt($curl_handle, CURLOPT_NOBODY, true);
                 break;
 
             default: // Assumed GET
