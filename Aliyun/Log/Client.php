@@ -219,7 +219,7 @@ class Client {
     /**
      * @param string|null $resBody
      * @param string $requestId
-     * @return array<string, mixed>
+     * @return array<mixed>
      * @throws SDKException
      */
     protected function parseToJson(?string $resBody, string $requestId): array {
@@ -231,7 +231,7 @@ class Client {
         if (!is_array($result)) {
             throw new SDKException('BadResponse', "Bad format,not json: $resBody", $requestId);
         }
-        return array_filter($result, fn (mixed $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
+        return $result;
     }
 
     /**
