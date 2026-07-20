@@ -245,9 +245,7 @@ class Client {
     protected function getHttpResponse(string $method, string $url, string $body, array $headers): array {
         $request = new RequestCore($url);
         foreach ($headers as $key => $value) {
-            if (is_string($value)) {
-                $request->add_header($key, $value);
-            }
+            $request->add_header($key, (string) $value);
         }
         $request->set_method($method);
         $request->set_useragent(SLS_USER_AGENT);
