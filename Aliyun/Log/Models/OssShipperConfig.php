@@ -28,7 +28,7 @@ class OssShipperConfig {
     /**
      * @param mixed $roleArn
      */
-    public function setRoleArn($roleArn) {
+    public function setRoleArn($roleArn): void {
         $this->roleArn = $roleArn;
     }
 
@@ -42,7 +42,7 @@ class OssShipperConfig {
     /**
      * @param mixed $pathFormat
      */
-    public function setPathFormat($pathFormat) {
+    public function setPathFormat($pathFormat): void {
         $this->pathFormat = $pathFormat;
     }
 
@@ -56,7 +56,7 @@ class OssShipperConfig {
     /**
      * @param mixed $storage
      */
-    public function setStorage($storage) {
+    public function setStorage($storage): void {
         $this->storage = $storage;
     }
 
@@ -70,7 +70,7 @@ class OssShipperConfig {
     /**
      * @param mixed $ossBucket
      */
-    public function setOssBucket($ossBucket) {
+    public function setOssBucket($ossBucket): void {
         $this->ossBucket = $ossBucket;
     }
 
@@ -84,7 +84,7 @@ class OssShipperConfig {
     /**
      * @param mixed $ossPrefix
      */
-    public function setOssPrefix($ossPrefix) {
+    public function setOssPrefix($ossPrefix): void {
         $this->ossPrefix = $ossPrefix;
     }
 
@@ -98,7 +98,7 @@ class OssShipperConfig {
     /**
      * @param mixed $bufferInterval
      */
-    public function setBufferInterval($bufferInterval) {
+    public function setBufferInterval($bufferInterval): void {
         $this->bufferInterval = $bufferInterval;
     }
 
@@ -112,7 +112,7 @@ class OssShipperConfig {
     /**
      * @param mixed $bufferSize
      */
-    public function setBufferSize($bufferSize) {
+    public function setBufferSize($bufferSize): void {
         if ($bufferSize > 256 || $bufferSize < 5) {
             throw new \Exception('buffSize is not valide, must between 5 and 256');
         }
@@ -129,7 +129,7 @@ class OssShipperConfig {
     /**
      * @param mixed $compressType
      */
-    public function setCompressType($compressType) {
+    public function setCompressType($compressType): void {
         $this->compressType = $compressType;
     }
 
@@ -143,7 +143,7 @@ class OssShipperConfig {
     /**
      * @param mixed $timeZone
      */
-    public function setTimeZone($timeZone) {
+    public function setTimeZone($timeZone): void {
         $this->timeZone = $timeZone;
     }
 

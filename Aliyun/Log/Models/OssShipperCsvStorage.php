@@ -25,7 +25,7 @@ class OssShipperCsvStorage extends OssShipperStorage {
     /**
      * @param mixed $columns
      */
-    public function setColumns($columns) {
+    public function setColumns($columns): void {
         $this->columns = $columns;
     }
 
@@ -39,7 +39,7 @@ class OssShipperCsvStorage extends OssShipperStorage {
     /**
      * @param string $delimiter
      */
-    public function setDelimiter(string $delimiter) {
+    public function setDelimiter(string $delimiter): void {
         $this->delimiter = $delimiter;
     }
 
@@ -53,7 +53,7 @@ class OssShipperCsvStorage extends OssShipperStorage {
     /**
      * @param string $quote
      */
-    public function setQuote(string $quote) {
+    public function setQuote(string $quote): void {
         $this->quote = $quote;
     }
 
@@ -67,7 +67,7 @@ class OssShipperCsvStorage extends OssShipperStorage {
     /**
      * @param string $nullIdentifier
      */
-    public function setNullIdentifier(string $nullIdentifier) {
+    public function setNullIdentifier(string $nullIdentifier): void {
         $this->nullIdentifier = $nullIdentifier;
     }
 
@@ -81,7 +81,7 @@ class OssShipperCsvStorage extends OssShipperStorage {
     /**
      * @param bool $header
      */
-    public function setHeader(bool $header) {
+    public function setHeader(bool $header): void {
         $this->header = $header;
     }
 
@@ -95,7 +95,7 @@ class OssShipperCsvStorage extends OssShipperStorage {
     /**
      * @param string $lineFeed
      */
-    public function setLineFeed(string $lineFeed) {
+    public function setLineFeed(string $lineFeed): void {
         $this->lineFeed = $lineFeed;
     }
 

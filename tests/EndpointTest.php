@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 class EndpointTest extends TestCase {
-    public function testBuildUrl() {
+    public function testBuildUrl(): void {
         $this->assertEquals($this->getUrl('https://cn-hangzhou.log.aliyuncs.com', 'test', '/', []), 'https://test.cn-hangzhou.log.aliyuncs.com/');
         $this->assertEquals($this->getUrl('cn-hangzhou.log.aliyuncs.com', 'test', '/', []), 'http://test.cn-hangzhou.log.aliyuncs.com/');
         $this->assertEquals($this->getUrl('http://cn-hangzhou.log.aliyuncs.com', 'test', '/logstores', []), 'http://test.cn-hangzhou.log.aliyuncs.com/logstores');

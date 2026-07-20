@@ -59,7 +59,7 @@ class GetProjectLogsRequest extends \Aliyun\Log\Models\Request {
      *               powerSql flag
      *
      */
-    public function setPowerSql($powerSql) {
+    public function setPowerSql($powerSql): void {
         $this -> powerSql = $powerSql;
     }
 

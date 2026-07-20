@@ -133,7 +133,7 @@ class Util {
         $content = '';
         $first = true;
         foreach ($header as $key => $value) {
-            if (strpos($key, 'x-log-') === 0 || strpos($key, 'x-acs-') === 0) { // x-log- header
+            if (str_starts_with($key, 'x-log-')   || str_starts_with($key, 'x-acs-')) { // x-log- header
                 if ($first) {
                     $content .= $key . ':' . $value;
                     $first = false;

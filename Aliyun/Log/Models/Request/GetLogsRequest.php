@@ -110,7 +110,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -129,7 +129,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $topic
      *            topic name
      */
-    public function setTopic($topic) {
+    public function setTopic($topic): void {
         $this->topic = $topic;
     }
 
@@ -148,7 +148,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $from
      *            begin time
      */
-    public function setFrom($from) {
+    public function setFrom($from): void {
         $this->from = $from;
     }
 
@@ -167,7 +167,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $to
      *            end time
      */
-    public function setTo($to) {
+    public function setTo($to): void {
         $this->to = $to;
     }
 
@@ -186,7 +186,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $query
      *            user defined query
      */
-    public function setQuery($query) {
+    public function setQuery($query): void {
         $this->query = $query;
     }
 
@@ -205,7 +205,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $line
      *            max line number of return logs
      */
-    public function setLine($line) {
+    public function setLine($line): void {
         $this->line = $line;
     }
 
@@ -224,7 +224,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $offset
      *            line offset of return logs
      */
-    public function setOffset($offset) {
+    public function setOffset($offset): void {
         $this->offset = $offset;
     }
 
@@ -243,7 +243,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param bool $reverse
      *            reverse flag
      */
-    public function setReverse($reverse) {
+    public function setReverse($reverse): void {
         $this->reverse = $reverse;
     }
 
@@ -263,7 +263,7 @@ class GetLogsRequest extends \Aliyun\Log\Models\Request {
      *               powerSql flag
      *
      */
-    public function setPowerSql($powerSql) {
+    public function setPowerSql($powerSql): void {
         $this -> powerSql = $powerSql;
     }
 }

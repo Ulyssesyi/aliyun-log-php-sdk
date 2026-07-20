@@ -20,7 +20,7 @@ class OssShipperJsonStorage extends OssShipperStorage {
     /**
      * @param bool $enableTag
      */
-    public function setEnableTag(bool $enableTag) {
+    public function setEnableTag(bool $enableTag): void {
         $this->enableTag = $enableTag;
     }
 

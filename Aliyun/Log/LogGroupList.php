@@ -23,7 +23,7 @@ class LogGroupList {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX) {
+    public function read($fp, &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -51,7 +51,7 @@ class LogGroupList {
         }
     }
 
-    public function write($fp) {
+    public function write($fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -87,7 +87,7 @@ class LogGroupList {
 
     // repeated .LogGroup logGroupList = 1;
     private $logGroupList_ = null;
-    public function clearLogGroupList() {
+    public function clearLogGroupList(): void {
         $this->logGroupList_ = null;
     }
     public function getLogGroupListCount() {
@@ -105,13 +105,13 @@ class LogGroupList {
         }
         return $this->logGroupList_;
     }
-    public function setLogGroupList($index, $value) {
+    public function setLogGroupList($index, $value): void {
         $this->logGroupList_[$index] = $value;
     }
-    public function addLogGroupList($value) {
+    public function addLogGroupList($value): void {
         $this->logGroupList_[] = $value;
     }
-    public function addAllLogGroupList(array $values) {
+    public function addAllLogGroupList(array $values): void {
         foreach ($values as $value) {
             $this->logGroupList_[] = $value;
         }

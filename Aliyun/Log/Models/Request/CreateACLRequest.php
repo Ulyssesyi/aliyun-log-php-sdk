@@ -25,7 +25,7 @@ class CreateACLRequest extends \Aliyun\Log\Models\Request {
     public function getAcl() {
         return $this->acl;
     }
-    public function setAcl($acl) {
+    public function setAcl($acl): void {
         $this->acl = $acl;
     }
 

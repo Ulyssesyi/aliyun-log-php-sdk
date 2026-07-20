@@ -6,7 +6,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
+function putLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
 
     $contents = [ // key-value pair
@@ -21,7 +21,7 @@ function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
         $logstore,
         $topic,
         null,
-        $logitems
+        $logitems,
     );
 
     try {
@@ -34,7 +34,7 @@ function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
     }
 }
 
-function listLogstores(\Aliyun\Log\Client $client, $project) {
+function listLogstores(\Aliyun\Log\Client $client, $project): void {
     try {
         $request = new \Aliyun\Log\Models\Request\ListLogstoresRequest($project);
         $response = $client->listLogstores($request);
@@ -46,7 +46,7 @@ function listLogstores(\Aliyun\Log\Client $client, $project) {
     }
 }
 
-function listTopics(\Aliyun\Log\Client $client, $project, $logstore) {
+function listTopics(\Aliyun\Log\Client $client, $project, $logstore): void {
     $request = new \Aliyun\Log\Models\Request\ListTopicsRequest($project, $logstore);
 
     try {
@@ -59,7 +59,7 @@ function listTopics(\Aliyun\Log\Client $client, $project, $logstore) {
     }
 }
 
-function getLogs(\Aliyun\Log\Client $client, $project, $logstore) {
+function getLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
     $from = time() - 3600;
     $to = time();
@@ -82,7 +82,7 @@ function getLogs(\Aliyun\Log\Client $client, $project, $logstore) {
     }
 }
 
-function getLogsWithPowerSql(\Aliyun\Log\Client $client, $project, $logstore) {
+function getLogsWithPowerSql(\Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = '';
     $from = time() - 3600;
     $to = time();
@@ -109,7 +109,7 @@ function getLogsWithPowerSql(\Aliyun\Log\Client $client, $project, $logstore) {
         logVarDump($ex);
     }
 }
-function getProjectLogsWithPowerSql(\Aliyun\Log\Client $client, $project) {
+function getProjectLogsWithPowerSql(\Aliyun\Log\Client $client, $project): void {
     $query = ' select count(method) from sls_operation_log where __time__ > to_unixtime(now()) - 300 and __time__ < to_unixtime(now())';
     $request = new \Aliyun\Log\Models\Request\GetProjectLogsRequest($project, $query, true);
 
@@ -135,7 +135,7 @@ function getProjectLogsWithPowerSql(\Aliyun\Log\Client $client, $project) {
         logVarDump($ex);
     }
 }
-function executeProjectSqlWithPowerSql(\Aliyun\Log\Client $client, $project) {
+function executeProjectSqlWithPowerSql(\Aliyun\Log\Client $client, $project): void {
     $query = ' select count(method) from sls_operation_log where __time__ > to_unixtime(now()) - 300 and __time__ < to_unixtime(now())';
     $request = new \Aliyun\Log\Models\Request\ProjectSqlRequest($project, $query, true);
 
@@ -161,7 +161,7 @@ function executeProjectSqlWithPowerSql(\Aliyun\Log\Client $client, $project) {
         logVarDump($ex);
     }
 }
-function crudSqlInstance(\Aliyun\Log\Client $client, $project) {
+function crudSqlInstance(\Aliyun\Log\Client $client, $project): void {
     $res = $client -> createSqlInstance($project, 1000);
     logVarDump($res);
     $res = $client -> updateSqlInstance($project, 999);
@@ -169,7 +169,7 @@ function crudSqlInstance(\Aliyun\Log\Client $client, $project) {
     $res = $client -> listSqlInstance($project);
     logVarDump($res);
 }
-function getHistograms(\Aliyun\Log\Client $client, $project, $logstore) {
+function getHistograms(\Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
     $from = time() - 3600;
     $to = time();
@@ -184,7 +184,7 @@ function getHistograms(\Aliyun\Log\Client $client, $project, $logstore) {
         logVarDump($ex);
     }
 }
-function listShard(\Aliyun\Log\Client $client, $project, $logstore) {
+function listShard(\Aliyun\Log\Client $client, $project, $logstore): void {
     $request = new \Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
     try {
         $response = $client -> listShards($request);
@@ -196,7 +196,7 @@ function listShard(\Aliyun\Log\Client $client, $project, $logstore) {
     }
 }
 
-function batchGetLogs(\Aliyun\Log\Client $client, $project, $logstore) {
+function batchGetLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
     $listShardRequest = new \Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
     $listShardResponse = $client -> listShards($listShardRequest);
     foreach ($listShardResponse-> getShardIds() as $shardId) {
@@ -227,7 +227,7 @@ function batchGetLogs(\Aliyun\Log\Client $client, $project, $logstore) {
     }
 }
 
-function batchGetLogsWithRange(\Aliyun\Log\Client $client, $project, $logstore) {
+function batchGetLogsWithRange(\Aliyun\Log\Client $client, $project, $logstore): void {
     $listShardRequest = new \Aliyun\Log\Models\Request\ListShardsRequest($project, $logstore);
     $listShardResponse = $client -> listShards($listShardRequest);
     foreach ($listShardResponse-> getShardIds() as $shardId) {
@@ -267,7 +267,7 @@ function batchGetLogsWithRange(\Aliyun\Log\Client $client, $project, $logstore) 
     }
 }
 
-function mergeShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId) {
+function mergeShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId): void {
     $request = new \Aliyun\Log\Models\Request\MergeShardsRequest($project, $logstore, $shardId);
     try {
         $response = $client -> mergeShards($request);
@@ -278,7 +278,7 @@ function mergeShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId) {
         logVarDump($ex);
     }
 }
-function splitShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId, $midHash) {
+function splitShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId, $midHash): void {
     $request = new \Aliyun\Log\Models\Request\SplitShardRequest($project, $logstore, $shardId, $midHash);
     try {
         $response = $client -> splitShard($request);
@@ -290,8 +290,8 @@ function splitShard(\Aliyun\Log\Client $client, $project, $logstore, $shardId, $
     }
 }
 
-function logVarDump($expression) {
-    print '<br>loginfo begin = '.get_class($expression).'<br>';
+function logVarDump($expression): void {
+    print '<br>loginfo begin = '.$expression::class.'<br>';
     var_dump($expression);
     print '<br>loginfo end<br>';
 }
@@ -320,7 +320,7 @@ $client = new \Aliyun\Log\Client($endpoint, $accessKeyId, $accessKey, $token);
 #listTopics($client, $project, $logstore);
 #getHistograms($client, $project, $logstore);
 #getLogs($client, $project, $logstore);
-executeProjectSqlWithPowerSql($client,$project);
-getProjectLogsWithPowerSql($client,$project);
+executeProjectSqlWithPowerSql($client, $project);
+getProjectLogsWithPowerSql($client, $project);
 getLogsWithPowerSql($client, $project, $logstore);
-crudSqlInstance($client,$project);
+crudSqlInstance($client, $project);

@@ -32,7 +32,7 @@ class ListConfigsRequest extends \Aliyun\Log\Models\Request {
         return $this->configName;
     }
 
-    public function setConfigName($configName) {
+    public function setConfigName($configName): void {
         $this->configName = $configName;
     }
 
@@ -40,7 +40,7 @@ class ListConfigsRequest extends \Aliyun\Log\Models\Request {
         return $this->offset;
     }
 
-    public function setOffset($offset) {
+    public function setOffset($offset): void {
         $this->offset = $offset;
     }
 
@@ -48,7 +48,7 @@ class ListConfigsRequest extends \Aliyun\Log\Models\Request {
         return $this->size;
     }
 
-    public function setSize($size) {
+    public function setSize($size): void {
         $this->size = $size;
     }
 }

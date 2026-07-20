@@ -27,7 +27,7 @@ class GetConfigRequest extends \Aliyun\Log\Models\Request {
         return $this->configName;
     }
 
-    public function setConfigName($configName) {
+    public function setConfigName($configName): void {
         $this->configName = $configName;
     }
 

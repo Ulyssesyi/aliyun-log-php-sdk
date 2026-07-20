@@ -23,7 +23,7 @@ class Log_Content {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX) {
+    public function read($fp, &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -75,7 +75,7 @@ class Log_Content {
         }
     }
 
-    public function write($fp) {
+    public function write($fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -120,7 +120,7 @@ class Log_Content {
     public function getKey() {
         return $this->key_;
     }
-    public function setKey($value) {
+    public function setKey($value): void {
         $this->key_ = $value;
     }
 
@@ -129,7 +129,7 @@ class Log_Content {
     public function getValue() {
         return $this->value_;
     }
-    public function setValue($value) {
+    public function setValue($value): void {
         $this->value_ = $value;
     }
 

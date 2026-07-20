@@ -28,7 +28,7 @@ class CreateConfigRequest extends \Aliyun\Log\Models\Request {
 
     }
 
-    public function setConfig($config) {
+    public function setConfig($config): void {
         $this->config = $config;
     }
 

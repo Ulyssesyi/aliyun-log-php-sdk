@@ -14,7 +14,7 @@ class ProtobufMessage {
      * @param resource $fp
      * @param int $limit
      */
-    public function read($fp, &$limit = PHP_INT_MAX) {
+    public function read($fp, &$limit = PHP_INT_MAX): void {
     }
 
     public function __construct($in = null, &$limit = PHP_INT_MAX) {

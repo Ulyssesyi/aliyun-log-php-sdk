@@ -41,7 +41,7 @@ class MachineGroup {
         $groupAttribute = null,
         $machineList = null,
         $createTime = null,
-        $lastModifyTime = null
+        $lastModifyTime = null,
     ) {
         $this->groupName = $groupName;
         $this->groupType = $groupType;
@@ -54,37 +54,37 @@ class MachineGroup {
     public function getGroupName() {
         return $this->groupName;
     }
-    public function setGroupName($groupName) {
+    public function setGroupName($groupName): void {
         $this->groupName = $groupName;
     }
     public function getGroupType() {
         return $this->groupType;
     }
-    public function setGroupType($groupType) {
+    public function setGroupType($groupType): void {
         $this->groupType = $groupType;
     }
     public function getGroupAttribute() {
         return $this->groupAttribute;
     }
-    public function setGroupAttribute($groupAttribute) {
+    public function setGroupAttribute($groupAttribute): void {
         $this->groupAttribute = $groupAttribute;
     }
     public function getMachineList() {
         return $this->machineList;
     }
-    public function setMachineList($machineList) {
+    public function setMachineList($machineList): void {
         $this->machineList = $machineList;
     }
     public function getCreateTime() {
         return $this->createTime;
     }
-    public function setCreateTime($createTime) {
+    public function setCreateTime($createTime): void {
         $this->createTime = $createTime;
     }
     public function getLastModifyTime() {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime) {
+    public function setLastModifyTime($lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
@@ -115,7 +115,7 @@ class MachineGroup {
         return $format_array;
     }
 
-    public function setFromArray($resp) {
+    public function setFromArray($resp): void {
         $groupAttribute = null;
         if (isset($resp['groupAttribute'])) {
             $groupAttributeArr = $resp['groupAttribute'];

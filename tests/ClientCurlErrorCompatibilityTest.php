@@ -8,7 +8,7 @@ class ClientCurlErrorCompatibilityTest extends TestCase {
     /**
      * @requires extension curl
      */
-    public function testCurlFailuresAreWrappedAsSdkExceptions() {
+    public function testCurlFailuresAreWrappedAsSdkExceptions(): void {
         $client = new \Aliyun\Log\Client('http://example.com', 'access-key-id', 'access-key-secret');
         $method = new ReflectionMethod(\Aliyun\Log\Client::class, 'sendRequest');
         $method->setAccessible(true);

@@ -8,8 +8,9 @@ use PhpCsFixer\Finder;
 $rules = [
     '@PSR12' => true,
     '@PSR12:risky' => true,
-    '@PHP71Migration' => true,
-    '@PHP73Migration' => true,
+    '@PHP80Migration' => true,
+    '@PHP80Migration:risky' => true,
+    '@PHP81Migration' => true,
 
     // Array notation
     'array_syntax' => ['syntax' => 'short'],
@@ -28,6 +29,11 @@ $rules = [
     'single_import_per_statement' => true,
     'no_unused_imports' => true,
     'ordered_imports' => ['sort_algorithm' => 'alpha'],
+    'global_namespace_import' => [
+        'import_classes' => null,
+        'import_constants' => null,
+        'import_functions' => null,
+    ],
 
     // Casting, operators
     'cast_spaces' => ['space' => 'single'],
@@ -47,7 +53,7 @@ $rules = [
     'no_trailing_comma_in_singleline_array' => true,
     'no_whitespace_before_comma_in_array' => true,
     'normalize_index_brace' => true,
-    'trailing_comma_in_multiline' => ['elements' => ['arrays']],
+    'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'parameters']],
     'trim_array_spaces' => true,
 
     // Function and method
@@ -69,8 +75,14 @@ $rules = [
     // Strings
     'single_quote' => true,
 
-    // Strict
-    'declare_strict_types' => false, // Don't force declare(strict_types=1) on existing code
+    // Strict (only for new code, not existing)
+    'declare_strict_types' => false,
+
+    // PHP 8.0+
+    'operator_linebreak' => [
+        'only_booleans' => true,
+        'position' => 'beginning',
+    ],
 ];
 
 $finder = Finder::create()

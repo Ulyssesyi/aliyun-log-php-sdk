@@ -27,7 +27,7 @@ class GetMachineRequest extends \Aliyun\Log\Models\Request {
         return $this->uuid;
     }
 
-    public function setUuid($uuid) {
+    public function setUuid($uuid): void {
         $this->uuid = $uuid;
     }
 

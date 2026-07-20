@@ -77,7 +77,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -96,7 +96,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $topic
      *            topic name
      */
-    public function setTopic($topic) {
+    public function setTopic($topic): void {
         $this->topic = $topic;
     }
 
@@ -115,7 +115,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param array $logitems
      *            LogItem array, log data
      */
-    public function setLogItems($logitems) {
+    public function setLogItems($logitems): void {
         $this->logitems = $logitems;
     }
 
@@ -134,7 +134,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $source
      *            log source
      */
-    public function setSource($source) {
+    public function setSource($source): void {
         $this->source = $source;
     }
     /**
@@ -142,7 +142,7 @@ class PutLogsRequest extends \Aliyun\Log\Models\Request {
      *
      * @param string $key
      */
-    public function setShardKey($key) {
+    public function setShardKey($key): void {
         $this -> shardKey = $key;
     }
     /**

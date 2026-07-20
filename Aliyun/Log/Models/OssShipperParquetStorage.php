@@ -20,7 +20,7 @@ class OssShipperParquetStorage extends OssShipperStorage {
     /**
      * @param mixed $columns
      */
-    public function setColumns($columns) {
+    public function setColumns($columns): void {
         $this->columns = $columns;
     }
 

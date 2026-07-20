@@ -86,7 +86,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -105,7 +105,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param integer $from
      *            begin time
      */
-    public function setFrom($from) {
+    public function setFrom($from): void {
         $this->from = $from;
     }
 
@@ -124,7 +124,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param integer $to
      *            end time
      */
-    public function setTo($to) {
+    public function setTo($to): void {
         $this->to = $to;
     }
 
@@ -143,7 +143,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      * @param string $query
      *            user defined query
      */
-    public function setQuery($query) {
+    public function setQuery($query): void {
         $this->query = $query;
     }
 
@@ -163,7 +163,7 @@ class LogStoreSqlRequest extends \Aliyun\Log\Models\Request {
      *               powerSql flag
      *
      */
-    public function setPowerSql($powerSql) {
+    public function setPowerSql($powerSql): void {
         $this -> powerSql = $powerSql;
     }
 }

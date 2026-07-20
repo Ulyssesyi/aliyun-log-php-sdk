@@ -78,7 +78,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -97,7 +97,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $shardId
      *            shard ID
      */
-    public function setShardId($shardId) {
+    public function setShardId($shardId): void {
         $this->shardId = $shardId;
     }
 
@@ -116,7 +116,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $count
      *            max return loggroup number
      */
-    public function setCount($count) {
+    public function setCount($count): void {
         $this->count = $count;
     }
 
@@ -144,7 +144,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $cursor
      *            start cursor
      */
-    public function setCursor($cursor) {
+    public function setCursor($cursor): void {
         $this->cursor = $cursor;
     }
 
@@ -154,7 +154,7 @@ class BatchGetLogsRequest extends \Aliyun\Log\Models\Request {
      * @param string $cursor
      *            end cursor
      */
-    public function setEndCursor($cursor) {
+    public function setEndCursor($cursor): void {
         $this->endCursor = $cursor;
     }
 }

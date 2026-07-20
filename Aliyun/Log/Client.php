@@ -158,7 +158,7 @@ class Client {
         string $accessKeyId = '',
         string $accessKey = '',
         string $token = '',
-        CredentialsProvider $credentialsProvider = null
+        CredentialsProvider $credentialsProvider = null,
     ) {
         $this->setEndpoint($endpoint); // set $this->logHost
         if (!is_null($credentialsProvider)) {
@@ -170,13 +170,13 @@ class Client {
             $this->credentialsProvider = new StaticCredentialsProvider(
                 $accessKeyId,
                 $accessKey,
-                $token
+                $token,
             );
         }
         $this->source = Util::getLocalIp();
     }
     private function setEndpoint(string $endpoint): void {
-        if (strpos($endpoint, '://') === false) {
+        if (!str_contains($endpoint, '://')) {
             $endpoint = 'http://' . $endpoint; // default use http
         }
         $urlComponents = parse_url($endpoint);
@@ -268,7 +268,7 @@ class Client {
                 throw new Exception(
                     $exJson['error_code'],
                     $exJson['error_message'],
-                    $requestId
+                    $requestId,
                 );
             } else {
                 if ($exJson) {
@@ -279,7 +279,7 @@ class Client {
                 throw new Exception(
                     'RequestError',
                     "Request is failed. Http code is $responseCode.$exJson",
-                    $requestId
+                    $requestId,
                 );
             }
         }
@@ -297,7 +297,7 @@ class Client {
             throw new Exception(
                 'InvalidCredentials',
                 'Fail to get credentials:' . $ex->getMessage(),
-                ''
+                '',
             );
         }
 

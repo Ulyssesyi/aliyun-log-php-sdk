@@ -36,7 +36,7 @@ class Credentials {
     /**
      * @param string $accessKeyId
      */
-    public function setAccessKeyId(string $accessKeyId) {
+    public function setAccessKeyId(string $accessKeyId): void {
         $this->accessKeyId = $accessKeyId;
     }
     /**
@@ -48,7 +48,7 @@ class Credentials {
     /**
      * @param string $accessKeySecret
      */
-    public function setAccessKeySecret(string $accessKeySecret) {
+    public function setAccessKeySecret(string $accessKeySecret): void {
         $this->accessKeySecret = $accessKeySecret;
     }
     /**
@@ -60,7 +60,7 @@ class Credentials {
     /**
      * @param string $securityToken
      */
-    public function setSecurityToken(string $securityToken) {
+    public function setSecurityToken(string $securityToken): void {
         $this->securityToken = $securityToken;
     }
 }

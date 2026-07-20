@@ -28,7 +28,7 @@ class ListShardsRequest extends \Aliyun\Log\Models\Request {
         return $this->logstore;
     }
 
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 

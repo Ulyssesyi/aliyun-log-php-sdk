@@ -8,7 +8,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
     /**
      * @requires extension curl
      */
-    public function testSendRequestPreservesCurlError() {
+    public function testSendRequestPreservesCurlError(): void {
         $request = new RequestCore('unsupported-sls-test://example');
 
         try {
@@ -22,7 +22,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
     /**
      * @requires extension curl
      */
-    public function testSendMultiRequestPreservesCurlError() {
+    public function testSendMultiRequestPreservesCurlError(): void {
         $request = new RequestCore('unsupported-sls-test://example');
         $handle = $request->prep_request();
 
@@ -37,7 +37,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
     /**
      * @requires extension curl
      */
-    public function testSendMultiRequestRejectsInvalidHandles() {
+    public function testSendMultiRequestRejectsInvalidHandles(): void {
         $request = new RequestCore();
 
         try {
@@ -51,7 +51,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
     /**
      * @requires extension curl
      */
-    public function testSendMultiRequestKeepsDistinctHandleResults() {
+    public function testSendMultiRequestKeepsDistinctHandleResults(): void {
         $file_one = tempnam(sys_get_temp_dir(), 'request-core-curl-');
         $file_two = tempnam(sys_get_temp_dir(), 'request-core-curl-');
         file_put_contents($file_one, 'one');
@@ -78,7 +78,7 @@ class RequestCoreCurlCompatibilityTest extends TestCase {
         }
     }
 
-    private function assertCurlErrorMessage($message) {
+    private function assertCurlErrorMessage($message): void {
         $this->assertNotFalse(strpos($message, 'cURL handle:'));
         $this->assertNotFalse(strpos($message, 'cURL error:'));
         $this->assertSame(1, preg_match('/\([1-9][0-9]*\)$/', $message));

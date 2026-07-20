@@ -59,7 +59,7 @@ class LogItem {
      * @param integer $time
      *            log time
      */
-    public function setTime($time) {
+    public function setTime($time): void {
         $this->time = $time;
     }
 
@@ -78,7 +78,7 @@ class LogItem {
      * @param array $contents
      *            log contents
      */
-    public function setContents($contents) {
+    public function setContents($contents): void {
         $this->contents = $contents;
     }
 
@@ -90,7 +90,7 @@ class LogItem {
      * @param string $value
      *            log content value
      */
-    public function pushBack($key, $value) {
+    public function pushBack($key, $value): void {
         $this->contents[$key] = $value;
     }
 }

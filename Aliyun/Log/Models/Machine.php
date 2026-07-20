@@ -21,21 +21,21 @@ class Machine_Info {
     public function getIp() {
         return $this->ip;
     }
-    public function setIp($ip) {
+    public function setIp($ip): void {
         $this->ip = $ip;
     }
 
     public function getOs() {
         return $this->os;
     }
-    public function setOs($os) {
+    public function setOs($os): void {
         $this->os = $os;
     }
 
     public function getHostName() {
         return $this->hostName;
     }
-    public function setHostName($hostname) {
+    public function setHostName($hostname): void {
         $this->hostName = $hostname;
     }
     public function toArray() {
@@ -89,7 +89,7 @@ class Machine {
         $info = null,
         $status = null,
         $createTime = null,
-        $lastModifyTime = null
+        $lastModifyTime = null,
     ) {
         $this->uuid = $uuid;
         $this->lastHeartbeatTime = $lastHeartbeatTime;
@@ -103,38 +103,38 @@ class Machine {
     public function getUuid() {
         return $this->uuid;
     }
-    public function setUuid($uuid) {
+    public function setUuid($uuid): void {
         $this->uuid = $uuid;
     }
     public function getLastHeartbeatTime() {
         return $this->lastHeartbeatTime;
     }
-    public function setLastHeartbeatTime($lastHeartbeatTime) {
+    public function setLastHeartbeatTime($lastHeartbeatTime): void {
         $this->lastHeartbeatTime = $lastHeartbeatTime;
     }
     public function getInfo() {
         return $this->info;
     }
-    public function setInfo($info) {
+    public function setInfo($info): void {
         $this->info = $info;
     }
     public function getStatus() {
         return $this->status;
     }
-    public function setStatus($status) {
+    public function setStatus($status): void {
         $this->status = $status;
     }
 
     public function getCreateTime() {
         return $this->createTime;
     }
-    public function setCreateTime($createTime) {
+    public function setCreateTime($createTime): void {
         $this->createTime = $createTime;
     }
     public function getLastModifyTime() {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime) {
+    public function setLastModifyTime($lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
@@ -161,7 +161,7 @@ class Machine {
         return $resArr;
     }
 
-    public function setFromArray($resp) {
+    public function setFromArray($resp): void {
         $info = null;
         if (isset($resp['info'])) {
             $ip = (isset($resp['info']['ip'])) ? $resp['info']['ip'] : null;

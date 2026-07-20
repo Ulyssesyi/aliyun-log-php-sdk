@@ -437,9 +437,9 @@ class RequestCore {
      */
     public function set_proxy($proxy) {
         $proxy = parse_url($proxy);
-        $proxy['user'] = $proxy['user'] ?? null;
-        $proxy['pass'] = $proxy['pass'] ?? null;
-        $proxy['port'] = $proxy['port'] ?? null;
+        $proxy['user'] ??= null;
+        $proxy['pass'] ??= null;
+        $proxy['port'] ??= null;
         $this->proxy = $proxy;
 
         return $this;
@@ -802,7 +802,7 @@ class RequestCore {
         }
 
         if (is_object($curl_handle)) {
-            return get_class($curl_handle) . ' #' . spl_object_hash($curl_handle);
+            return $curl_handle::class . ' #' . spl_object_hash($curl_handle);
         }
 
         return gettype($curl_handle);

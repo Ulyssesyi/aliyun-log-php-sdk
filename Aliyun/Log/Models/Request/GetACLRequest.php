@@ -24,7 +24,7 @@ class GetACLRequest extends \Aliyun\Log\Models\Request {
     public function getAclId() {
         return $this->aclId;
     }
-    public function setAclId($aclId) {
+    public function setAclId($aclId): void {
         $this->aclId = $aclId;
     }
 }

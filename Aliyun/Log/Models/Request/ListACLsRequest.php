@@ -30,21 +30,21 @@ class ListACLsRequest extends \Aliyun\Log\Models\Request {
     public function getOffset() {
         return $this->offset;
     }
-    public function setOffset($offset) {
+    public function setOffset($offset): void {
         $this->offset = $offset;
     }
 
     public function getSize() {
         return $this->size;
     }
-    public function setSize($size) {
+    public function setSize($size): void {
         $this->size = $size;
     }
 
     public function getPrincipleId() {
         return $this->principleId;
     }
-    public function setPrincipleId($principleId) {
+    public function setPrincipleId($principleId): void {
         $this->principleId = $principleId;
     }
 

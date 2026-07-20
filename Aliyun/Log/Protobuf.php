@@ -126,28 +126,28 @@ class Protobuf {
         return $i;
     }
 
-    public static function read_double($fp) {
+    public static function read_double($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_float($fp) {
+    public static function read_float($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_uint64($fp) {
+    public static function read_uint64($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_int64($fp) {
+    public static function read_int64($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_uint32($fp) {
+    public static function read_uint32($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_int32($fp) {
+    public static function read_int32($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_zint32($fp) {
+    public static function read_zint32($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function read_zint64($fp) {
+    public static function read_zint64($fp): void {
         throw new Exception("I've not coded it yet Exception");
     }
 
@@ -177,28 +177,28 @@ class Protobuf {
         return $len;
     }
 
-    public static function write_double($fp, $d) {
+    public static function write_double($fp, $d): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_float($fp, $f) {
+    public static function write_float($fp, $f): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_uint64($fp, $i) {
+    public static function write_uint64($fp, $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_int64($fp, $i) {
+    public static function write_int64($fp, $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_uint32($fp, $i) {
+    public static function write_uint32($fp, $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_int32($fp, $i) {
+    public static function write_int32($fp, $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_zint32($fp, $i) {
+    public static function write_zint32($fp, $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
-    public static function write_zint64($fp, $i) {
+    public static function write_zint64($fp, $i): void {
         throw new Exception("I've not coded it yet Exception");
     }
 
@@ -299,7 +299,7 @@ class Protobuf {
         } else {
             if (is_object($value)) {
                 self::$print_depth++;
-                $ret .= get_class($value) . "(\n";
+                $ret .= $value::class . "(\n";
                 $ret .= $value->__toString() . "\n";
                 self::$print_depth--;
                 $ret .= str_repeat(self::$indent_char, self::$print_depth) . ")\n";

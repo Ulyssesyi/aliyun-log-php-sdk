@@ -26,7 +26,7 @@ class UpdateConfigRequest extends \Aliyun\Log\Models\Request {
         return $this->config;
     }
 
-    public function setConfig($config) {
+    public function setConfig($config): void {
         $this->config = $config;
     }
 

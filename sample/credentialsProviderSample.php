@@ -14,7 +14,7 @@ $client = new \Aliyun\Log\Client($endpoint, '', '', '', $credentialsProvider);
 
 $req = new \Aliyun\Log\Models\Request\GetLogsRequest($project, $logstore, 1698740109, 1698744321, '', '*', null, null, null, null);
 
-function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
+function putLogs(\Aliyun\Log\Client $client, $project, $logstore): void {
     $topic = 'TestTopic';
 
     $contents = [ // key-value pair
@@ -30,7 +30,7 @@ function putLogs(\Aliyun\Log\Client $client, $project, $logstore) {
         $logstore,
         $topic,
         null,
-        $logitems
+        $logitems,
     );
 
     try {

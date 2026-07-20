@@ -24,7 +24,7 @@ class ACL {
         $privilege = [],
         $aclId = null,
         $createTime = null,
-        $lastModifyTime = null
+        $lastModifyTime = null,
     ) {
         $this->principleType = $principleType;
         $this->principleId = $principleId;
@@ -39,45 +39,45 @@ class ACL {
     public function getPrincipleType() {
         return $this->principleType;
     }
-    public function setPrincipleType($principleType) {
+    public function setPrincipleType($principleType): void {
         $this->principleType = $principleType;
     }
 
     public function getPrincipleId() {
         return $this->principleId;
     }
-    public function setPrincipleId($principleId) {
+    public function setPrincipleId($principleId): void {
         $this->principleId = $principleId;
     }
 
     public function getObject() {
         return $this->object;
     }
-    public function setObject($object) {
+    public function setObject($object): void {
         $this->object = $object;
     }
     public function getPrivilege() {
         return $this->privilege;
     }
-    public function setPrivilege($privilege) {
+    public function setPrivilege($privilege): void {
         $this->privilege = $privilege;
     }
     public function getAclId() {
         return $this->aclId;
     }
-    public function setAclId($aclId) {
+    public function setAclId($aclId): void {
         $this->aclId = $aclId;
     }
     public function getCreateTime() {
         return $this->createTime;
     }
-    public function setCreateTime($createTime) {
+    public function setCreateTime($createTime): void {
         $this->createTime = $createTime;
     }
     public function getLastModifyTime() {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime) {
+    public function setLastModifyTime($lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
@@ -107,7 +107,7 @@ class ACL {
         return $format_array;
     }
 
-    public function setFromArray($resp) {
+    public function setFromArray($resp): void {
         $principleType = ($resp['principleType'] !== null) ? $resp['principleType'] : null;
         $principleId = ($resp['principleId'] !== null) ? $resp['principleId'] : null;
         $object = ($resp['object'] !== null) ? $resp['object'] : null;

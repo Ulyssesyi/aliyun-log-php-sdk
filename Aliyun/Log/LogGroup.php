@@ -23,7 +23,7 @@ class LogGroup {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX) {
+    public function read($fp, &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -102,7 +102,7 @@ class LogGroup {
         }
     }
 
-    public function write($fp) {
+    public function write($fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -168,7 +168,7 @@ class LogGroup {
 
     // repeated .Log logs = 1;
     private $logs_ = null;
-    public function clearLogs() {
+    public function clearLogs(): void {
         $this->logs_ = null;
     }
     public function getLogsCount() {
@@ -186,13 +186,13 @@ class LogGroup {
         }
         return $this->logs_;
     }
-    public function setLogs($index, $value) {
+    public function setLogs($index, $value): void {
         $this->logs_[$index] = $value;
     }
-    public function addLogs($value) {
+    public function addLogs($value): void {
         $this->logs_[] = $value;
     }
-    public function addAllLogs(array $values) {
+    public function addAllLogs(array $values): void {
         foreach ($values as $value) {
             $this->logs_[] = $value;
         }
@@ -203,7 +203,7 @@ class LogGroup {
     public function getReserved() {
         return $this->reserved_;
     }
-    public function setReserved($value) {
+    public function setReserved($value): void {
         $this->reserved_ = $value;
     }
 
@@ -212,7 +212,7 @@ class LogGroup {
     public function getTopic() {
         return $this->topic_;
     }
-    public function setTopic($value) {
+    public function setTopic($value): void {
         $this->topic_ = $value;
     }
 
@@ -221,7 +221,7 @@ class LogGroup {
     public function getSource() {
         return $this->source_;
     }
-    public function setSource($value) {
+    public function setSource($value): void {
         $this->source_ = $value;
     }
 

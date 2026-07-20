@@ -58,7 +58,7 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -76,7 +76,7 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
      *
      * @param string $token start token to list topics
      */
-    public function setToken($token) {
+    public function setToken($token): void {
         $this->token = $token;
     }
 
@@ -94,7 +94,7 @@ class ListTopicsRequest extends \Aliyun\Log\Models\Request {
      *
      * @param integer $line max topic counts to return
      */
-    public function setLine($line) {
+    public function setLine($line): void {
         $this->line = $line;
     }
 }

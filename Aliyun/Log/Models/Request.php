@@ -43,7 +43,7 @@ class Request {
      * @param string $project
      *            project name
      */
-    public function setProject($project) {
+    public function setProject($project): void {
         $this->project = $project;
     }
 }

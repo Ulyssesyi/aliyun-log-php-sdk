@@ -23,7 +23,7 @@ class Log {
         }
     }
 
-    public function read($fp, &$limit = PHP_INT_MAX) {
+    public function read($fp, &$limit = PHP_INT_MAX): void {
         while (!feof($fp) && $limit > 0) {
             $tag = Protobuf::read_varint($fp, $limit);
             if ($tag === false) {
@@ -55,7 +55,7 @@ class Log {
         }
     }
 
-    public function write($fp) {
+    public function write($fp): void {
         if (!$this->validateRequired()) {
             throw new Exception('Required fields are missing');
         }
@@ -105,13 +105,13 @@ class Log {
     public function getTime() {
         return $this->time_;
     }
-    public function setTime($value) {
+    public function setTime($value): void {
         $this->time_ = $value;
     }
 
     // repeated .Log.Content contents = 2;
     private $contents_ = null;
-    public function clearContents() {
+    public function clearContents(): void {
         $this->contents_ = null;
     }
     public function getContentsCount() {
@@ -129,13 +129,13 @@ class Log {
         }
         return $this->contents_;
     }
-    public function setContents($index, $value) {
+    public function setContents($index, $value): void {
         $this->contents_[$index] = $value;
     }
-    public function addContents($value) {
+    public function addContents($value): void {
         $this->contents_[] = $value;
     }
-    public function addAllContents(array $values) {
+    public function addAllContents(array $values): void {
         foreach ($values as $value) {
             $this->contents_[] = $value;
         }

@@ -20,7 +20,7 @@ class OssShipperStorage {
     /**
      * @param mixed $format
      */
-    public function setFormat($format) {
+    public function setFormat($format): void {
         $this->format = $format;
     }
 

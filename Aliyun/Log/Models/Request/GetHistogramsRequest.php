@@ -78,7 +78,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
      * @param string $logstore
      *            logstore name
      */
-    public function setLogstore($logstore) {
+    public function setLogstore($logstore): void {
         $this->logstore = $logstore;
     }
 
@@ -97,7 +97,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
      * @param string $topic
      *            topic name
      */
-    public function setTopic($topic) {
+    public function setTopic($topic): void {
         $this->topic = $topic;
     }
 
@@ -116,7 +116,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $from
      *            begin time
      */
-    public function setFrom($from) {
+    public function setFrom($from): void {
         $this->from = $from;
     }
 
@@ -135,7 +135,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
      * @param integer $to
      *            end time
      */
-    public function setTo($to) {
+    public function setTo($to): void {
         $this->to = $to;
     }
 
@@ -154,7 +154,7 @@ class GetHistogramsRequest extends \Aliyun\Log\Models\Request {
      * @param string $query
      *            user defined query
      */
-    public function setQuery($query) {
+    public function setQuery($query): void {
         $this->query = $query;
     }
 }

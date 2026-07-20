@@ -31,7 +31,7 @@ class Config_InputDetail {
         $timeFormat = '',
         $filterRegex = [],
         $filterKey = [],
-        $topicFormat = 'none'
+        $topicFormat = 'none',
     ) {
         $this->filePattern = $filePattern;
         $this->key = $key;
@@ -122,7 +122,7 @@ class Config {
         $outputType = '',
         $outputDetail = null,
         $createTime = null,
-        $lastModifyTime = null
+        $lastModifyTime = null,
     ) {
         $this->configName = $configName;
         $this->inputType = $inputType;
@@ -137,44 +137,44 @@ class Config {
     public function getConfigName() {
         return $this->configName;
     }
-    public function setConfigName($configName) {
+    public function setConfigName($configName): void {
         $this->configName = $configName;
     }
     public function getInputType() {
         return $this->inputType;
     }
-    public function setInputType($inputType) {
+    public function setInputType($inputType): void {
         $this->inputType = $inputType;
     }
     public function getInputDetail() {
         return $this->inputDetail;
     }
-    public function setInputDetail($inputDetail) {
+    public function setInputDetail($inputDetail): void {
         $this->inputDetail = $inputDetail;
     }
     public function getOutputType() {
         return $this->outputType;
     }
-    public function setOutputType($outputType) {
+    public function setOutputType($outputType): void {
         $this->outputType = $outputType;
     }
     public function getOutputDetail() {
         return $this->outputDetail;
     }
-    public function setOutputDetail($outputDetail) {
+    public function setOutputDetail($outputDetail): void {
         $this->outputDetail = $outputDetail;
     }
     public function getCreateTime() {
         return $this->createTime;
     }
-    public function setCreateTime($createTime) {
+    public function setCreateTime($createTime): void {
         $this->createTime = $createTime;
     }
 
     public function getLastModifyTime() {
         return $this->lastModifyTime;
     }
-    public function setLastModifyTime($lastModifyTime) {
+    public function setLastModifyTime($lastModifyTime): void {
         $this->lastModifyTime = $lastModifyTime;
     }
 
@@ -204,7 +204,7 @@ class Config {
         return $format_array;
     }
 
-    public function setFromArray($resp) {
+    public function setFromArray($resp): void {
         $inputDetail = new Config_InputDetail();
         $inputDetail->filePattern = $resp['inputDetail']['filePattern'];
         $inputDetail->key = $resp['inputDetail']['key'];
