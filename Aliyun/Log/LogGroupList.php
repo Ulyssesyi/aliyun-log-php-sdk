@@ -6,7 +6,7 @@ use Exception;
 
 // message LogGroupList
 class LogGroupList {
-    /** @var array<string, array>|null */
+    /** @var array<string, array<mixed>>|null */
     private ?array $_unknown = null;
 
     /**

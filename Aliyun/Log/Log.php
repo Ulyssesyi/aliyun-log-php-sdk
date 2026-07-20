@@ -6,7 +6,7 @@ use Exception;
 
 // message Log
 class Log {
-    /** @var array<string, array>|null */
+    /** @var array<string, array<mixed>>|null */
     private ?array $_unknown = null;
 
     /**

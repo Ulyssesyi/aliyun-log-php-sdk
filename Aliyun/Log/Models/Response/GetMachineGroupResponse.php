@@ -19,7 +19,7 @@ class GetMachineGroupResponse extends Response {
     private MachineGroup $machineGroup;
 
     /**
-     * @param array $resp
+     * @param array<string, mixed> $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {

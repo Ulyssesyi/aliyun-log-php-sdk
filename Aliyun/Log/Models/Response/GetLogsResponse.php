@@ -27,7 +27,7 @@ class GetLogsResponse extends Response {
     private int $cpuCores;
 
     /**
-     * @param array $resp
+     * @param array<string, mixed> $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {

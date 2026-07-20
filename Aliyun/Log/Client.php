@@ -752,7 +752,7 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetHistogramsRequest $request the GetHistograms request parameters class.
-     * @return array{0: array, 1: array<string, mixed>}
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      * @throws SDKException
      */
     public function getHistogramsJson(GetHistogramsRequest $request): array {
@@ -797,7 +797,7 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetLogsRequest $request the GetLogs request parameters class.
-     * @return array{0: array, 1: array<string, mixed>}
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      * @throws SDKException
      */
     public function getLogsJson(GetLogsRequest $request): array {
@@ -854,7 +854,7 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param GetProjectLogsRequest $request the GetLogs request parameters class.
-     * @return array{0: array, 1: array<string, mixed>}
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      * @throws SDKException
      */
     public function getProjectLogsJson(GetProjectLogsRequest $request): array {
@@ -920,7 +920,7 @@ class Client {
      * Unsuccessful opertaion will cause an Exception.
      *
      * @param ProjectSqlRequest $request the GetLogs request parameters class.
-     * @return array{0: array, 1: array<string, mixed>}
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      * @throws SDKException
      */
     public function executeProjectSqlJson(ProjectSqlRequest $request): array {

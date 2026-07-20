@@ -18,7 +18,7 @@ class CreateACLResponse extends Response {
     private string $aclId;
 
     /**
-     * @param array $resp
+     * @param array<string, mixed> $resp
      * @param array<string, mixed> $header
      */
     public function __construct(array $resp, array $header) {
